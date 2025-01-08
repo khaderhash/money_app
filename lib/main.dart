@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyappp/Screens/addtodo.dart';
 import 'Screens/Expenses.dart';
 import 'Screens/HomePage.dart';
 import 'Screens/login.dart';
@@ -12,7 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const Myapp());
+  runApp(Myapp());
 }
 
 class Myapp extends StatelessWidget {
@@ -27,7 +28,8 @@ class Myapp extends StatelessWidget {
           registerpage.id: (context) => registerpage(),
           Homepage.id: (context) => Homepage(),
           Expenses.id: (context) => Expenses(),
+          AddTodoScreen.id: (context) => AddTodoScreen(),
         },
-        initialRoute: Homepage.id);
+        initialRoute: Expenses.id);
   }
 }
