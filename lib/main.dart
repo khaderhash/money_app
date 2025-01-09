@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyappp/Screens/addtodo.dart';
+import 'package:moneyappp/Screens/number.dart';
+import 'package:moneyappp/Screens/numberadd.dart';
 import 'Screens/Expenses.dart';
 import 'Screens/HomePage.dart';
 import 'Screens/login.dart';
@@ -29,7 +31,9 @@ class Myapp extends StatelessWidget {
           Homepage.id: (context) => Homepage(),
           Expenses.id: (context) => Expenses(),
           AddTodoScreen.id: (context) => AddTodoScreen(),
+          NumberScreen.id: (context) => NumberScreen(),
+          addnumber.id: (context) => addnumber(),
         },
-        initialRoute: Expenses.id);
+        initialRoute: NumberScreen.id);
   }
 }
