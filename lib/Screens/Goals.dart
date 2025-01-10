@@ -16,8 +16,8 @@ class Goals extends StatefulWidget {
 class _GoalsState extends State<Goals> {
   final saerchBartec = TextEditingController();
   SharedPreferencesService? servicetoaddtext;
-  List<String> listDatagoals = [];
-  List<String> _listgoals = [];
+  List<String> listData = [];
+  List<String> _list = [];
   @override
   void initState() {
     initSharedPreferences();
@@ -27,17 +27,17 @@ class _GoalsState extends State<Goals> {
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     servicetoaddtext = SharedPreferencesService(sharedPreferences);
-    listDatagoals = await servicetoaddtext?.getTodo() ?? [];
+    listData = await servicetoaddtext?.getTodo() ?? [];
     setState(() {});
   }
 
   void searchOp(String searchText) async {
-    _listgoals = await servicetoaddtext?.getTodo() ?? [];
-    listDatagoals.clear();
-    for (var i = 0; i < _listgoals.length; i++) {
-      String data = _listgoals[i];
+    _list = await servicetoaddtext?.getTodo() ?? [];
+    listData.clear();
+    for (var i = 0; i < _list.length; i++) {
+      String data = _list[i];
       if (data.toLowerCase().contains(searchText.toLowerCase())) {
-        listDatagoals.add(data);
+        listData.add(data);
       }
     }
     setState(() {});
@@ -100,13 +100,13 @@ class _GoalsState extends State<Goals> {
       body: SizedBox(
         height: hight(context),
         child: ListView.builder(
-          itemCount: listDatagoals.length,
+          itemCount: listData.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Goalsadd(
-                    title: listDatagoals[index],
+                    title: listData[index],
                     index: index,
                   ),
                 ));
@@ -143,7 +143,7 @@ class _GoalsState extends State<Goals> {
                       ),
                       Expanded(
                         child: Text(
-                          listDatagoals[index] ?? '',
+                          listData[index] ?? '',
                           overflow: TextOverflow.ellipsis,
                         ),
                       )
@@ -176,6 +176,9 @@ class _GoalsState extends State<Goals> {
               title: '',
             ),
           ));
+          setState(()async {
+            listDatagoals = await servicetoaddtext?.getTodo() ?? [];
+          });
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

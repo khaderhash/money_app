@@ -173,12 +173,15 @@ class _ExpensesState extends State<NumberScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async{
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => addnumber(
               title: '',
             ),
           ));
+          listDatanumber = await servicetoaddnumber?.getNumbers() ?? [];
+          setState(() async {
+          });
         },
         tooltip: 'Add Number',
         child: Icon(Icons.add),

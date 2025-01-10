@@ -5,6 +5,7 @@ import 'package:moneyappp/compo/drawer.dart';
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
 import '../constants.dart';
+import 'expensesmoney.dart';
 import 'number.dart';
 
 class Homepage extends StatelessWidget {
@@ -104,8 +105,10 @@ class Homepage extends StatelessWidget {
                           width: width(context) * .2,
                         ),
                         ButtonHome(
-                          ontap: () {},
-                          name: '',
+                          ontap: () {
+                            Navigator.pushNamed(context, Expencesmoney.id);
+                          },
+                          name: 'Expencesmoney',
                         ),
                       ],
                     )
