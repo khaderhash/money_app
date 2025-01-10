@@ -4,6 +4,7 @@ import 'package:moneyappp/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:moneyappp/services/shared_preferences_number.dart';
 import '../services/shared_preferences.dart';
+import 'numberadd.dart';
 
 class NumberScreen extends StatefulWidget {
   const NumberScreen({super.key});
@@ -15,9 +16,9 @@ class NumberScreen extends StatefulWidget {
 
 class _ExpensesState extends State<NumberScreen> {
   final saerchBarTec = TextEditingController();
-  SharedPreferencesservice? service;
-  List<double> listData = [];
-  List<double> _list = [];
+  SharedPreferencesservice? servicetoaddnumber;
+  List<double> listDatanumber = [];
+  List<double> _listnumber = [];
 
   @override
   void initState() {
@@ -27,17 +28,17 @@ class _ExpensesState extends State<NumberScreen> {
 
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    service = SharedPreferencesservice(sharedPreferences);
-    listData = await service?.getNumbers() ?? [];
+    servicetoaddnumber = SharedPreferencesservice(sharedPreferences);
+    listDatanumber = await servicetoaddnumber?.getNumbers() ?? [];
     setState(() {});
   }
 
   void searchOp(String searchText) async {
-    _list = await service?.getNumbers() ?? [];
-    listData.clear();
-    for (var value in _list) {
+    _listnumber = await servicetoaddnumber?.getNumbers() ?? [];
+    listDatanumber.clear();
+    for (var value in _listnumber) {
       if (value.toString().contains(searchText)) {
-        listData.add(value);
+        listDatanumber.add(value);
       }
     }
     setState(() {});
@@ -101,13 +102,13 @@ class _ExpensesState extends State<NumberScreen> {
       body: SizedBox(
         height: hight(context),
         child: ListView.builder(
-          itemCount: listData.length,
+          itemCount: listDatanumber.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddTodoScreen(
-                    title: listData[index].toString(),
+                  builder: (context) => addnumber(
+                    title: listDatanumber[index].toString(),
                     index: index,
                   ),
                 ));
@@ -145,7 +146,7 @@ class _ExpensesState extends State<NumberScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          listData[index].toString(),
+                          listDatanumber[index].toString(),
                           overflow: TextOverflow.ellipsis,
                         ),
                       )
@@ -156,7 +157,7 @@ class _ExpensesState extends State<NumberScreen> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          service?.removeNumber(index);
+                          servicetoaddnumber?.removeNumber(index);
                         });
                       },
                       child: Icon(
@@ -174,7 +175,7 @@ class _ExpensesState extends State<NumberScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AddTodoScreen(
+            builder: (context) => addnumber(
               title: '',
             ),
           ));

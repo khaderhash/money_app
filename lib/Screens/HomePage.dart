@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:moneyappp/Screens/Expenses.dart';
+import 'package:moneyappp/Screens/Goals.dart';
 import 'package:moneyappp/compo/drawer.dart';
 
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
 import '../constants.dart';
+import 'number.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -72,7 +73,7 @@ class Homepage extends StatelessWidget {
                         ),
                         ButtonHome(
                           ontap: () {
-                            Navigator.pushNamed(context, Expenses.id);
+                            Navigator.pushNamed(context, Goals.id);
                           },
                           name: 'Expenc',
                         ),
@@ -94,8 +95,10 @@ class Homepage extends StatelessWidget {
                           width: width(context) * .1,
                         ),
                         ButtonHome(
-                          ontap: () {},
-                          name: '',
+                          ontap: () {
+                            Navigator.pushNamed(context, NumberScreen.id );
+                          },
+                          name: 'expensemoney',
                         ),
                         SizedBox(
                           width: width(context) * .2,

@@ -5,19 +5,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/shared_preferences.dart';
 
-class Expenses extends StatefulWidget {
-  const Expenses({super.key});
-  static String id = "Expenses";
+class Goals extends StatefulWidget {
+  const Goals({super.key});
+  static String id = "Goals";
 
   @override
-  State<Expenses> createState() => _ExpensesState();
+  State<Goals> createState() => _GoalsState();
 }
 
-class _ExpensesState extends State<Expenses> {
-  final saerchBarTec = TextEditingController();
-  SharedPreferencesService? service;
-  List<String> listData = [];
-  List<String> _list = [];
+class _GoalsState extends State<Goals> {
+  final saerchBartec = TextEditingController();
+  SharedPreferencesService? servicetoaddtext;
+  List<String> listDatagoals = [];
+  List<String> _listgoals = [];
   @override
   void initState() {
     initSharedPreferences();
@@ -26,18 +26,18 @@ class _ExpensesState extends State<Expenses> {
 
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    service = SharedPreferencesService(sharedPreferences);
-    listData = await service?.getTodo() ?? [];
+    servicetoaddtext = SharedPreferencesService(sharedPreferences);
+    listDatagoals = await servicetoaddtext?.getTodo() ?? [];
     setState(() {});
   }
 
   void searchOp(String searchText) async {
-    _list = await service?.getTodo() ?? [];
-    listData.clear();
-    for (var i = 0; i < _list.length; i++) {
-      String data = _list[i];
+    _listgoals = await servicetoaddtext?.getTodo() ?? [];
+    listDatagoals.clear();
+    for (var i = 0; i < _listgoals.length; i++) {
+      String data = _listgoals[i];
       if (data.toLowerCase().contains(searchText.toLowerCase())) {
-        listData.add(data);
+        listDatagoals.add(data);
       }
     }
     setState(() {});
@@ -46,7 +46,7 @@ class _ExpensesState extends State<Expenses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         elevation: 0,
         title: Container(
           width: width(context),
@@ -70,7 +70,7 @@ class _ExpensesState extends State<Expenses> {
                 child: TextField(
                   textInputAction: TextInputAction.search,
                   maxLines: 1,
-                  controller: saerchBarTec,
+                  controller: saerchBartec,
                   keyboardType: TextInputType.text,
                   textAlignVertical: TextAlignVertical.center,
                   onChanged: searchOp,
@@ -100,13 +100,13 @@ class _ExpensesState extends State<Expenses> {
       body: SizedBox(
         height: hight(context),
         child: ListView.builder(
-          itemCount: listData.length,
+          itemCount: listDatagoals.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddTodoScreen(
-                    title: listData[index],
+                  builder: (context) => Goalsadd(
+                    title: listDatagoals[index],
                     index: index,
                   ),
                 ));
@@ -143,7 +143,7 @@ class _ExpensesState extends State<Expenses> {
                       ),
                       Expanded(
                         child: Text(
-                          listData[index] ?? '',
+                          listDatagoals[index] ?? '',
                           overflow: TextOverflow.ellipsis,
                         ),
                       )
@@ -154,7 +154,7 @@ class _ExpensesState extends State<Expenses> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          service?.removeTodo(index);
+                          servicetoaddtext?.removeTodo(index);
                         });
                       },
                       child: Icon(
@@ -172,7 +172,7 @@ class _ExpensesState extends State<Expenses> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AddTodoScreen(
+            builder: (context) => Goalsadd(
               title: '',
             ),
           ));

@@ -42,7 +42,7 @@ class _AddTodoScreenState extends State<addnumber> {
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[800]),
                   hintText: 'Enter a number',
-                  fillColor: Colors.white70),
+                  fillColor: Colors.black),
             ),
           ),
           Container(

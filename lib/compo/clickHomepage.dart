@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Screens/Expenses.dart';
+import '../Screens/Goals.dart';
 import '../constants.dart';
 
 class ButtonHome extends StatelessWidget {

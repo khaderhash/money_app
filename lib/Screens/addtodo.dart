@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:moneyappp/Screens/Expenses.dart';
+import 'package:moneyappp/Screens/Goals.dart';
 import 'package:moneyappp/constants.dart';
 import 'package:moneyappp/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AddTodoScreen extends StatefulWidget {
-  const AddTodoScreen({super.key, this.title, this.index});
-  static String id = "addtodo";
+class Goalsadd extends StatefulWidget {
+  const Goalsadd({super.key, this.title, this.index});
+  static String id = "Goalsadd";
   final String? title;
   final int? index;
 
   @override
-  State<AddTodoScreen> createState() => _AddTodoScreenState();
+  State<Goalsadd> createState() => _GoalsState();
 }
 
-class _AddTodoScreenState extends State<AddTodoScreen> {
+class _GoalsState extends State<Goalsadd> {
   TextEditingController controller = TextEditingController();
 
   @override
