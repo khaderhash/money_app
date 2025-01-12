@@ -3,24 +3,16 @@ import 'package:myappmoney2/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
 
-class addnumber extends StatefulWidget {
-  const addnumber({super.key, this.title, this.index});
-  final String? title;
-  final int? index;
-  static String id = 'addnumber';
+class addnumbertochart extends StatefulWidget {
+  const addnumbertochart({super.key});
+  static String id = 'addnumbertochart';
 
   @override
-  State<addnumber> createState() => _AddTodoScreenState();
+  State<addnumbertochart> createState() => _AddTodoScreenState();
 }
 
-class _AddTodoScreenState extends State<addnumber> {
+class _AddTodoScreenState extends State<addnumbertochart> {
   TextEditingController controller = TextEditingController();
-
-  @override
-  void initState() {
-    controller = TextEditingController(text: widget.title);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +46,8 @@ class _AddTodoScreenState extends State<addnumber> {
                 if (controller.text.isNotEmpty) {
                   final sharedPreferences = await SharedPreferences.getInstance();
                   final value = double.tryParse(controller.text) ?? 0.0;
-                  if ((widget.title?.isEmpty ?? true)) {
-                    SharedPreferencesservice(sharedPreferences).addNumber(value);
-                  } else {
-                    SharedPreferencesservice(sharedPreferences).updateNumber(widget.index ?? 0, value);
-                  }
-                  Navigator.pop(context);  // إغلاق الصفحة بدون إرجاع قيمة
+                  SharedPreferencesservice(sharedPreferences).addNumber(value);
+                  Navigator.pop(context, true); // إرجاع true لتحديث البيانات
                 }
               },
               child: Text("Save"),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:moneyappp/Screens/addtodo.dart';
-import 'package:moneyappp/Screens/expensesmoney.dart';
-import 'package:moneyappp/Screens/number.dart';
-import 'package:moneyappp/Screens/numberadd.dart';
+import 'package:myappmoney2/Screens/addnumbertochart1.dart';
+
 import 'Screens/Goals.dart';
 import 'Screens/HomePage.dart';
+import 'Screens/addtodo.dart';
+import 'Screens/expensesmoney.dart';
 import 'Screens/login.dart';
+import 'Screens/number.dart';
+import 'Screens/numberadd.dart';
 import 'Screens/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -35,6 +37,7 @@ class Myapp extends StatelessWidget {
           NumberScreen.id: (context) => NumberScreen(),
           addnumber.id: (context) => addnumber(),
           Expencesmoney.id:(context) => Expencesmoney(),
+          addnumbertochart.id:(context) => addnumbertochart(),
         },
         initialRoute: Homepage.id);
   }

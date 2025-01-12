@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moneyappp/Screens/Goals.dart';
-import 'package:moneyappp/constants.dart';
-import 'package:moneyappp/services/shared_preferences.dart';
+import 'package:myappmoney2/Screens/Goals.dart';
+import 'package:myappmoney2/constants.dart';
+import 'package:myappmoney2/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Goalsadd extends StatefulWidget {

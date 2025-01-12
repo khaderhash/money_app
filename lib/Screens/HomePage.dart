@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moneyappp/Screens/Goals.dart';
-import 'package:moneyappp/compo/drawer.dart';
+import 'package:myappmoney2/Screens/Goals.dart';
+import 'package:myappmoney2/compo/drawer.dart';
 
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';

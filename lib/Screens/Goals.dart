@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moneyappp/Screens/addtodo.dart';
-import 'package:moneyappp/constants.dart';
+import 'package:myappmoney2/Screens/addtodo.dart';
+import 'package:myappmoney2/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/shared_preferences.dart';
