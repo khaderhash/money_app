@@ -36,9 +36,9 @@ class Myapp extends StatelessWidget {
           Goalsadd.id: (context) => Goalsadd(),
           NumberScreen.id: (context) => NumberScreen(),
           addnumber.id: (context) => addnumber(),
-          Expencesmoney.id:(context) => Expencesmoney(),
-          addnumbertochart.id:(context) => addnumbertochart(),
+          Expencesmoney.id: (context) => Expencesmoney(),
+          AddNumberToChart.id: (context) => AddNumberToChart(),
         },
-        initialRoute: Homepage.id);
+        initialRoute: Expencesmoney.id);
   }
 }

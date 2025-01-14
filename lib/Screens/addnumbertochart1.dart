@@ -1,59 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:myappmoney2/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myappmoney2/services/shared_preferences_number.dart';
+import '../services/sharedprefcharex.dart';
 
-class addnumbertochart extends StatefulWidget {
-  const addnumbertochart({super.key});
+class AddNumberToChart extends StatefulWidget {
+  const AddNumberToChart({super.key});
   static String id = 'addnumbertochart';
 
   @override
-  State<addnumbertochart> createState() => _AddTodoScreenState();
+  State<AddNumberToChart> createState() => _AddNumberToChartState();
 }
 
-class _AddTodoScreenState extends State<addnumbertochart> {
-  TextEditingController controller = TextEditingController();
+class _AddNumberToChartState extends State<AddNumberToChart> {
+  TextEditingController valueController = TextEditingController();
+  String selectedType = 'expense'; // النوع الافتراضي
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: controller,
+      appBar: AppBar(
+        title: const Text("Add Financial Data"),
+        backgroundColor: Colors.green[700],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // إدخال القيمة
+            TextField(
+              controller: valueController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  hintStyle: TextStyle(color: Colors.grey[800]),
-                  hintText: 'Enter a number',
-                  fillColor: Colors.black),
+                labelText: "Enter Value",
+                hintText: "Enter the amount",
+                border: const OutlineInputBorder(),
+                fillColor: Colors.grey[200],
+                filled: true,
+              ),
             ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            margin: EdgeInsets.all(16),
-            child: ElevatedButton(
+            const SizedBox(height: 20),
+            // اختيار النوع (مصاريف أو مداخيل)
+            DropdownButtonFormField<String>(
+              value: selectedType,
+              onChanged: (value) {
+                setState(() {
+                  selectedType = value!;
+                });
+              },
+              items: const [
+                DropdownMenuItem(value: 'expense', child: Text('Expense')),
+                DropdownMenuItem(value: 'income', child: Text('Income')),
+              ],
+              decoration: const InputDecoration(
+                labelText: "Select Type",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            // زر الحفظ
+            ElevatedButton(
               onPressed: () async {
-                if (controller.text.isNotEmpty) {
-                  final sharedPreferences = await SharedPreferences.getInstance();
-                  final value = double.tryParse(controller.text) ?? 0.0;
-                  SharedPreferencesservice(sharedPreferences).addNumber(value);
-                  Navigator.pop(context, true); // إرجاع true لتحديث البيانات
+                final sharedPreferences = await SharedPreferences.getInstance();
+                double? value = double.tryParse(valueController.text);
+
+                if (value != null && value > 0) {
+                  // إضافة البيانات حسب النوع
+                  await SharedPreferencesservicechar(sharedPreferences)
+                      .addNumber(value, selectedType);
+                  Navigator.pop(context, true); // العودة بعد الإضافة
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Invalid Input"),
+                      content: const Text("Please enter a positive number."),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("OK"),
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
-              child: Text("Save"),
+              child: const Text("Save"),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

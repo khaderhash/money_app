@@ -52,14 +52,17 @@ class _AddTodoScreenState extends State<addnumber> {
             child: ElevatedButton(
               onPressed: () async {
                 if (controller.text.isNotEmpty) {
-                  final sharedPreferences = await SharedPreferences.getInstance();
+                  final sharedPreferences =
+                      await SharedPreferences.getInstance();
                   final value = double.tryParse(controller.text) ?? 0.0;
                   if ((widget.title?.isEmpty ?? true)) {
-                    SharedPreferencesservice(sharedPreferences).addNumber(value);
+                    SharedPreferencesservice(sharedPreferences)
+                        .addNumber(value);
                   } else {
-                    SharedPreferencesservice(sharedPreferences).updateNumber(widget.index ?? 0, value);
+                    SharedPreferencesservice(sharedPreferences)
+                        .updateNumber(widget.index ?? 0, value);
                   }
-                  Navigator.pop(context);  // إغلاق الصفحة بدون إرجاع قيمة
+                  Navigator.pop(context); // إغلاق الصفحة بدون إرجاع قيمة
                 }
               },
               child: Text("Save"),

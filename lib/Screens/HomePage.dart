@@ -97,7 +97,7 @@ class Homepage extends StatelessWidget {
                         ),
                         ButtonHome(
                           ontap: () {
-                            Navigator.pushNamed(context, NumberScreen.id );
+                            Navigator.pushNamed(context, NumberScreen.id);
                           },
                           name: 'expensemoney',
                         ),

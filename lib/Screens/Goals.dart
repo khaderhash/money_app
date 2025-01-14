@@ -176,7 +176,7 @@ class _GoalsState extends State<Goals> {
               title: '',
             ),
           ));
-          setState(()async {
+          setState(() async {
             listDatagoals = await servicetoaddtext?.getTodo() ?? [];
           });
         },
