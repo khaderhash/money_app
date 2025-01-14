@@ -32,13 +32,13 @@ class Myapp extends StatelessWidget {
           loginpage.id: (context) => loginpage(),
           registerpage.id: (context) => registerpage(),
           Homepage.id: (context) => Homepage(),
-          Goals.id: (context) => Goals(),
           Goalsadd.id: (context) => Goalsadd(),
           NumberScreen.id: (context) => NumberScreen(),
           addnumber.id: (context) => addnumber(),
           Expencesmoney.id: (context) => Expencesmoney(),
           AddNumberToChart.id: (context) => AddNumberToChart(),
+          Goals.id: (context) => Goals(),
         },
-        initialRoute: Expencesmoney.id);
+        initialRoute: Homepage.id);
   }
 }

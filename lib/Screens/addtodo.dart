@@ -5,7 +5,7 @@ import 'package:myappmoney2/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Goalsadd extends StatefulWidget {
-  const Goalsadd({super.key, this.title, this.index});
+  Goalsadd({super.key, this.title, this.index});
   static String id = "Goalsadd";
   final String? title;
   final int? index;
@@ -16,21 +16,25 @@ class Goalsadd extends StatefulWidget {
 
 class _GoalsState extends State<Goalsadd> {
   TextEditingController controller = TextEditingController();
+  SharedPreferencesService? servicetoaddtext;
 
   @override
   void initState() {
     controller = TextEditingController(text: widget.title);
-
     super.initState();
   }
 
+  initSharedPreferences() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    servicetoaddtext = SharedPreferencesService(sharedPreferences);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            height: 30,
-          ),
+          SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
@@ -41,7 +45,7 @@ class _GoalsState extends State<Goalsadd> {
                   ),
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[800]),
-                  hintText: 'creating a record',
+                  hintText: 'Create a goal',
                   fillColor: Colors.white70),
             ),
           ),
@@ -55,21 +59,22 @@ class _GoalsState extends State<Goalsadd> {
             child: ElevatedButton(
               onPressed: () async {
                 if (controller.text.isNotEmpty) {
-                  final sharedPrefernces =
+                  final sharedPreferences =
                       await SharedPreferences.getInstance();
-                  if (widget.title?.isEmpty ?? false) {
-                    SharedPreferencesService(sharedPrefernces)
+                  if (widget.title?.isEmpty ?? true) {
+                    SharedPreferencesService(sharedPreferences)
                         .addTodo(controller.text);
                   } else {
-                    SharedPreferencesService(sharedPrefernces)
-                        .updateTodo(widget.index ?? 0, controller.text);
+                    setState(() {
+                      SharedPreferencesService(sharedPreferences)
+                          .updateTodo(widget.index ?? 0, controller.text);
+                    });
                   }
-                  SharedPreferencesService(sharedPrefernces)
-                      .addTodo(controller.text);
+                  // تأكد من التحديث بعد إضافة هدف جديد
                   Navigator.pop(context);
                 }
               },
-              child: Text("text"),
+              child: Text(widget.title?.isEmpty ?? false ? "Add" : "Update"),
             ),
           )
         ],

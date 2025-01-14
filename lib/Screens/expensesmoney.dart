@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myappmoney2/Screens/HomePage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +26,6 @@ class _ExpencesmoneyState extends State<Expencesmoney> {
     loadData();
   }
 
-  // تحميل البيانات من SharedPreferences
   loadData() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     SharedPreferencesservicechar(sharedPreferences)
@@ -64,6 +64,11 @@ class _ExpencesmoneyState extends State<Expencesmoney> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, Homepage.id);
+            },
+            icon: Icon(Icons.arrow_back)),
         title: const Text("Financial Analysis Chart"),
         centerTitle: true,
         backgroundColor: Colors.green[700],

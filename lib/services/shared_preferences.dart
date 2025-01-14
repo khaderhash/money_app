@@ -26,4 +26,8 @@ class SharedPreferencesService {
     result?.insert(index, value);
     await sharedPreferences.setStringList('items_String', result ?? []);
   }
+
+  Future<void> setTodoList(List<String> todoList) async {
+    await sharedPreferences.setStringList('items_String', todoList);
+  }
 }
