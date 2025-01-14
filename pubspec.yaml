@@ -33,12 +33,14 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  implicitly_animated_reorderable_list: ^0.4.0
   cupertino_icons: ^1.0.2
   modal_progress_hud_nsn: ^0.5.1
   firebase_auth: ^5.4.0
   shared_preferences: ^2.2.2
   syncfusion_flutter_charts: ^28.1.38
   fl_chart: ^0.70.1
+  implicitly_animated_reorderable_list_2: ^0.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
