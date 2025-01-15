@@ -92,9 +92,9 @@ class Homepage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => AddNumberToChart()));
                             },
-                            name: 'Goals',
+                            name: 'المفروض المصارف',
                           ),
-                          const SizedBox(height: 18),
+                          const SizedBox(height: 8),
                           ButtonHome(
                             ontap: () {
                               Navigator.push(
@@ -102,9 +102,9 @@ class Homepage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => NumberScreen()));
                             },
-                            name: 'Number',
+                            name: 'المفروض المداخيل',
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
                           ButtonHome(
                             ontap: () {
                               Navigator.push(
@@ -112,9 +112,9 @@ class Homepage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => Goals()));
                             },
-                            name: 'Expenses Money',
+                            name: 'Goals',
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
                           ButtonHome(
                             ontap: () {
                               Navigator.push(
@@ -122,7 +122,7 @@ class Homepage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => Expencesmoney()));
                             },
-                            name: 'Empty Button',
+                            name: 'Analysis money',
                           ),
                         ],
                       ),

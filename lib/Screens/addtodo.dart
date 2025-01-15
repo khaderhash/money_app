@@ -16,7 +16,10 @@ class Goalsadd extends StatefulWidget {
 
 class _GoalsState extends State<Goalsadd> {
   TextEditingController controller = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController currentAmountController = TextEditingController();
   SharedPreferencesService? servicetoaddtext;
+  String? goalType = "اختياري"; // إجباري أو اختياري
 
   @override
   void initState() {
@@ -40,37 +43,90 @@ class _GoalsState extends State<Goalsadd> {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  hintStyle: TextStyle(color: Colors.grey[800]),
-                  hintText: 'Create a goal',
-                  fillColor: Colors.white70),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: 'Create a goal',
+                fillColor: Colors.white70,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: amountController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: 'Enter the target amount',
+                fillColor: Colors.white70,
+              ),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: currentAmountController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                filled: true,
+                hintStyle: TextStyle(color: Colors.grey[800]),
+                hintText: 'Amount already saved',
+                fillColor: Colors.white70,
+              ),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: DropdownButton<String>(
+              value: goalType,
+              onChanged: (String? newValue) {
+                setState(() {
+                  goalType = newValue!;
+                });
+              },
+              items: <String>['اختياري', 'إجباري']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
           ),
           Container(
             width: width(context),
             height: 50,
-            margin: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
+            margin: EdgeInsets.only(left: 16, right: 16),
             child: ElevatedButton(
               onPressed: () async {
                 if (controller.text.isNotEmpty) {
                   final sharedPreferences =
-                      await SharedPreferences.getInstance();
+                  await SharedPreferences.getInstance();
                   if (widget.title?.isEmpty ?? true) {
-                    SharedPreferencesService(sharedPreferences)
-                        .addTodo(controller.text);
+                    SharedPreferencesService(sharedPreferences).addTodo({
+                      'goal': controller.text,
+                      'amount': amountController.text,
+                      'current_amount': currentAmountController.text,});
                   } else {
                     setState(() {
                       SharedPreferencesService(sharedPreferences)
-                          .updateTodo(widget.index ?? 0, controller.text);
+                          .updateTodo(widget.index ?? 0, {
+                        'goal': controller.text,
+                        'amount': amountController.text,
+                        'current_amount': currentAmountController.text,
+                      });
                     });
                   }
-                  // تأكد من التحديث بعد إضافة هدف جديد
                   Navigator.pop(context);
                 }
               },
