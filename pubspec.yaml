@@ -68,6 +68,8 @@ flutter:
   assets:
     - assets/photo/khaderlogo.png
     - assets/photo/color1.jpg
+    - assets/photo/pngtree-circle-clipart-dark-gray-circle-png-image_2381995.jpg
+    - assets/photo/photo_2025-01-15_15-09-57.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

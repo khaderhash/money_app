@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/compo/drawer.dart';
-
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
-import '../constants.dart';
+import 'package:myappmoney2/Screens/number.dart';
+import 'package:myappmoney2/Screens/login.dart';
+
+import 'addnumbertochart1.dart';
 import 'expensesmoney.dart';
-import 'number.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -16,105 +17,121 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        drawer: drawerclass(),
-        body: SizedBox(
-          width: width(context),
-          height: hight(context),
-          child: Stack(children: [
-            SizedBox(
-              width: width(context),
-              height: hight(context) * .4,
-              child: Image.asset(
-                'assets/photo/color1.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              width: width(context),
-              height: hight(context) * .2,
-              child: Transform.rotate(
-                angle: -.3,
-                child: Image.asset(
-                  'assets/photo/khaderlogo.png',
-                  fit: BoxFit.contain,
+        drawer: DrawerClass(
+          accountName: 'khader',
+          accountEmail: 'khader@gmail',
+          accountInitial: 'ksfh',
+        ),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenHeight = constraints.maxHeight;
+            final screenWidth = constraints.maxWidth;
+
+            return Stack(
+              children: [
+                // Background Image
+                Positioned.fill(
+                  child: Column(
+                    children: [
+
+                      Expanded(
+                        child: Container(color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-            Positioned(
-                top: hight(context) * .341,
-                child: Container(
-                  alignment: Alignment.center,
-                  width: width(context),
-                  child: RotatedBox(
-                    quarterTurns: 2,
+
+
+                // Curved Divider (Modified to Half Circle)
+                Positioned(
+                  top: screenHeight * 0.0,
+                  child: Container(
+                    width: screenWidth,
+                    alignment: Alignment.center,
                     child: ClipPath(
-                      clipper: OutSideCustomShape(),
+                      clipper: OutSideCustomShape(), // تطبيق الشكل نصف الدائرة
                       child: Container(
-                        width: width(context) * .5,
-                        height: hight(context) * .06,
-                        color: Colors.white,
+                        width: screenWidth*22,
+                        height: screenHeight * 0.44, // جعل الارتفاع ربع الشاشة
+                        color: Colors.grey,
                       ),
                     ),
                   ),
-                )),
-            Positioned(
-                bottom: 0,
-                child: Container(
-                  width: width(context),
-                  height: hight(context) * .5,
-                  color: Colors.white,
-                  child: Column(children: [
-                    SizedBox(
-                      height: 50,
+                ),
+                // Rotated Logo
+                Positioned(
+                  top: screenHeight * 0.1,
+                  left: screenWidth * 0.25,
+                  child: Transform.rotate(
+                    angle: -0.2,
+                    child: SizedBox(
+                      width: screenWidth * 0.47,
+                      child: Image.asset(
+                        'assets/photo/khaderlogo.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: width(context) * .1,
-                        ),
-                        ButtonHome(
-                          ontap: () {
-                            Navigator.pushNamed(context, Goals.id);
-                          },
-                          name: 'Expenc',
-                        ),
-                        SizedBox(
-                          width: width(context) * .2,
-                        ),
-                        ButtonHome(
-                          ontap: () {},
-                          name: '',
-                        ),
-                      ],
+                  ),
+                ),
+                // Buttons Section
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    width: screenWidth,
+                    height: screenHeight * 0.56,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                      child: ListView(
+                        children: [
+                          SizedBox(height: 20),
+                          ButtonHome(
+                            ontap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddNumberToChart()));
+                            },
+                            name: 'Goals',
+                          ),
+                          const SizedBox(height: 18),
+                          ButtonHome(
+                            ontap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NumberScreen()));
+                            },
+                            name: 'Number',
+                          ),
+                          const SizedBox(height: 16),
+                          ButtonHome(
+                            ontap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Goals()));
+                            },
+                            name: 'Expenses Money',
+                          ),
+                          const SizedBox(height: 16),
+                          ButtonHome(
+                            ontap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Expencesmoney()));
+                            },
+                            name: 'Empty Button',
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 55,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: width(context) * .1,
-                        ),
-                        ButtonHome(
-                          ontap: () {
-                            Navigator.pushNamed(context, NumberScreen.id);
-                          },
-                          name: 'expensemoney',
-                        ),
-                        SizedBox(
-                          width: width(context) * .2,
-                        ),
-                        ButtonHome(
-                          ontap: () {
-                            Navigator.pushNamed(context, Expencesmoney.id);
-                          },
-                          name: 'Expencesmoney',
-                        ),
-                      ],
-                    )
-                  ]),
-                ))
-          ]),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
