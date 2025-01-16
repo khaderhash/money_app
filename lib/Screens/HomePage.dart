@@ -4,8 +4,6 @@ import 'package:myappmoney2/compo/drawer.dart';
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
 import 'package:myappmoney2/Screens/number.dart';
-import 'package:myappmoney2/Screens/login.dart';
-
 import 'addnumbertochart1.dart';
 import 'expensesmoney.dart';
 
@@ -29,35 +27,35 @@ class Homepage extends StatelessWidget {
 
             return Stack(
               children: [
-                // Background Image
+                // Background Color
                 Positioned.fill(
                   child: Column(
                     children: [
-
                       Expanded(
-                        child: Container(color: Colors.white),
+                        child: Container(
+                            color: Color(0xFFF5F5F5)), // خلفية رمادية فاتحة
                       ),
                     ],
                   ),
                 ),
 
-
                 // Curved Divider (Modified to Half Circle)
                 Positioned(
-                  top: screenHeight * 0.0,
+                  top: 0,
                   child: Container(
                     width: screenWidth,
                     alignment: Alignment.center,
                     child: ClipPath(
                       clipper: OutSideCustomShape(), // تطبيق الشكل نصف الدائرة
                       child: Container(
-                        width: screenWidth*22,
-                        height: screenHeight * 0.44, // جعل الارتفاع ربع الشاشة
-                        color: Colors.grey,
+                        width: screenWidth,
+                        height: screenHeight * 0.44,
+                        color: Color(0xFF264653), // الأزرق الداكن
                       ),
                     ),
                   ),
                 ),
+
                 // Rotated Logo
                 Positioned(
                   top: screenHeight * 0.1,
@@ -73,13 +71,14 @@ class Homepage extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 // Buttons Section
                 Positioned(
                   bottom: 0,
                   child: Container(
                     width: screenWidth,
                     height: screenHeight * 0.56,
-                    color: Colors.white,
+                    color: Color(0xFFF5F5F5), // خلفية رمادية فاتحة
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 36.0),
                       child: ListView(
@@ -90,7 +89,8 @@ class Homepage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AddNumberToChart()));
+                                      builder: (context) =>
+                                          AddNumberToChart()));
                             },
                             name: 'المفروض المصارف',
                           ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myappmoney2/Screens/addtodo.dart';
-import 'package:myappmoney2/constants.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
+
 import '../services/shared_preferences.dart';
 import 'numberadd.dart';
 
@@ -15,10 +15,15 @@ class NumberScreen extends StatefulWidget {
 }
 
 class _ExpensesState extends State<NumberScreen> {
-  final saerchBarTec = TextEditingController();
-  SharedPreferencesservice? servicetoaddnumber;
-  List<double> listDatanumber = [];
-  List<double> _listnumber = [];
+  SharedPreferencesServiceexpenses? servicetoaddnumber;
+  List<Map<String, dynamic>> listExpenses = []; // تحتوي على الأرقام والأنواع
+
+  final Map<String, Color> expenseColors = {
+    "طعام": Colors.green,
+    "سكن": Colors.blue,
+    "بنزين": Colors.orange,
+    "مصاريف اعتيادية": Colors.red,
+  };
 
   @override
   void initState() {
@@ -28,19 +33,13 @@ class _ExpensesState extends State<NumberScreen> {
 
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    servicetoaddnumber = SharedPreferencesservice(sharedPreferences);
-    listDatanumber = await servicetoaddnumber?.getNumbers() ?? [];
+    servicetoaddnumber = SharedPreferencesServiceexpenses(sharedPreferences);
+    listExpenses = await servicetoaddnumber?.getExpenses() ?? [];
     setState(() {});
   }
 
-  void searchOp(String searchText) async {
-    _listnumber = await servicetoaddnumber?.getNumbers() ?? [];
-    listDatanumber.clear();
-    for (var value in _listnumber) {
-      if (value.toString().contains(searchText)) {
-        listDatanumber.add(value);
-      }
-    }
+  void updateList() async {
+    listExpenses = await servicetoaddnumber?.getExpenses() ?? [];
     setState(() {});
   }
 
@@ -48,147 +47,94 @@ class _ExpensesState extends State<NumberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Container(
-          width: width(context),
-          height: 40,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1, color: Colors.blue)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.blue,
-                  size: 22,
-                ),
-              ),
-              Expanded(
-                child: TextField(
-                  textInputAction: TextInputAction.search,
-                  maxLines: 1,
-                  controller: saerchBarTec,
-                  keyboardType: TextInputType.text,
-                  textAlignVertical: TextAlignVertical.center,
-                  onChanged: searchOp,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'search',
-                    hintStyle: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w400),
-                    contentPadding: EdgeInsets.only(
-                      left: 0,
-                    ),
-                    focusedBorder: InputBorder.none,
-                    filled: true,
-                    isDense: true,
-                    fillColor: Colors.transparent,
-                  ),
-                  style: TextStyle(fontSize: 18),
-                  obscureText: false,
-                ),
-              )
-            ],
-          ),
-        ),
+        title: const Text("Expenses Chart"),
+        backgroundColor: const Color(0xFF264653),
       ),
-      body: SizedBox(
-        height: hight(context),
-        child: ListView.builder(
-          itemCount: listDatanumber.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => addnumber(
-                    title: listDatanumber[index].toString(),
-                    index: index,
-                  ),
-                ));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.blue,
-                  ),
+      body: Column(
+        children: [
+          // مخطط دائري
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: PieChart(
+                PieChartData(
+                  sections: listExpenses.isEmpty
+                      ? [
+                          PieChartSectionData(
+                            value: 100,
+                            color: Colors.grey,
+                            title: "No Data",
+                            radius: 50,
+                            titleStyle: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          )
+                        ]
+                      : listExpenses.map((expense) {
+                          return PieChartSectionData(
+                            value: expense["value"],
+                            color:
+                                expenseColors[expense["type"]] ?? Colors.grey,
+                            title: expense["value"].toString(),
+                            radius: 50,
+                            titleStyle: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          );
+                        }).toList(),
+                  centerSpaceRadius: 40,
+                  borderData: FlBorderData(show: false),
+                  sectionsSpace:
+                      4, // إضافة مسافة بين الأجزاء لزيادة وضوح المخطط
                 ),
-                margin: EdgeInsets.only(
-                  left: 20,
-                  top: 10,
-                  right: 20,
-                  bottom: 10,
-                ),
-                height: 60,
-                child: Row(children: [
-                  Expanded(
-                      child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.check,
-                        color: Colors.blue,
-                        size: 20,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          listDatanumber[index].toString(),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
-                  )),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          servicetoaddnumber?.removeNumber(index);
-                        });
-                      },
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  )
-                ]),
               ),
-            );
-          },
-        ),
+            ),
+          ),
+
+          // قائمة المصاريف
+          Expanded(
+            flex: 3,
+            child: ListView.builder(
+              itemCount: listExpenses.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: Icon(
+                    Icons.check_circle,
+                    color: expenseColors[listExpenses[index]["type"]] ??
+                        Colors.grey,
+                  ),
+                  title: Text(
+                    "${listExpenses[index]["type"]}: ${listExpenses[index]["value"]}",
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () async {
+                      await servicetoaddnumber?.removeExpense(index);
+                      updateList();
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFE78B00),
         onPressed: () async {
-          // Navigator.of(context).push(MaterialPageRoute(
-          //   builder: (context) => addnumber(
-          //     title: '',
-          //   ),
-          // )
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => addnumber(
-              title: '',
-            ),
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => addnumber(),
           ));
-          listDatanumber = await servicetoaddnumber?.getNumbers() ?? [];
-          setState(() async {});
+          updateList();
         },
-        tooltip: 'Add Number',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

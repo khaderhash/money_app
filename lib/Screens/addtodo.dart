@@ -18,7 +18,7 @@ class _GoalsState extends State<Goalsadd> {
   TextEditingController controller = TextEditingController();
   TextEditingController amountController = TextEditingController();
   TextEditingController currentAmountController = TextEditingController();
-  SharedPreferencesService? servicetoaddtext;
+  SharedPreferencesServiceexpenses? servicetoaddtext;
   String? goalType = "اختياري"; // إجباري أو اختياري
 
   @override
@@ -29,7 +29,7 @@ class _GoalsState extends State<Goalsadd> {
 
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    servicetoaddtext = SharedPreferencesService(sharedPreferences);
+    servicetoaddtext = SharedPreferencesServiceexpenses(sharedPreferences);
   }
 
   @override
@@ -111,15 +111,17 @@ class _GoalsState extends State<Goalsadd> {
               onPressed: () async {
                 if (controller.text.isNotEmpty) {
                   final sharedPreferences =
-                  await SharedPreferences.getInstance();
+                      await SharedPreferences.getInstance();
                   if (widget.title?.isEmpty ?? true) {
-                    SharedPreferencesService(sharedPreferences).addTodo({
+                    SharedPreferencesServiceexpenses(sharedPreferences)
+                        .addTodo({
                       'goal': controller.text,
                       'amount': amountController.text,
-                      'current_amount': currentAmountController.text,});
+                      'current_amount': currentAmountController.text,
+                    });
                   } else {
                     setState(() {
-                      SharedPreferencesService(sharedPreferences)
+                      SharedPreferencesServiceexpenses(sharedPreferences)
                           .updateTodo(widget.index ?? 0, {
                         'goal': controller.text,
                         'amount': amountController.text,

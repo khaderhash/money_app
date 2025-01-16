@@ -1,74 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:myappmoney2/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
 
+import '../services/shared_preferences.dart';
+
 class addnumber extends StatefulWidget {
-  const addnumber({super.key, this.title, this.index});
-  final String? title;
-  final int? index;
+  const addnumber({super.key});
   static String id = 'addnumber';
 
   @override
-  State<addnumber> createState() => _AddTodoScreenState();
+  State<addnumber> createState() => _AddNumberState();
 }
 
-class _AddTodoScreenState extends State<addnumber> {
-  TextEditingController controller = TextEditingController();
+class _AddNumberState extends State<addnumber> {
+  TextEditingController valueController = TextEditingController();
+  String selectedType = "طعام";
 
-  @override
-  void initState() {
-    controller = TextEditingController(text: widget.title);
-    super.initState();
-  }
+  final List<String> expenseTypes = ["طعام", "سكن", "بنزين", "مصاريف اعتيادية"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: controller,
+      appBar: AppBar(
+        title: const Text("Add Expense"),
+        backgroundColor: const Color(0xFF264653),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: valueController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  hintStyle: TextStyle(color: Colors.grey[800]),
-                  hintText: 'Enter a number',
-                  fillColor: Colors.black),
+                labelText: "Enter Expense Value",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 50,
-            margin: EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () async {
-                if (controller.text.isNotEmpty) {
-                  final sharedPreferences =
-                      await SharedPreferences.getInstance();
-                  final value = double.tryParse(controller.text) ?? 0.0;
-                  if ((widget.title?.isEmpty ?? true)) {
-                    SharedPreferencesservice(sharedPreferences)
-                        .addNumber(value);
-                  } else {
-                    SharedPreferencesservice(sharedPreferences)
-                        .updateNumber(widget.index ?? 0, value);
-                  }
-                  Navigator.pop(context); // إغلاق الصفحة بدون إرجاع قيمة
-                }
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: selectedType,
+              items: expenseTypes
+                  .map((type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(type),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedType = value!;
+                });
               },
-              child: Text("Save"),
+              decoration: InputDecoration(
+                labelText: "Select Expense Type",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (valueController.text.isNotEmpty) {
+                    final sharedPreferences =
+                        await SharedPreferences.getInstance();
+                    final value = double.tryParse(valueController.text) ?? 0.0;
+                    final expense = {"value": value, "type": selectedType};
+                    SharedPreferencesServiceexpenses(sharedPreferences)
+                        .addExpense(expense);
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text("Save"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

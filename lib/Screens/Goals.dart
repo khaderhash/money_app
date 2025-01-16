@@ -7,7 +7,7 @@ import '../services/shared_preferences.dart';
 import 'addtodo.dart';
 
 class Goals extends StatefulWidget {
-   Goals({super.key});
+  Goals({super.key});
   static String id = "Goals";
 
   @override
@@ -26,7 +26,7 @@ class _GoalsState extends State<Goals> {
 
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    servicetoaddtext = SharedPreferencesService(sharedPreferences);
+    servicetoaddtext = SharedPreferencesServiceexpenses(sharedPreferences);
     listData = await servicetoaddtext?.getTodo() ?? [];
     setState(() {});
   }
@@ -43,22 +43,24 @@ class _GoalsState extends State<Goals> {
       body: ListView.builder(
         itemCount: listData.length,
         itemBuilder: (context, index) {
-
-
           final goal = listData[index];
           double targetAmount = double.tryParse(goal['amount'] ?? '0') ?? 0;
-          double currentAmount = double.tryParse(goal['current_amount'] ?? '0') ?? 0;
+          double currentAmount =
+              double.tryParse(goal['current_amount'] ?? '0') ?? 0;
 
-          double progress = (targetAmount > 0) ? (currentAmount / targetAmount) : 0;
+          double progress =
+              (targetAmount > 0) ? (currentAmount / targetAmount) : 0;
 
           return Card(
             elevation: 5,
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: ListTile(
               contentPadding: EdgeInsets.all(15),
-
-              title: Text(goal['goal'] ?? '',),
+              title: Text(
+                goal['goal'] ?? '',
+              ),
               subtitle: Text(
                 'Type: ${goal['type']}, Target: ${goal['amount']}, Saved: ${goal['current_amount']}',
                 style: TextStyle(color: Colors.blueAccent),
