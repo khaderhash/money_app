@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
-import 'package:myappmoney2/Screens/addtodo.dart';
+import 'package:myappmoney2/Screens/Goaladd.dart';
 
 class DrawerClass extends StatelessWidget {
   final String accountName;

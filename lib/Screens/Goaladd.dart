@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/constants.dart';
-import 'package:myappmoney2/services/shared_preferences.dart';
+import 'package:myappmoney2/services/shared_preferences_expences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../services/Shared_preferences_goal.dart';
 
 class Goalsadd extends StatefulWidget {
   Goalsadd({super.key, this.title, this.index});
@@ -18,7 +20,7 @@ class _GoalsState extends State<Goalsadd> {
   TextEditingController controller = TextEditingController();
   TextEditingController amountController = TextEditingController();
   TextEditingController currentAmountController = TextEditingController();
-  SharedPreferencesServiceexpenses? servicetoaddtext;
+  SharedPreferencesServicegoals? servicetoaddtext;
   String? goalType = "اختياري"; // إجباري أو اختياري
 
   @override
@@ -29,7 +31,7 @@ class _GoalsState extends State<Goalsadd> {
 
   initSharedPreferences() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    servicetoaddtext = SharedPreferencesServiceexpenses(sharedPreferences);
+    servicetoaddtext = SharedPreferencesServicegoals(sharedPreferences);
   }
 
   @override
@@ -113,7 +115,7 @@ class _GoalsState extends State<Goalsadd> {
                   final sharedPreferences =
                       await SharedPreferences.getInstance();
                   if (widget.title?.isEmpty ?? true) {
-                    SharedPreferencesServiceexpenses(sharedPreferences)
+                    SharedPreferencesServicegoals(sharedPreferences)
                         .addTodo({
                       'goal': controller.text,
                       'amount': amountController.text,
@@ -121,7 +123,7 @@ class _GoalsState extends State<Goalsadd> {
                     });
                   } else {
                     setState(() {
-                      SharedPreferencesServiceexpenses(sharedPreferences)
+                      SharedPreferencesServicegoals(sharedPreferences)
                           .updateTodo(widget.index ?? 0, {
                         'goal': controller.text,
                         'amount': amountController.text,

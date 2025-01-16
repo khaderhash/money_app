@@ -3,18 +3,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
 
-import '../services/shared_preferences.dart';
-import 'numberadd.dart';
+import '../services/shared_preferences_expences.dart';
+import 'AddExpences.dart';
 
-class NumberScreen extends StatefulWidget {
-  const NumberScreen({super.key});
+class ExpencesScreens extends StatefulWidget {
+  const ExpencesScreens({super.key});
   static String id = "NumberScreen";
 
   @override
-  State<NumberScreen> createState() => _ExpensesState();
+  State<ExpencesScreens> createState() => _ExpensesState();
 }
 
-class _ExpensesState extends State<NumberScreen> {
+class _ExpensesState extends State<ExpencesScreens> {
   SharedPreferencesServiceexpenses? servicetoaddnumber;
   List<Map<String, dynamic>> listExpenses = []; // تحتوي على الأرقام والأنواع
 
@@ -83,7 +83,7 @@ class _ExpensesState extends State<NumberScreen> {
                             titleStyle: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: Colors.blue,
+                              color: Colors.white,
                             ),
                           );
                         }).toList(),
@@ -130,7 +130,7 @@ class _ExpensesState extends State<NumberScreen> {
         backgroundColor: const Color(0xFFE78B00),
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => addnumber(),
+            builder: (context) => AddExpences(),
           ));
           updateList();
         },

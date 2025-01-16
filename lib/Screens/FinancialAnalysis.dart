@@ -5,15 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/sharedprefcharex.dart';
 
-class Expencesmoney extends StatefulWidget {
-  Expencesmoney({super.key});
+class Financialanalysis extends StatefulWidget {
+  Financialanalysis({super.key});
   static String id = 'Expencesmoney';
 
   @override
-  State<Expencesmoney> createState() => _ExpencesmoneyState();
+  State<Financialanalysis> createState() => _FinancialanalysisState();
 }
 
-class _ExpencesmoneyState extends State<Expencesmoney> {
+class _FinancialanalysisState extends State<Financialanalysis> {
   List<SalesData> expenseData = [];
   List<SalesData> incomeData = [];
   double totalExpenses = 0;

@@ -3,9 +3,9 @@ import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/compo/drawer.dart';
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
-import 'package:myappmoney2/Screens/number.dart';
+import 'package:myappmoney2/Screens/Expences.dart';
 import 'addnumbertochart1.dart';
-import 'expensesmoney.dart';
+import 'FinancialAnalysis.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -100,7 +100,7 @@ class Homepage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => NumberScreen()));
+                                      builder: (context) => ExpencesScreens()));
                             },
                             name: 'المفروض المداخيل',
                           ),
@@ -120,7 +120,7 @@ class Homepage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Expencesmoney()));
+                                      builder: (context) => Financialanalysis()));
                             },
                             name: 'Analysis money',
                           ),

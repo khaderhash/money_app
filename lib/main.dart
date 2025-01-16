@@ -3,11 +3,11 @@ import 'package:myappmoney2/Screens/addnumbertochart1.dart';
 
 import 'Screens/Goals.dart';
 import 'Screens/HomePage.dart';
-import 'Screens/addtodo.dart';
-import 'Screens/expensesmoney.dart';
+import 'Screens/Goaladd.dart';
+import 'Screens/FinancialAnalysis.dart';
 import 'Screens/login.dart';
-import 'Screens/number.dart';
-import 'Screens/numberadd.dart';
+import 'Screens/Expences.dart';
+import 'Screens/AddExpences.dart';
 import 'Screens/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -33,11 +33,11 @@ class Myapp extends StatelessWidget {
           registerpage.id: (context) => registerpage(),
           Homepage.id: (context) => Homepage(),
           Goalsadd.id: (context) => Goalsadd(),
-          NumberScreen.id: (context) => NumberScreen(),
-          addnumber.id: (context) => addnumber(),
-          Expencesmoney.id: (context) => Expencesmoney(),
-          AddNumberToChart.id: (context) => AddNumberToChart(),
           Goals.id: (context) => Goals(),
+          ExpencesScreens.id: (context) => ExpencesScreens(),
+          AddExpences.id: (context) => AddExpences(),
+          Financialanalysis.id: (context) => Financialanalysis(),
+          AddNumberToChart.id: (context) => AddNumberToChart(),
         },
         initialRoute: Homepage.id);
   }

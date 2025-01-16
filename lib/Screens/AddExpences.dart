@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
 
-import '../services/shared_preferences.dart';
+import '../services/shared_preferences_expences.dart';
 
-class addnumber extends StatefulWidget {
-  const addnumber({super.key});
+class AddExpences extends StatefulWidget {
+  const AddExpences({super.key});
   static String id = 'addnumber';
 
   @override
-  State<addnumber> createState() => _AddNumberState();
+  State<AddExpences> createState() => _AddNumberState();
 }
 
-class _AddNumberState extends State<addnumber> {
+class _AddNumberState extends State<AddExpences> {
   TextEditingController valueController = TextEditingController();
   String selectedType = "طعام";
 
