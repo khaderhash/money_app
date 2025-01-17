@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myappmoney2/Screens/addnumbertochart1.dart';
+import 'package:myappmoney2/Screens/Incomes.dart';
 
 import 'Screens/Goals.dart';
 import 'Screens/HomePage.dart';
@@ -32,12 +32,12 @@ class Myapp extends StatelessWidget {
           loginpage.id: (context) => loginpage(),
           registerpage.id: (context) => registerpage(),
           Homepage.id: (context) => Homepage(),
-          Goalsadd.id: (context) => Goalsadd(),
+          GoalsaddEdit.id: (context) => GoalsaddEdit(),
           Goals.id: (context) => Goals(),
           ExpencesScreens.id: (context) => ExpencesScreens(),
           AddExpences.id: (context) => AddExpences(),
           Financialanalysis.id: (context) => Financialanalysis(),
-          AddNumberToChart.id: (context) => AddNumberToChart(),
+          IncomesScreens.id: (context) => IncomesScreens(),
         },
         initialRoute: Homepage.id);
   }

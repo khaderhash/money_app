@@ -10,6 +10,8 @@ class SharedPreferencesServicegoals {
     final result = sharedPreferences.getStringList('items_String') ?? [];
     result.add(json.encode(goalData));
     await sharedPreferences.setStringList('items_String', result);
+
+
   }
 
   Future<List<Map<String, String>>> getTodo() async {

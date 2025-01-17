@@ -4,7 +4,7 @@ import 'package:myappmoney2/compo/drawer.dart';
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
 import 'package:myappmoney2/Screens/Expences.dart';
-import 'addnumbertochart1.dart';
+import 'Incomes.dart';
 import 'FinancialAnalysis.dart';
 
 class Homepage extends StatelessWidget {
@@ -23,17 +23,16 @@ class Homepage extends StatelessWidget {
         body: LayoutBuilder(
           builder: (context, constraints) {
             final screenHeight = constraints.maxHeight;
+
             final screenWidth = constraints.maxWidth;
 
             return Stack(
               children: [
-                // Background Color
                 Positioned.fill(
                   child: Column(
                     children: [
                       Expanded(
-                        child: Container(
-                            color: Color(0xFFF5F5F5)), // خلفية رمادية فاتحة
+                        child: Container(color: Color(0xFFF5F5F5)),
                       ),
                     ],
                   ),
@@ -58,10 +57,10 @@ class Homepage extends StatelessWidget {
 
                 // Rotated Logo
                 Positioned(
-                  top: screenHeight * 0.1,
+                  top: screenHeight * 0.12,
                   left: screenWidth * 0.25,
                   child: Transform.rotate(
-                    angle: -0.2,
+                    angle: 0,
                     child: SizedBox(
                       width: screenWidth * 0.47,
                       child: Image.asset(
@@ -72,7 +71,6 @@ class Homepage extends StatelessWidget {
                   ),
                 ),
 
-                // Buttons Section
                 Positioned(
                   bottom: 0,
                   child: Container(
@@ -89,8 +87,7 @@ class Homepage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddNumberToChart()));
+                                      builder: (context) => IncomesScreens()));
                             },
                             name: 'المفروض المصارف',
                           ),
@@ -120,7 +117,8 @@ class Homepage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Financialanalysis()));
+                                      builder: (context) =>
+                                          Financialanalysis()));
                             },
                             name: 'Analysis money',
                           ),

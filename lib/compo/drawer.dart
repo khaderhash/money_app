@@ -76,7 +76,7 @@ class DrawerClass extends StatelessWidget {
                 buildListItem(
                   icon: Icons.person,
                   title: 'My Profile',
-                  onTap: () => Navigator.pushNamed(context, Goalsadd.id),
+                  onTap: () => Navigator.pushNamed(context, GoalsaddEdit.id),
                 ),
                 buildListItem(
                   icon: Icons.book,

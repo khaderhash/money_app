@@ -41,6 +41,9 @@ dependencies:
   syncfusion_flutter_charts: ^28.1.38
   fl_chart: ^0.70.1
   implicitly_animated_reorderable_list_2: ^0.6.0
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.0
+  intl: ^0.20.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

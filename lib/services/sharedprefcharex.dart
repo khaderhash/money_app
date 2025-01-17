@@ -12,7 +12,6 @@ class SharedPreferencesservicechar {
     await sharedPreferences.setStringList('items_number_CHAR', result);
   }
 
-  // استرجاع الأرقام مع الأنواع من SharedPreferences
   Future<List<Map<String, dynamic>>> getNumbers() async {
     final result = sharedPreferences.getStringList('items_number_CHAR') ?? [];
     return result.map((e) {
