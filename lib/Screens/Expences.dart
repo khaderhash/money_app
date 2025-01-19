@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:myappmoney2/compo/contentIL.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/shared_preferences_expences.dart';
 import 'AddExpences.dart';
@@ -107,88 +108,19 @@ class _ExpensesState extends State<ExpencesScreens> {
                 final value = listExpenses[index]["value"];
                 final expenseInfo = expenseData[type];
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Container(
-                    height: 100, // زيادة ارتفاع الكونتينر
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // الأيقونة والنصوص
-                        Row(
-                          children: [
-                            // أيقونة الفئة
-                            Container(
-                              padding: const EdgeInsets.all(12.0),
-                              decoration: BoxDecoration(
-                                color: expenseInfo?.color?.withOpacity(0.2) ??
-                                    Colors.grey.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                              ),
-                              child: expenseInfo?.icon ??
-                                  const Icon(Icons.error, color: Colors.grey),
-                            ),
-                            const SizedBox(width: 16),
-                            // النصوص (اسم الفئة والقيمة)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // اسم الفئة
-                                Text(
-                                  type,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF264653),
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                // القيمة
-                                Text(
-                                  "\$${value.toStringAsFixed(2)}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: expenseInfo?.color ?? Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        // زر الحذف
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () async {
-                              await servicetoaddnumber?.removeExpense(index);
-                              updateList();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                return ContentLE(
+                  iconcolor: expenseInfo?.color?.withOpacity(0.2) ??
+                      Colors.grey.withOpacity(0.2),
+                  iconprimary: expenseInfo?.icon ??
+                      const Icon(Icons.error, color: Colors.grey),
+                  nameofcategory: type,
+                  onpres: () async {
+                    await servicetoaddnumber?.removeExpense(index);
+                    updateList();
+                  },
+                  colorofmoney: expenseInfo?.color ?? Colors.grey,
+                  valueofmoney: "\$${value.toStringAsFixed(2)}",
+                  icondelete: const Icon(Icons.delete, color: Colors.red),
                 );
               },
             ),

@@ -119,17 +119,18 @@ class _IncomesState extends State<IncomesScreens> {
                 final value = listIncomes[index]["value"];
                 final incomesInfo = incomeListDATA[type];
                 return ContentLE(
-                  color: incomesInfo?.color?.withOpacity(0.2) ??
+                  iconcolor: incomesInfo?.color?.withOpacity(0.2) ??
                       Colors.grey.withOpacity(0.2),
-                  icon: incomesInfo?.icon ??
+                  iconprimary: incomesInfo?.icon ??
                       const Icon(Icons.error, color: Colors.grey),
-                  string: type,
+                  nameofcategory: type,
                   onpres: () async {
                     await servicetoaddnumber?.removeIncome(index);
                     updateList();
                   },
-                  colorvalue: incomesInfo?.color ?? Colors.grey,
-                  value: "\$${value.toStringAsFixed(2)}",
+                  colorofmoney: incomesInfo?.color ?? Colors.grey,
+                  valueofmoney: "\$${value.toStringAsFixed(2)}",
+                  icondelete: const Icon(Icons.delete, color: Colors.red),
                 );
                 //
               },

@@ -73,7 +73,6 @@ class SharedPreferencesServiceIncomes {
 
   SharedPreferencesServiceIncomes(this.sharedPreferences);
 
-  // جلب قائمة المداخيل
   Future<List<Map<String, dynamic>>> getIncomes() async {
     try {
       final data = sharedPreferences.getString('incomes');
@@ -85,7 +84,6 @@ class SharedPreferencesServiceIncomes {
     }
   }
 
-  // حفظ قائمة المداخيل
   Future<void> saveIncomes(List<Map<String, dynamic>> incomes) async {
     try {
       final data = jsonEncode(incomes);
@@ -95,15 +93,13 @@ class SharedPreferencesServiceIncomes {
     }
   }
 
-  // إضافة مدخول جديد
   Future<void> addIncome(Map<String, dynamic> income) async {
     final incomes = await getIncomes();
-    income['date'] = DateTime.now().toIso8601String(); // إضافة التاريخ
-    incomes.insert(0, income); // أضف المدخول في البداية
+    income['date'] = DateTime.now().toIso8601String();
+    incomes.insert(0, income);
     await saveIncomes(incomes);
   }
 
-  // إزالة مدخول بناءً على الفهرس
   Future<void> removeIncome(int index) async {
     final incomes = await getIncomes();
     if (index >= 0 && index < incomes.length) {
@@ -112,7 +108,6 @@ class SharedPreferencesServiceIncomes {
     }
   }
 
-  // تحديث مدخول موجود
   Future<void> updateIncome(
       int index, Map<String, dynamic> updatedIncome) async {
     final incomes = await getIncomes();
@@ -122,7 +117,6 @@ class SharedPreferencesServiceIncomes {
     }
   }
 
-  // جلب المداخيل بناءً على فترة زمنية
   Future<List<SalesData>> getIncomesForTimePeriod(String timePeriod) async {
     List<SalesData> incomes = [];
     final currentIncomes = await getIncomes();
@@ -150,7 +144,6 @@ class SharedPreferencesServiceIncomes {
     return incomes;
   }
 
-  // تنظيف المداخيل القديمة
   Future<void> cleanOldIncomes(Duration duration) async {
     final incomes = await getIncomes();
     final now = DateTime.now();

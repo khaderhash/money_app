@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myappmoney2/compo/contentIL.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -199,22 +200,20 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: expenses.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: Icon(
-                                  Icons.arrow_downward,
-                                  color: Colors.red,
+                              return ContentLE(
+                                iconcolor: Colors.red,
+                                iconprimary: Icon(
+                                  Icons.arrow_downward_rounded,
                                 ),
-                                title: Text(
-                                  '${expenses[index]["type"]}: ${expenses[index]["value"]}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                subtitle: Text(
-                                  'Date: ${expenses[index]["date"]}',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
+                                nameofcategory: '${expenses[index]["type"]} ',
+                                onpres: () {},
+                                colorofmoney: Colors.black,
+                                valueofmoney: '${expenses[index]["value"]}',
+                                icondelete: const Icon(Icons.expand_less),
                               );
                             },
                           ),
+
                         const SizedBox(height: 10),
                         // عرض المداخيل
                         if (incomes.isNotEmpty)
@@ -223,18 +222,17 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: incomes.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.green,
+                              return ContentLE(
+                                iconcolor: Colors.green,
+                                iconprimary: Icon(
+                                  Icons.arrow_upward_rounded,
                                 ),
-                                title: Text(
-                                  '${incomes[index]["type"]}: ${incomes[index]["value"]}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                subtitle: Text(
-                                  'Date: ${incomes[index]["date"]}',
-                                  style: TextStyle(color: Colors.grey),
+                                nameofcategory: '${incomes[index]["type"]} ',
+                                onpres: () {},
+                                colorofmoney: Colors.black,
+                                valueofmoney: '${incomes[index]["value"]}',
+                                icondelete: const Icon(
+                                  Icons.delete,
                                 ),
                               );
                             },
