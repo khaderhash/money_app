@@ -18,17 +18,15 @@ class _GoalsState extends State<GoalsaddEdit> {
   TextEditingController amountController = TextEditingController();
   TextEditingController currentAmountController = TextEditingController();
   TextEditingController addAmountController = TextEditingController();
-  TextEditingController dueDateController =
-      TextEditingController(); // إضافة حقل التاريخ
+  TextEditingController dueDateController = TextEditingController();
   SharedPreferencesServicegoals? servicetoaddtext;
-  String? goalType = "اختياري"; // إجباري أو اختياري
+  String? goalType = "اختياري";
   double currentAmount = 0;
 
   @override
   void initState() {
     super.initState();
     if (widget.title != null && widget.index != null) {
-      // إذا كان هناك عنوان وindex، نكون في وضع التعديل
       _loadGoalData();
     }
   }
@@ -47,11 +45,6 @@ class _GoalsState extends State<GoalsaddEdit> {
     currentAmount = double.tryParse(goalData['current_amount'] ?? '0') ?? 0;
   }
 
-  initSharedPreferences() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    servicetoaddtext = SharedPreferencesServicegoals(sharedPreferences);
-  }
-
   @override
   Widget build(BuildContext context) {
     final double goalAmount = double.tryParse(amountController.text) ?? 0;
@@ -64,9 +57,10 @@ class _GoalsState extends State<GoalsaddEdit> {
       appBar: AppBar(
         title:
             Text(widget.title?.isEmpty ?? false ? "Add Goal" : "Update Goal"),
-        backgroundColor: const Color(0xFF0A84FF),
+        backgroundColor: const Color(0xFF264653),
       ),
-      backgroundColor: const Color(0xFF1C1C1E),
+      backgroundColor:
+          const Color(0xFF2A3D46), // Darker background for contrast
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -82,7 +76,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[300]),
                   hintText: 'Goal Name',
-                  fillColor: const Color(0xFF2C2C2E),
+                  fillColor: const Color(0xFF1C2B33), // Dark gray background
                 ),
                 style: const TextStyle(color: Colors.white),
               ),
@@ -98,7 +92,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[300]),
                   hintText: 'Target Amount',
-                  fillColor: const Color(0xFF2C2C2E),
+                  fillColor: const Color(0xFF1C2B33),
                 ),
                 keyboardType: TextInputType.number,
                 style: const TextStyle(color: Colors.white),
@@ -115,7 +109,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[300]),
                   hintText: 'Current Saved Amount',
-                  fillColor: const Color(0xFF2C2C2E),
+                  fillColor: const Color(0xFF1C2B33),
                 ),
                 keyboardType: TextInputType.number,
                 style: const TextStyle(color: Colors.white),
@@ -124,7 +118,7 @@ class _GoalsState extends State<GoalsaddEdit> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                controller: dueDateController, // حقل التاريخ
+                controller: dueDateController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -132,7 +126,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                   filled: true,
                   hintStyle: TextStyle(color: Colors.grey[300]),
                   hintText: 'Due Date (YYYY-MM-DD)',
-                  fillColor: const Color(0xFF2C2C2E),
+                  fillColor: const Color(0xFF1C2B33),
                 ),
                 style: const TextStyle(color: Colors.white),
               ),
@@ -141,7 +135,7 @@ class _GoalsState extends State<GoalsaddEdit> {
               padding: const EdgeInsets.all(16.0),
               child: DropdownButtonFormField<String>(
                 value: goalType,
-                dropdownColor: const Color(0xFF2C2C2E),
+                dropdownColor: const Color(0xFF1C2B33),
                 onChanged: (String? newValue) {
                   setState(() {
                     goalType = newValue!;
@@ -159,7 +153,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                 }).toList(),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: const Color(0xFF2C2C2E),
+                  fillColor: const Color(0xFF1C2B33),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -189,7 +183,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[300]),
                     hintText: 'Add New Amount',
-                    fillColor: const Color(0xFF2C2C2E),
+                    fillColor: const Color(0xFF1C2B33),
                   ),
                   keyboardType: TextInputType.number,
                   style: const TextStyle(color: Colors.white),
@@ -202,6 +196,17 @@ class _GoalsState extends State<GoalsaddEdit> {
               margin: const EdgeInsets.all(16),
               child: ElevatedButton(
                 onPressed: () async {
+                  if (controller.text.isEmpty ||
+                      amountController.text.isEmpty) {
+                    // Show an error if Goal Name or Target Amount is not provided
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              'Goal Name and Target Amount are required!')),
+                    );
+                    return;
+                  }
+
                   final newSavedAmount =
                       (double.tryParse(currentAmountController.text) ?? 0) +
                           (double.tryParse(addAmountController.text) ?? 0);
@@ -209,29 +214,27 @@ class _GoalsState extends State<GoalsaddEdit> {
                   final sharedPreferences =
                       await SharedPreferences.getInstance();
                   if (widget.index == null) {
-                    // إضافة هدف جديد
                     SharedPreferencesServicegoals(sharedPreferences).addTodo({
                       'goal': controller.text,
                       'amount': amountController.text,
                       'current_amount': newSavedAmount.toString(),
                       'type': goalType ?? 'اختياري',
-                      'due_date': dueDateController.text, // إضافة التاريخ
+                      'due_date': dueDateController.text,
                     });
                   } else {
-                    // تحديث هدف موجود
                     SharedPreferencesServicegoals(sharedPreferences)
                         .updateTodo(widget.index!, {
                       'goal': controller.text,
                       'amount': amountController.text,
                       'current_amount': newSavedAmount.toString(),
                       'type': goalType ?? 'اختياري',
-                      'due_date': dueDateController.text, // إضافة التاريخ
+                      'due_date': dueDateController.text,
                     });
                   }
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0A84FF),
+                  backgroundColor: const Color(0xFF264653),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

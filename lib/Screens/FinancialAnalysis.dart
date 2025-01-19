@@ -71,7 +71,6 @@ class _FinancialanalysisState extends State<Financialanalysis> {
               // جعل الصفحة قابلة للتمرير
               child: Column(
                 children: [
-                  // عرض الفرق المالي في بداية الصفحة
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
@@ -84,60 +83,6 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                               : Colors.red),
                     ),
                   ),
-
-                  // عرض المخطط البياني (Bar Chart) مع الألوان المحترفة
-                  if (totalExpenses > 0 || totalIncome > 0)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 20),
-                      child: SfCartesianChart(
-                        primaryXAxis: CategoryAxis(),
-                        primaryYAxis: NumericAxis(
-                          minimum: 0,
-                          maximum: (totalIncome + totalExpenses) * 1.1,
-                          interval: (totalIncome + totalExpenses) / 10,
-                        ),
-                        title: ChartTitle(
-                            text: 'Financial Data (Total Income vs Expenses)',
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.teal[700],
-                            )),
-                        legend: Legend(
-                            isVisible: true,
-                            position: LegendPosition.bottom,
-                            backgroundColor: Colors.transparent),
-                        tooltipBehavior: TooltipBehavior(enable: true),
-                        series: <CartesianSeries>[
-                          ColumnSeries<SalesData, String>(
-                            dataSource: [
-                              SalesData('Expenses', totalExpenses),
-                              SalesData('Income', totalIncome),
-                            ],
-                            xValueMapper: (SalesData sales, _) => sales.month,
-                            yValueMapper: (SalesData sales, _) => sales.sales,
-                            name: 'Financial Data',
-                            color: Colors.red.withOpacity(0.7),
-                            dataLabelSettings:
-                                DataLabelSettings(isVisible: true),
-                          ),
-                        ],
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Text(
-                        'No data available. Please add some data first.',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red),
-                      ),
-                    ),
-
-                  // عرض المخطط الدائري (Pie Chart)
                   if (totalExpenses > 0 || totalIncome > 0)
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -180,6 +125,59 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.red),
+                      ),
+                    ),
+                  if (totalExpenses > 0 || totalIncome > 0)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 20),
+                      child: SfCartesianChart(
+                        primaryXAxis: CategoryAxis(),
+                        primaryYAxis: NumericAxis(
+                          minimum: 0,
+                          maximum: (totalIncome + totalExpenses) * 1.1,
+                          interval: (totalIncome + totalExpenses) / 10,
+                        ),
+                        title: ChartTitle(
+                          text: 'Income vs Expenses',
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal[700],
+                          ),
+                        ),
+                        legend: Legend(
+                          isVisible: true,
+                          position: LegendPosition.bottom,
+                          backgroundColor: Colors.transparent,
+                        ),
+                        tooltipBehavior: TooltipBehavior(enable: true),
+                        series: <CartesianSeries>[
+                          // عمود للمصاريف
+                          ColumnSeries<SalesData, String>(
+                            dataSource: [
+                              SalesData('Expenses', totalExpenses),
+                            ],
+                            xValueMapper: (SalesData data, _) => data.month,
+                            yValueMapper: (SalesData data, _) => data.sales,
+                            name: 'Expenses',
+                            color: Colors.red, // تخصيص لون المصاريف
+                            dataLabelSettings:
+                                DataLabelSettings(isVisible: true),
+                          ),
+                          // عمود للمداخيل
+                          ColumnSeries<SalesData, String>(
+                            dataSource: [
+                              SalesData('Income', totalIncome),
+                            ],
+                            xValueMapper: (SalesData data, _) => data.month,
+                            yValueMapper: (SalesData data, _) => data.sales,
+                            name: 'Income',
+                            color: Colors.green, // تخصيص لون المداخيل
+                            dataLabelSettings:
+                                DataLabelSettings(isVisible: true),
+                          ),
+                        ],
                       ),
                     ),
                   Padding(
