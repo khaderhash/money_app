@@ -76,7 +76,7 @@ class Homepage extends StatelessWidget {
                   child: Container(
                     width: screenWidth,
                     height: screenHeight * 0.56,
-                    color: Color(0xFFF5F5F5), // خلفية رمادية فاتحة
+                    color: Color(0xFFF5F5F5),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 36.0),
                       child: ListView(
@@ -89,7 +89,7 @@ class Homepage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => IncomesScreens()));
                             },
-                            name: 'المفروض المصارف',
+                            name: 'Incomes',
                           ),
                           const SizedBox(height: 8),
                           ButtonHome(
@@ -99,7 +99,7 @@ class Homepage extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => ExpencesScreens()));
                             },
-                            name: 'المفروض المداخيل',
+                            name: 'Expences',
                           ),
                           const SizedBox(height: 8),
                           ButtonHome(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myappmoney2/services/shared_preferences_number.dart';
-
 import '../services/shared_preferences_expences.dart';
 
 class AddExpences extends StatefulWidget {
@@ -14,9 +12,16 @@ class AddExpences extends StatefulWidget {
 
 class _AddNumberState extends State<AddExpences> {
   TextEditingController valueController = TextEditingController();
-  String selectedType = "طعام";
+  String selectedType = "Shopping";
 
-  final List<String> expenseTypes = ["طعام", "سكن", "بنزين", "مصاريف اعتيادية"];
+  final List<String> expenseTypes = [
+    "Food & Drinks",
+    "Shopping",
+    "Housing",
+    "Transportation",
+    "Vehicle",
+    "Others"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +77,17 @@ class _AddNumberState extends State<AddExpences> {
                         await SharedPreferences.getInstance();
                     final value = double.tryParse(valueController.text) ?? 0.0;
                     final expense = {"value": value, "type": selectedType};
-                    SharedPreferencesServiceexpenses(sharedPreferences)
-                        .addExpense(expense);
+                    final service =
+                        SharedPreferencesServiceexpenses(sharedPreferences);
+
+                    // تحديث القائمة بحيث يضاف المصروف في البداية
+                    List<Map<String, dynamic>> currentExpenses =
+                        await service.getExpenses() ?? [];
+                    currentExpenses.insert(
+                        0, expense); // الإدراج في بداية القائمة
+
+                    await service
+                        .saveExpenses(currentExpenses); // حفظ القائمة الجديدة
                     Navigator.pop(context);
                   }
                 },

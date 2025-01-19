@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:myappmoney2/compo/contentIL.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
 import '../services/Shared_preferences_incomes.dart';
@@ -15,14 +16,25 @@ class IncomesScreens extends StatefulWidget {
 
 class _IncomesState extends State<IncomesScreens> {
   SharedPreferencesServiceIncomes? servicetoaddnumber;
-  List<Map<String, dynamic>> listIncomes =
-      []; // تحتوي على المداخل المالية والأنواع
+  List<Map<String, dynamic>> listIncomes = [];
 
-  final Map<String, Color> incomeColors = {
-    "وظيفة": Colors.green,
-    "استثمار": Colors.blue,
-    "مبيعات": Colors.orange,
-    "مكافآت": Colors.red,
+  final Map<String, incomeData> incomeListDATA = {
+    "Salaries and Wages": incomeData(
+      color: Colors.grey,
+      icon: Icon(Icons.monetization_on_outlined),
+    ),
+    "Business": incomeData(
+      color: Colors.yellowAccent,
+      icon: Icon(Icons.monetization_on_outlined),
+    ),
+    "Gifts and Bonuses": incomeData(
+      color: Colors.greenAccent,
+      icon: Icon(Icons.monetization_on_outlined),
+    ),
+    "Other": incomeData(
+      color: Colors.yellow,
+      icon: Icon(Icons.monetization_on_outlined),
+    ),
   };
 
   @override
@@ -74,9 +86,11 @@ class _IncomesState extends State<IncomesScreens> {
                           )
                         ]
                       : listIncomes.map((income) {
+                          final type = income["type"];
+                          final incomeInfo = incomeListDATA[type];
                           return PieChartSectionData(
                             value: income["value"],
-                            color: incomeColors[income["type"]] ?? Colors.grey,
+                            color: incomeInfo?.color ?? Colors.grey,
                             title: income["value"].toString(),
                             radius: 50,
                             titleStyle: const TextStyle(
@@ -101,25 +115,23 @@ class _IncomesState extends State<IncomesScreens> {
             child: ListView.builder(
               itemCount: listIncomes.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(
-                    Icons.check_circle,
-                    color:
-                        incomeColors[listIncomes[index]["type"]] ?? Colors.grey,
-                  ),
-                  title: Text(
-                    "${listIncomes[index]["type"]}: ${listIncomes[index]["value"]}",
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () async {
-                      await servicetoaddnumber?.removeIncome(index);
-                      updateList();
-                    },
-                  ),
+                final type = listIncomes[index]["type"];
+                final value = listIncomes[index]["value"];
+                final incomesInfo = incomeListDATA[type];
+                return ContentLE(
+                  color: incomesInfo?.color?.withOpacity(0.2) ??
+                      Colors.grey.withOpacity(0.2),
+                  icon: incomesInfo?.icon ??
+                      const Icon(Icons.error, color: Colors.grey),
+                  string: type,
+                  onpres: () async {
+                    await servicetoaddnumber?.removeIncome(index);
+                    updateList();
+                  },
+                  colorvalue: incomesInfo?.color ?? Colors.grey,
+                  value: "\$${value.toStringAsFixed(2)}",
                 );
+                //
               },
             ),
           ),
@@ -137,4 +149,11 @@ class _IncomesState extends State<IncomesScreens> {
       ),
     );
   }
+}
+
+class incomeData {
+  final Color color;
+  final Icon icon;
+
+  incomeData({required this.color, required this.icon});
 }

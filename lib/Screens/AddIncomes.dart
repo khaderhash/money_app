@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myappmoney2/services/shared_preferences_number.dart';
 import '../services/Shared_preferences_incomes.dart';
 
 class AddIncomes extends StatefulWidget {
@@ -13,9 +12,14 @@ class AddIncomes extends StatefulWidget {
 
 class _AddIncomesState extends State<AddIncomes> {
   TextEditingController valueController = TextEditingController();
-  String selectedType = "وظيفة";
+  String selectedType = "Salaries and Wages";
 
-  final List<String> incomeTypes = ["وظيفة", "استثمار", "مبيعات", "مكافآت"];
+  final List<String> incomeTypes = [
+    "Salaries and Wages",
+    "Business",
+    "Gifts and Bonuses",
+    "Other"
+  ];
 
   @override
   Widget build(BuildContext context) {

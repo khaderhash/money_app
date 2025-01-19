@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myappmoney2/services/shared_preferences_number.dart';
-
 import '../services/shared_preferences_expences.dart';
 import 'AddExpences.dart';
 
@@ -18,11 +16,17 @@ class _ExpensesState extends State<ExpencesScreens> {
   SharedPreferencesServiceexpenses? servicetoaddnumber;
   List<Map<String, dynamic>> listExpenses = []; // تحتوي على الأرقام والأنواع
 
-  final Map<String, Color> expenseColors = {
-    "طعام": Colors.green,
-    "سكن": Colors.blue,
-    "بنزين": Colors.orange,
-    "مصاريف اعتيادية": Colors.red,
+  final Map<String, ExpenseData> expenseData = {
+    "Food & Drinks":
+        ExpenseData(color: Colors.green, icon: Icon(Icons.fastfood)),
+    "Shopping":
+        ExpenseData(color: Colors.blue, icon: Icon(Icons.shopping_cart)),
+    "Housing": ExpenseData(color: Colors.orange, icon: Icon(Icons.home)),
+    "Transportation":
+        ExpenseData(color: Colors.red, icon: Icon(Icons.directions_bus)),
+    "Vehicle": ExpenseData(
+        color: Colors.deepPurpleAccent, icon: Icon(Icons.directions_car)),
+    "Others": ExpenseData(color: Colors.grey, icon: Icon(Icons.more_horiz)),
   };
 
   @override
@@ -52,7 +56,6 @@ class _ExpensesState extends State<ExpencesScreens> {
       ),
       body: Column(
         children: [
-          // مخطط دائري
           Expanded(
             flex: 2,
             child: Padding(
@@ -74,10 +77,11 @@ class _ExpensesState extends State<ExpencesScreens> {
                           )
                         ]
                       : listExpenses.map((expense) {
+                          final type = expense["type"];
+                          final expenseInfo = expenseData[type];
                           return PieChartSectionData(
                             value: expense["value"],
-                            color:
-                                expenseColors[expense["type"]] ?? Colors.grey,
+                            color: expenseInfo?.color ?? Colors.grey,
                             title: expense["value"].toString(),
                             radius: 50,
                             titleStyle: const TextStyle(
@@ -89,36 +93,101 @@ class _ExpensesState extends State<ExpencesScreens> {
                         }).toList(),
                   centerSpaceRadius: 40,
                   borderData: FlBorderData(show: false),
-                  sectionsSpace:
-                      4, // إضافة مسافة بين الأجزاء لزيادة وضوح المخطط
+                  sectionsSpace: 4,
                 ),
               ),
             ),
           ),
-
-          // قائمة المصاريف
           Expanded(
             flex: 3,
             child: ListView.builder(
               itemCount: listExpenses.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(
-                    Icons.check_circle,
-                    color: expenseColors[listExpenses[index]["type"]] ??
-                        Colors.grey,
-                  ),
-                  title: Text(
-                    "${listExpenses[index]["type"]}: ${listExpenses[index]["value"]}",
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () async {
-                      await servicetoaddnumber?.removeExpense(index);
-                      updateList();
-                    },
+                final type = listExpenses[index]["type"];
+                final value = listExpenses[index]["value"];
+                final expenseInfo = expenseData[type];
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Container(
+                    height: 100, // زيادة ارتفاع الكونتينر
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // الأيقونة والنصوص
+                        Row(
+                          children: [
+                            // أيقونة الفئة
+                            Container(
+                              padding: const EdgeInsets.all(12.0),
+                              decoration: BoxDecoration(
+                                color: expenseInfo?.color?.withOpacity(0.2) ??
+                                    Colors.grey.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: expenseInfo?.icon ??
+                                  const Icon(Icons.error, color: Colors.grey),
+                            ),
+                            const SizedBox(width: 16),
+                            // النصوص (اسم الفئة والقيمة)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // اسم الفئة
+                                Text(
+                                  type,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF264653),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                // القيمة
+                                Text(
+                                  "\$${value.toStringAsFixed(2)}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: expenseInfo?.color ?? Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        // زر الحذف
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              await servicetoaddnumber?.removeExpense(index);
+                              updateList();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -138,4 +207,11 @@ class _ExpensesState extends State<ExpencesScreens> {
       ),
     );
   }
+}
+
+class ExpenseData {
+  final Color color;
+  final Icon icon;
+
+  ExpenseData({required this.color, required this.icon});
 }

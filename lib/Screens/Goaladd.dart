@@ -18,7 +18,8 @@ class _GoalsState extends State<GoalsaddEdit> {
   TextEditingController amountController = TextEditingController();
   TextEditingController currentAmountController = TextEditingController();
   TextEditingController addAmountController = TextEditingController();
-  TextEditingController dueDateController = TextEditingController(); // إضافة حقل التاريخ
+  TextEditingController dueDateController =
+      TextEditingController(); // إضافة حقل التاريخ
   SharedPreferencesServicegoals? servicetoaddtext;
   String? goalType = "اختياري"; // إجباري أو اختياري
   double currentAmount = 0;
@@ -32,17 +33,17 @@ class _GoalsState extends State<GoalsaddEdit> {
     }
   }
 
-  // تحميل البيانات للهدف إذا كان في وضع التعديل
   _loadGoalData() async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    final goalsList = SharedPreferencesServicegoals(sharedPreferences).getTodo();
+    final goalsList =
+        SharedPreferencesServicegoals(sharedPreferences).getTodo();
     final goalData = (await goalsList)[widget.index!];
 
     controller.text = goalData['goal'] ?? '';
     amountController.text = goalData['amount'] ?? '';
     currentAmountController.text = goalData['current_amount'] ?? '';
     goalType = goalData['type'] ?? 'اختياري';
-    dueDateController.text = goalData['due_date'] ?? ''; // تحديث تاريخ الاستحقاق
+    dueDateController.text = goalData['due_date'] ?? '';
     currentAmount = double.tryParse(goalData['current_amount'] ?? '0') ?? 0;
   }
 
@@ -61,7 +62,8 @@ class _GoalsState extends State<GoalsaddEdit> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title?.isEmpty ?? false ? "Add Goal" : "Update Goal"),
+        title:
+            Text(widget.title?.isEmpty ?? false ? "Add Goal" : "Update Goal"),
         backgroundColor: const Color(0xFF0A84FF),
       ),
       backgroundColor: const Color(0xFF1C1C1E),
@@ -200,10 +202,12 @@ class _GoalsState extends State<GoalsaddEdit> {
               margin: const EdgeInsets.all(16),
               child: ElevatedButton(
                 onPressed: () async {
-                  final newSavedAmount = (double.tryParse(currentAmountController.text) ?? 0) +
-                      (double.tryParse(addAmountController.text) ?? 0);
+                  final newSavedAmount =
+                      (double.tryParse(currentAmountController.text) ?? 0) +
+                          (double.tryParse(addAmountController.text) ?? 0);
 
-                  final sharedPreferences = await SharedPreferences.getInstance();
+                  final sharedPreferences =
+                      await SharedPreferences.getInstance();
                   if (widget.index == null) {
                     // إضافة هدف جديد
                     SharedPreferencesServicegoals(sharedPreferences).addTodo({
@@ -215,7 +219,8 @@ class _GoalsState extends State<GoalsaddEdit> {
                     });
                   } else {
                     // تحديث هدف موجود
-                    SharedPreferencesServicegoals(sharedPreferences).updateTodo(widget.index!, {
+                    SharedPreferencesServicegoals(sharedPreferences)
+                        .updateTodo(widget.index!, {
                       'goal': controller.text,
                       'amount': amountController.text,
                       'current_amount': newSavedAmount.toString(),
