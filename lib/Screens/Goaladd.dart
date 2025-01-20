@@ -20,8 +20,18 @@ class _GoalsState extends State<GoalsaddEdit> {
   TextEditingController addAmountController = TextEditingController();
   TextEditingController dueDateController = TextEditingController();
   SharedPreferencesServicegoals? servicetoaddtext;
-  String? goalType = "اختياري";
   double currentAmount = 0;
+
+  String selectedType = "Charity";
+
+  final List<String> GoalTypes = [
+    "New Vehicle",
+    "New Home",
+    "Party",
+    "Charity",
+    "Holiday Trip",
+    "Helith Care"
+  ];
 
   @override
   void initState() {
@@ -40,7 +50,7 @@ class _GoalsState extends State<GoalsaddEdit> {
     controller.text = goalData['goal'] ?? '';
     amountController.text = goalData['amount'] ?? '';
     currentAmountController.text = goalData['current_amount'] ?? '';
-    goalType = goalData['type'] ?? 'اختياري';
+    selectedType = goalData['type'] ?? 'Charity';
     dueDateController.text = goalData['due_date'] ?? '';
     currentAmount = double.tryParse(goalData['current_amount'] ?? '0') ?? 0;
   }
@@ -128,29 +138,24 @@ class _GoalsState extends State<GoalsaddEdit> {
                   hintText: 'Due Date (YYYY-MM-DD)',
                   fillColor: const Color(0xFF1C2B33),
                 ),
+                keyboardType: TextInputType.datetime,
                 style: const TextStyle(color: Colors.white),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: DropdownButtonFormField<String>(
-                value: goalType,
+                value: selectedType,
                 dropdownColor: const Color(0xFF1C2B33),
-                onChanged: (String? newValue) {
+                onChanged: (value) {
                   setState(() {
-                    goalType = newValue!;
+                    selectedType = value!;
                   });
                 },
-                items: <String>['اختياري', 'إجباري']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  );
-                }).toList(),
+                items: GoalTypes.map((type) => DropdownMenuItem(
+                      child: Text(type),
+                      value: type,
+                    )).toList(),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: const Color(0xFF1C2B33),
@@ -218,7 +223,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                       'goal': controller.text,
                       'amount': amountController.text,
                       'current_amount': newSavedAmount.toString(),
-                      'type': goalType ?? 'اختياري',
+                      'type': selectedType ?? 'Charity',
                       'due_date': dueDateController.text,
                     });
                   } else {
@@ -227,7 +232,7 @@ class _GoalsState extends State<GoalsaddEdit> {
                       'goal': controller.text,
                       'amount': amountController.text,
                       'current_amount': newSavedAmount.toString(),
-                      'type': goalType ?? 'اختياري',
+                      'type': selectedType ?? 'Charity',
                       'due_date': dueDateController.text,
                     });
                   }

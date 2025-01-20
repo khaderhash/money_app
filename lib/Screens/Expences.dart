@@ -15,7 +15,7 @@ class ExpencesScreens extends StatefulWidget {
 
 class _ExpensesState extends State<ExpencesScreens> {
   SharedPreferencesServiceexpenses? servicetoaddnumber;
-  List<Map<String, dynamic>> listExpenses = []; // تحتوي على الأرقام والأنواع
+  List<Map<String, dynamic>> listExpenses = [];
 
   final Map<String, ExpenseData> expenseData = {
     "Food & Drinks":

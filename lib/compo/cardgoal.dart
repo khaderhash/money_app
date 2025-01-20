@@ -1,30 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
-class ContentLE extends StatelessWidget {
-  ContentLE({
-    super.key,
-    required this.iconcolor,
-    required this.iconprimary,
-    required this.nameofcategory,
-    required this.onpres,
-    required this.colorofmoney,
-    required this.valueofmoney,
-    required this.icondelete,
-  });
-
-  final Color iconcolor;
-  final Color colorofmoney;
-  final Icon? iconprimary;
-  final String nameofcategory;
-  final dynamic valueofmoney;
-  final VoidCallback onpres;
-  final Icon icondelete;
+class CardGoal extends StatelessWidget {
+  CardGoal(
+      {super.key,
+      required this.NAMEOFCATE,
+      required this.Price,
+      required this.progress});
+  final String NAMEOFCATE;
+  final String Price;
+  final double progress;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
       child: Container(
         height: 100,
         padding: const EdgeInsets.all(16),
@@ -48,10 +39,11 @@ class ContentLE extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
-                    color: iconcolor,
+                    color: Colors.red,
                     shape: BoxShape.circle,
                   ),
-                  child: iconprimary, // تأكد من أن الأيقونة ليست فارغة
+                  child: Icon(
+                      Icons.gif_outlined), // تأكد من أن الأيقونة ليست فارغة
                 ),
                 const SizedBox(width: 16),
                 // النصوص (اسم الفئة والقيمة)
@@ -61,7 +53,7 @@ class ContentLE extends StatelessWidget {
                   children: [
                     // اسم الفئة
                     Text(
-                      nameofcategory,
+                      NAMEOFCATE,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -71,12 +63,18 @@ class ContentLE extends StatelessWidget {
                     const SizedBox(height: 4),
                     // القيمة
                     Text(
-                      valueofmoney.toString(), // تأكد من أن القيمة ليست فارغة
+                      Price,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: colorofmoney,
+                        color: Colors.red,
                       ),
+                    ),
+                    LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: const Color(0xFFE5E5EA),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          const Color(0xFF0A84FF)),
                     ),
                   ],
                 ),
@@ -91,8 +89,8 @@ class ContentLE extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                icon: icondelete,
-                onPressed: onpres,
+                icon: Icon(Icons.search_sharp),
+                onPressed: () {},
               ),
             ),
           ],
