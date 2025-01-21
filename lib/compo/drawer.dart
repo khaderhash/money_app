@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/Screens/Goaladd.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Screens/GoalEdit.dart';
+import '../Screens/login.dart';
 
 class DrawerClass extends StatelessWidget {
   final String accountName;
@@ -104,7 +107,40 @@ class DrawerClass extends StatelessWidget {
                 buildListItem(
                   icon: Icons.logout,
                   title: 'Log Out',
-                  onTap: () => Navigator.pop(context),
+                  onTap: () async {
+                    // إظهار التنبيه قبل تسجيل الخروج
+                    bool? confirmLogout = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text("Log Out"),
+                        content: Text("Are you sure you want to log out?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pop(false); // لا، لا تسجل الخروج
+                            },
+                            child: Text("No"),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.of(context)
+                                  .pop(true); // نعم، سجل الخروج
+                              // تنفيذ عملية تسجيل الخروج هنا
+                              await logoutUser();
+                            },
+                            child: Text("Yes"),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    // إذا تم التأكيد على تسجيل الخروج، يتم تنفيذ العملية
+                    if (confirmLogout == true) {
+                      // بعد تسجيل الخروج، قم بالانتقال إلى صفحة تسجيل الدخول
+                      Navigator.pushReplacementNamed(context, loginpage.id);
+                    }
+                  },
                   color: Colors.red,
                 ),
               ],
@@ -134,4 +170,13 @@ class DrawerClass extends StatelessWidget {
       onTap: onTap,
     );
   }
+}
+
+Future<void> logoutUser() async {
+  var auth = FirebaseAuth.instance;
+  await auth.signOut();
+
+  // مسح حالة تسجيل الدخول من SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+  prefs.remove('isLoggedIn');
 }

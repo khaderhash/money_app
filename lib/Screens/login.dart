@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'HomePage.dart';
 import 'register.dart';
 import '../compo/TextFF.dart';
@@ -135,6 +136,8 @@ class _loginpageState extends State<loginpage> {
     var auth = FirebaseAuth.instance;
     UserCredential user = await auth.signInWithEmailAndPassword(
         email: email!, password: password!);
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', true); // حفظ حالة تسجيل الدخول
   }
 }
 

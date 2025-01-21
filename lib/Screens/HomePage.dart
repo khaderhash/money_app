@@ -6,10 +6,33 @@ import '../compo/outsidecs.dart';
 import 'package:myappmoney2/Screens/Expences.dart';
 import 'Incomes.dart';
 import 'FinancialAnalysis.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Homepage extends StatelessWidget {
+import 'login.dart';
+
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
   static String id = "homepage";
+
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+
+    if (isLoggedIn == false || isLoggedIn == null) {
+      Navigator.pushReplacementNamed(context, loginpage.id);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +45,6 @@ class Homepage extends StatelessWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenHeight = constraints.maxHeight;
-
           final screenWidth = constraints.maxWidth;
 
           return Stack(
@@ -36,7 +58,6 @@ class Homepage extends StatelessWidget {
                   ],
                 ),
               ),
-
               // Curved Divider (Modified to Half Circle)
               Positioned(
                 top: 0,
@@ -44,16 +65,15 @@ class Homepage extends StatelessWidget {
                   width: screenWidth,
                   alignment: Alignment.center,
                   child: ClipPath(
-                    clipper: OutSideCustomShape(), // تطبيق الشكل نصف الدائرة
+                    clipper: OutSideCustomShape(),
                     child: Container(
                       width: screenWidth,
                       height: screenHeight * 0.44,
-                      color: Color(0xFF264653), // الأزرق الداكن
+                      color: Color(0xFF264653),
                     ),
                   ),
                 ),
               ),
-
               // Rotated Logo
               Positioned(
                 top: screenHeight * 0.12,
@@ -69,7 +89,6 @@ class Homepage extends StatelessWidget {
                   ),
                 ),
               ),
-
               Positioned(
                 bottom: 0,
                 child: Container(
