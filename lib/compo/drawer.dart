@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/Screens/Goaladd.dart';
 
+import '../Screens/GoalEdit.dart';
+
 class DrawerClass extends StatelessWidget {
   final String accountName;
   final String accountEmail;
@@ -76,7 +78,7 @@ class DrawerClass extends StatelessWidget {
                 buildListItem(
                   icon: Icons.person,
                   title: 'My Profile',
-                  onTap: () => Navigator.pushNamed(context, GoalsaddEdit.id),
+                  onTap: () => Navigator.pushNamed(context, EditGoalScreen.id),
                 ),
                 buildListItem(
                   icon: Icons.book,

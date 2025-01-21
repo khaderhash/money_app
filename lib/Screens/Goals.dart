@@ -1,12 +1,12 @@
-// Goals.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/Shared_preferences_goal.dart';
-import 'Goaladd.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+
+import 'GoalEdit.dart';
+import 'GoalAdd.dart';
 
 class Goals extends StatefulWidget {
-  Goals({super.key});
   static String id = "Goals";
 
   @override
@@ -15,42 +15,31 @@ class Goals extends StatefulWidget {
 
 class _GoalsState extends State<Goals> {
   List<Map<String, dynamic>> listGoal = [];
-  SharedPreferencesServicegoals? servicetoaddtext;
   final Map<String, GoalData> GOALData = {
-    "Food & Drinks": GoalData(color: Colors.green, icon: Icon(Icons.fastfood)),
-    "Shopping": GoalData(color: Colors.blue, icon: Icon(Icons.shopping_cart)),
-    "Housing": GoalData(color: Colors.orange, icon: Icon(Icons.home)),
-    "Transportation":
-        GoalData(color: Colors.red, icon: Icon(Icons.directions_bus)),
-    "Vehicle": GoalData(
-        color: Colors.deepPurpleAccent, icon: Icon(Icons.directions_car)),
+    "Education": GoalData(color: Colors.blue, icon: Icon(Icons.school)),
+    "Travel": GoalData(color: Colors.orange, icon: Icon(Icons.flight)),
+    "Savings": GoalData(color: Colors.green, icon: Icon(Icons.savings)),
     "Others": GoalData(color: Colors.grey, icon: Icon(Icons.more_horiz)),
   };
 
   @override
   void initState() {
     super.initState();
-    initSharedPreferences();
+    loadGoals();
   }
 
-  initSharedPreferences() async {
-    try {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      servicetoaddtext = SharedPreferencesServicegoals(sharedPreferences);
-      listGoal = await servicetoaddtext?.getTodo() ?? [];
-      setState(() {});
-    } catch (e) {
-      debugPrint("Error initializing SharedPreferences: $e");
-    }
+  Future<void> loadGoals() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? data = prefs.getString("goals");
+    setState(() {
+      listGoal = data != null
+          ? List<Map<String, dynamic>>.from(json.decode(data))
+          : [];
+    });
   }
 
-  void updateList() async {
-    try {
-      listGoal = await servicetoaddtext?.getTodo() ?? [];
-      setState(() {});
-    } catch (e) {
-      debugPrint("Error updating list: $e");
-    }
+  void updateGoalsList() async {
+    await loadGoals();
   }
 
   @override
@@ -78,15 +67,16 @@ class _GoalsState extends State<Goals> {
               itemCount: listGoal.length,
               itemBuilder: (context, index) {
                 final goal = listGoal[index];
-                final type = goal["type"] ?? "Others";
-                final value = goal["value"] ?? "No value";
+                final type = goal['type'];
+                final name = goal['name'];
+
                 final expenseInfo = GOALData[type];
-                double targetAmount =
-                    double.tryParse(goal['amount'] ?? '0') ?? 0;
-                double currentAmount =
-                    double.tryParse(goal['current_amount'] ?? '0') ?? 0;
-                double progress =
-                    (targetAmount > 0) ? (currentAmount / targetAmount) : 0;
+                final double totalAmount =
+                    (goal['totalAmount'] as num).toDouble();
+                final double savedAmount =
+                    (goal['savedAmount'] as num).toDouble();
+                final progress =
+                    (totalAmount > 0) ? (savedAmount / totalAmount) : 0.0;
 
                 return Card(
                   elevation: 5,
@@ -97,9 +87,9 @@ class _GoalsState extends State<Goals> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(15),
                     title: Text(
-                      type,
+                      name,
                       style: const TextStyle(
-                        fontSize: 24,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -117,53 +107,47 @@ class _GoalsState extends State<Goals> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 5),
                         Text(
-                          value,
+                          'Saved: ${currencyFormat.format(savedAmount)} / ${currencyFormat.format(totalAmount)}',
                           style: const TextStyle(
                             color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                         const SizedBox(height: 12),
                         LinearProgressIndicator(
                           value: progress,
                           backgroundColor: const Color(0xFFE5E5EA),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              const Color(0xFF0A84FF)),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              Color(0xFF0A84FF)),
                         ),
                       ],
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Color(0xFF264653)),
-                      onPressed: () => deleteItem(index),
+                      onPressed: () => deleteGoal(index),
                     ),
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(
-                        builder: (context) => GoalsaddEdit(
-                          title: goal['goal'],
-                          index: index,
-                        ),
-                      ))
-                          .then((_) {
-                        updateList();
-                      });
+                            builder: (context) =>
+                                EditGoalScreen(goalIndex: index),
+                          ))
+                          .then((_) => updateGoalsList());
                     },
                   ),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
-            builder: (context) => GoalsaddEdit(title: ''),
-          ))
-              .then((_) {
-            updateList();
-          });
+                builder: (context) => AddGoalScreen(
+                  onGoalAdded: updateGoalsList,
+                ),
+              ))
+              .then((_) => updateGoalsList());
         },
         tooltip: 'Add Goal',
         backgroundColor: const Color(0xFF0A84FF),
@@ -172,15 +156,12 @@ class _GoalsState extends State<Goals> {
     );
   }
 
-  void deleteItem(int index) async {
-    try {
-      setState(() {
-        listGoal.removeAt(index);
-      });
-      await servicetoaddtext?.removeTodo(index);
-    } catch (e) {
-      debugPrint("Error deleting item: $e");
-    }
+  void deleteGoal(int index) async {
+    setState(() {
+      listGoal.removeAt(index);
+    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("goals", json.encode(listGoal));
   }
 }
 

@@ -1,44 +1,57 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesServicegoals {
   final SharedPreferences sharedPreferences;
+  final String key = "goals";
+
   SharedPreferencesServicegoals(this.sharedPreferences);
 
-  Future<void> addTodo(Map<String, String> goalData) async {
-    final result = sharedPreferences.getStringList('items_String') ?? [];
-    result.add(json.encode(goalData));
-    await sharedPreferences.setStringList('items_String', result);
-  }
-
-  Future<List<Map<String, String>>> getTodo() async {
-    List<String> storedData =
-        sharedPreferences.getStringList('items_String') ?? [];
-    List<Map<String, String>> goals = [];
-
-    for (var item in storedData) {
-      goals.add(Map<String, String>.from(json.decode(item)));
+  // Get all goals
+  Future<List<Map<String, dynamic>>> getTodo() async {
+    final data = sharedPreferences.getString(key);
+    if (data != null) {
+      return List<Map<String, dynamic>>.from(json.decode(data));
     }
-
-    return goals;
+    return [];
   }
 
+  // Get a single goal by index
+  Future<Map<String, dynamic>?> getSingleGoal(int index) async {
+    final data = await getTodo();
+    if (index >= 0 && index < data.length) {
+      return data[index];
+    }
+    return null;
+  }
+
+  // Add a new goal
+  Future<void> addGoal(Map<String, dynamic> goal) async {
+    final data = await getTodo();
+    data.add(goal);
+    await sharedPreferences.setString(key, json.encode(data));
+  }
+
+  // Update an existing goal by index
+  Future<void> updateGoal(int index, Map<String, dynamic> updatedGoal) async {
+    final data = await getTodo();
+    if (index >= 0 && index < data.length) {
+      data[index] = updatedGoal;
+      await sharedPreferences.setString(key, json.encode(data));
+    }
+  }
+
+  // Remove a goal by index
   Future<void> removeTodo(int index) async {
-    final result = sharedPreferences.getStringList('items_String') ?? [];
-    result.removeAt(index);
-    await sharedPreferences.setStringList('items_String', result);
+    final data = await getTodo();
+    if (index >= 0 && index < data.length) {
+      data.removeAt(index);
+      await sharedPreferences.setString(key, json.encode(data));
+    }
   }
 
-  Future<void> updateTodo(int index, Map<String, String> updatedGoal) async {
-    final result = sharedPreferences.getStringList('items_String') ?? [];
-    result[index] = json.encode(updatedGoal);
-    await sharedPreferences.setStringList('items_String', result);
-  }
-
-  Future<void> setTodoList(List<Map<String, String>> todoList) async {
-    List<String> encodedList =
-        todoList.map((goal) => json.encode(goal)).toList();
-    await sharedPreferences.setStringList('items_String', encodedList);
+  // Clear all goals
+  Future<void> clearAll() async {
+    await sharedPreferences.remove(key);
   }
 }
