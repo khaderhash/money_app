@@ -226,7 +226,7 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${expenses[index]["type"]} ',
+                                                '${expenses[index]["type"]}',
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -234,9 +234,8 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                                 ),
                                               ),
                                               const SizedBox(height: 4),
-                                              // القيمة
                                               Text(
-                                                '${incomes[index]["value"]}',
+                                                '${expenses[index]["value"]}',
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500,
@@ -248,25 +247,23 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                         ],
                                       ),
                                       Container(
-                                          height: 40,
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.red.withOpacity(0.1),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_downward_rounded,
-                                            color: Colors.red,
-                                          )),
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red.withOpacity(0.1),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_downward_rounded,
+                                          color: Colors.red,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
                               );
                             },
                           ),
-
-                        const SizedBox(height: 10),
-                        // عرض المداخيل
                         if (incomes.isNotEmpty)
                           ListView.builder(
                             shrinkWrap: true,
@@ -303,7 +300,7 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${incomes[index]["type"]} ',
+                                                '${incomes[index]["type"]}',
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -311,7 +308,6 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                                 ),
                                               ),
                                               const SizedBox(height: 4),
-                                              // القيمة
                                               Text(
                                                 '${incomes[index]["value"]}',
                                                 style: TextStyle(
@@ -325,22 +321,23 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                         ],
                                       ),
                                       Container(
-                                          height: 40,
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.red.withOpacity(0.1),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.arrow_upward_rounded,
-                                            color: Colors.green,
-                                          )),
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green.withOpacity(0.1),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_upward_rounded,
+                                          color: Colors.green,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
                               );
                             },
-                          ),
+                          )
                       ],
                     ),
                   ),
