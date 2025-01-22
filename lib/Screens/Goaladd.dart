@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class AddGoalScreen extends StatefulWidget {
-  final Function onGoalAdded;
+  final Function onGoalAdded; // إضافة المعامل هنا
   static String id = "AddGoalScreen";
 
   const AddGoalScreen({Key? key, required this.onGoalAdded}) : super(key: key);
@@ -51,8 +51,36 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     goals.add(newGoal);
     await prefs.setString("goals", json.encode(goals));
 
-    widget.onGoalAdded();
+    widget.onGoalAdded(); // استدعاء الدالة الممررة لتحديث الأهداف
     Navigator.pop(context);
+  }
+
+  Future<void> pickDateTime() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          selectedDate = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
+    }
   }
 
   @override
@@ -115,23 +143,13 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text("Select Target Date:"),
+                  const Text("Select Target Date and Time:"),
                   TextButton(
-                    onPressed: () async {
-                      final DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2100),
-                      );
-                      setState(() {
-                        selectedDate = pickedDate;
-                      });
-                    },
+                    onPressed: pickDateTime,
                     child: Text(
                       selectedDate == null
-                          ? "Choose Date"
-                          : selectedDate!.toLocal().toString().split(' ')[0],
+                          ? "Choose Date & Time"
+                          : "${selectedDate!.toLocal()}".split('.')[0],
                     ),
                   ),
                 ],

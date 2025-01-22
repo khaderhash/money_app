@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class EditGoalScreen extends StatefulWidget {
   final int goalIndex;
@@ -19,6 +20,31 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
   final TextEditingController newAmountController = TextEditingController();
   Timer? timer;
   Duration? timeLeft;
+  Duration totalDuration = const Duration(); // Total time for the goal
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'goal_channel_id',
+      'Goal Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Goal Completed!',
+      'You have completed your goal!',
+      platformChannelSpecifics,
+      payload: 'goal_completed',
+    );
+  }
 
   Future<void> loadGoal() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -39,6 +65,8 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
       final now = DateTime.now();
       setState(() {
         timeLeft = deadline.difference(now);
+        totalDuration = deadline
+            .difference(DateTime.parse(goal!['startDate'] ?? now.toString()));
       });
     }
   }
@@ -52,6 +80,7 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
         setState(() {
           timeLeft = const Duration(seconds: 0);
         });
+        showNotification();
       }
     });
   }
@@ -66,10 +95,8 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
         updatedGoal["savedAmount"] +=
             double.tryParse(newAmountController.text) ?? 0;
 
-        // التحقق من تحقيق الهدف
         if (updatedGoal["savedAmount"] >= updatedGoal["totalAmount"]) {
           updatedGoal["savedAmount"] = updatedGoal["totalAmount"];
-          // عرض رسالة التهنئة
           showDialog(
             context: context,
             builder: (_) => AlertDialog(
@@ -83,6 +110,7 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
               ],
             ),
           );
+          showNotification();
         }
 
         goals[widget.goalIndex] = updatedGoal;
@@ -95,6 +123,13 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
   @override
   void initState() {
     super.initState();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
     loadGoal();
   }
 
@@ -118,10 +153,16 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
     final double percentage =
         (totalAmount > 0) ? (savedAmount / totalAmount) : 0.0;
 
+    double timePercentage = 0.0;
+    if (totalDuration.inSeconds > 0 && timeLeft != null) {
+      timePercentage =
+          (timeLeft!.inSeconds / totalDuration.inSeconds).clamp(0.0, 1.0);
+    }
+
     return Scaffold(
       appBar: AppBar(
-        // title: Text("${goal!["name"]}"),
         centerTitle: true,
+        title: Text("${goal!["name"]}"),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -163,22 +204,32 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
             ),
             const SizedBox(height: 16),
 
-            // المبلغ المدخر
             Text(
               "Saved: ${savedAmount.toStringAsFixed(2)} / ${totalAmount.toStringAsFixed(2)}",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 16),
 
-            // المؤقت
+            // Linear Progress Indicator for Time Left
             if (timeLeft != null)
-              Text(
-                "Time Left: ${timeLeft!.inDays} days, ${(timeLeft!.inHours % 24).toString().padLeft(2, '0')}:${(timeLeft!.inMinutes % 60).toString().padLeft(2, '0')}:${(timeLeft!.inSeconds % 60).toString().padLeft(2, '0')}",
-                style: const TextStyle(fontSize: 16, color: Colors.red),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  LinearProgressIndicator(
+                    value: timePercentage,
+                    backgroundColor: Colors.grey.shade300,
+                    valueColor: AlwaysStoppedAnimation(
+                        timePercentage > 0.5 ? Colors.green : Colors.red),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Time Remaining: ${timeLeft!.inDays} days, ${(timeLeft!.inHours % 24).toString().padLeft(2, '0')}:${(timeLeft!.inMinutes % 60).toString().padLeft(2, '0')}:${(timeLeft!.inSeconds % 60).toString().padLeft(2, '0')}",
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
               ),
             const SizedBox(height: 16),
 
-            // حقل إدخال لإضافة مبلغ جديد
             TextField(
               controller: newAmountController,
               keyboardType: TextInputType.number,
@@ -189,7 +240,6 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
             ),
             const SizedBox(height: 16),
 
-            // زر تحديث الهدف
             Center(
               child: ElevatedButton(
                 onPressed: updateGoal,
