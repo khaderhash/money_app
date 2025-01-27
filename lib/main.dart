@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:myappmoney2/Screens/Incomes.dart';
+import 'package:myappmoney2/services/firebase_notifications.dart';
 
 import 'Screens/Goals.dart';
 import 'Screens/HomePage.dart';
@@ -23,7 +24,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  FirbaseNoticfications().initNotifications();
   runApp(Myapp());
   // تهيئة إشعارات Flutter
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -33,12 +34,15 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
+final GlobalKey<NavigatorState> navigatorkey = GlobalKey<NavigatorState>();
+
 class Myapp extends StatelessWidget {
   const Myapp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorKey: navigatorkey,
         debugShowCheckedModeBanner: false,
         routes: {
           loginpage.id: (context) => loginpage(),
@@ -50,6 +54,6 @@ class Myapp extends StatelessWidget {
           Financialanalysis.id: (context) => Financialanalysis(),
           IncomesScreens.id: (context) => IncomesScreens(),
         },
-        initialRoute: Homepage.id);
+        initialRoute: loginpage.id);
   }
 }

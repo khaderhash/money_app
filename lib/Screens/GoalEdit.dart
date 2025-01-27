@@ -85,6 +85,39 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
     });
   }
 
+  Future<void> showGoalDeadlineNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'goal_channel_id',
+      'Goal Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Goal Deadline Approaching!',
+      'Your goal deadline is approaching. Tap to edit it.',
+      platformChannelSpecifics,
+      payload: 'goal_deadline_approaching',
+    );
+  }
+
+  void updateGoalTimeLeft() {
+    if (goal?['deadline'] != null) {
+      final deadline = DateTime.parse(goal!['deadline']);
+      final now = DateTime.now();
+      setState(() {
+        timeLeft = deadline.difference(now);
+        totalDuration = deadline
+            .difference(DateTime.parse(goal!['startDate'] ?? now.toString()));
+      });
+    }
+  }
+
   Future<void> updateGoal() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? data = prefs.getString("goals");
@@ -224,7 +257,7 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
                   const SizedBox(height: 8),
                   Text(
                     "Time Remaining: ${timeLeft!.inDays} days, ${(timeLeft!.inHours % 24).toString().padLeft(2, '0')}:${(timeLeft!.inMinutes % 60).toString().padLeft(2, '0')}:${(timeLeft!.inSeconds % 60).toString().padLeft(2, '0')}",
-                    style: const TextStyle(fontSize: 16, color: Colors.grey),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
               ),

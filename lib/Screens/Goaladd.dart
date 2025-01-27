@@ -18,7 +18,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
   final TextEditingController savedAmountController = TextEditingController();
   String selectedType = "Default Type";
   DateTime? selectedDate;
-
+  DateTime? lefttime;
   final List<String> goalTypes = [
     "Default Type",
     "Education",
@@ -27,6 +27,11 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     "Others"
   ];
 
+  Future<DateTime> time() async {
+    DateTime lefttime = DateTime.now();
+    return lefttime;
+  }
+
   Future<void> saveGoal() async {
     if (nameController.text.isEmpty || totalAmountController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -34,7 +39,6 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
       );
       return;
     }
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? data = prefs.getString("goals");
     final List goals = data != null ? json.decode(data) : [];
@@ -46,6 +50,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
       "type": selectedType,
       "date":
           selectedDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
+      "deadline": selectedDate?.toIso8601String(), // تم إضافة التاريخ هنا
     };
 
     goals.add(newGoal);
