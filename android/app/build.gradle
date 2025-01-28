@@ -32,6 +32,15 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    buildscript {
+        repositories {
+            google()  // Add this line
+            mavenCentral()
+        }
+        dependencies {
+            classpath 'com.google.gms:google-services:4.4.2'  // Add this line
+        }
+    }
 
     buildTypes {
         release {
@@ -40,9 +49,11 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+
 }
 
 flutter {
     source = "../.."
 }
 apply plugin: 'com.google.gms.google-services'
+

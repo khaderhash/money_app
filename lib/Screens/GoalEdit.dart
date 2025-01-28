@@ -20,12 +20,14 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
   final TextEditingController newAmountController = TextEditingController();
   Timer? timer;
   Duration? timeLeft;
-  Duration totalDuration = const Duration(); // Total time for the goal
+  Duration totalDuration = const Duration();
+  bool halfTimeNotified = false;
+  bool goalCompletedNotified = false;
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<void> showNotification() async {
+  Future<void> showNotification(String title, String body) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'goal_channel_id',
@@ -39,10 +41,10 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
 
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Goal Completed!',
-      'You have completed your goal!',
+      title,
+      body,
       platformChannelSpecifics,
-      payload: 'goal_completed',
+      payload: 'goal_notification',
     );
   }
 
@@ -68,6 +70,23 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
         totalDuration = deadline
             .difference(DateTime.parse(goal!['startDate'] ?? now.toString()));
       });
+
+      // Check if half time has passed
+      if (timeLeft!.inSeconds <= totalDuration.inSeconds / 2 &&
+          !halfTimeNotified) {
+        showNotification(
+            "Half Time Passed", "Half of the time for your goal has passed!");
+        setState(() {
+          halfTimeNotified = true;
+        });
+      }
+
+      // Check if time is up
+      if (timeLeft!.inSeconds <= 0) {
+        showNotification(
+            "Time's Up!", "The deadline for your goal has passed.");
+        timer?.cancel();
+      }
     }
   }
 
@@ -75,47 +94,7 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
     timer?.cancel();
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       updateTimeLeft();
-      if (timeLeft != null && timeLeft!.inSeconds <= 0) {
-        timer?.cancel();
-        setState(() {
-          timeLeft = const Duration(seconds: 0);
-        });
-        showNotification();
-      }
     });
-  }
-
-  Future<void> showGoalDeadlineNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'goal_channel_id',
-      'Goal Notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'Goal Deadline Approaching!',
-      'Your goal deadline is approaching. Tap to edit it.',
-      platformChannelSpecifics,
-      payload: 'goal_deadline_approaching',
-    );
-  }
-
-  void updateGoalTimeLeft() {
-    if (goal?['deadline'] != null) {
-      final deadline = DateTime.parse(goal!['deadline']);
-      final now = DateTime.now();
-      setState(() {
-        timeLeft = deadline.difference(now);
-        totalDuration = deadline
-            .difference(DateTime.parse(goal!['startDate'] ?? now.toString()));
-      });
-    }
   }
 
   Future<void> updateGoal() async {
@@ -128,22 +107,14 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
         updatedGoal["savedAmount"] +=
             double.tryParse(newAmountController.text) ?? 0;
 
-        if (updatedGoal["savedAmount"] >= updatedGoal["totalAmount"]) {
+        if (updatedGoal["savedAmount"] >= updatedGoal["totalAmount"] &&
+            !goalCompletedNotified) {
           updatedGoal["savedAmount"] = updatedGoal["totalAmount"];
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: const Text("Congratulations!"),
-              content: const Text("You have reached your goal!"),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
-                ),
-              ],
-            ),
-          );
-          showNotification();
+          showNotification("Goal Completed!",
+              "Congratulations! You have reached your goal.");
+          setState(() {
+            goalCompletedNotified = true;
+          });
         }
 
         goals[widget.goalIndex] = updatedGoal;
@@ -207,7 +178,6 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 64),
-
             Center(
               child: SizedBox(
                 height: 200,
@@ -236,14 +206,11 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
               ),
             ),
             const SizedBox(height: 16),
-
             Text(
               "Saved: ${savedAmount.toStringAsFixed(2)} / ${totalAmount.toStringAsFixed(2)}",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 16),
-
-            // Linear Progress Indicator for Time Left
             if (timeLeft != null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +229,6 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
                 ],
               ),
             const SizedBox(height: 16),
-
             TextField(
               controller: newAmountController,
               keyboardType: TextInputType.number,
@@ -272,7 +238,6 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
               ),
             ),
             const SizedBox(height: 16),
-
             Center(
               child: ElevatedButton(
                 onPressed: updateGoal,

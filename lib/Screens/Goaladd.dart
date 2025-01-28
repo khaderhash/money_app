@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class AddGoalScreen extends StatefulWidget {
-  final Function onGoalAdded; // إضافة المعامل هنا
+  final Function onGoalAdded;
   static String id = "AddGoalScreen";
 
   const AddGoalScreen({Key? key, required this.onGoalAdded}) : super(key: key);
@@ -18,7 +18,6 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
   final TextEditingController savedAmountController = TextEditingController();
   String selectedType = "Default Type";
   DateTime? selectedDate;
-  DateTime? lefttime;
   final List<String> goalTypes = [
     "Default Type",
     "Education",
@@ -26,11 +25,6 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     "Savings",
     "Others"
   ];
-
-  Future<DateTime> time() async {
-    DateTime lefttime = DateTime.now();
-    return lefttime;
-  }
 
   Future<void> saveGoal() async {
     if (nameController.text.isEmpty || totalAmountController.text.isEmpty) {
@@ -48,15 +42,14 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
       "totalAmount": double.tryParse(totalAmountController.text) ?? 0.0,
       "savedAmount": double.tryParse(savedAmountController.text) ?? 0.0,
       "type": selectedType,
-      "date":
-          selectedDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
-      "deadline": selectedDate?.toIso8601String(), // تم إضافة التاريخ هنا
+      "startDate": DateTime.now().toIso8601String(),
+      "deadline": selectedDate?.toIso8601String(),
     };
 
     goals.add(newGoal);
     await prefs.setString("goals", json.encode(goals));
 
-    widget.onGoalAdded(); // استدعاء الدالة الممررة لتحديث الأهداف
+    widget.onGoalAdded();
     Navigator.pop(context);
   }
 

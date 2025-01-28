@@ -8,6 +8,7 @@ import 'Incomes.dart';
 import 'FinancialAnalysis.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Reminders.dart';
 import 'login.dart';
 
 class Homepage extends StatefulWidget {
@@ -128,6 +129,16 @@ class _HomepageState extends State<Homepage> {
                                     builder: (context) => Goals()));
                           },
                           name: 'Goals',
+                        ),
+                        const SizedBox(height: 8),
+                        ButtonHome(
+                          ontap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Reminders()));
+                          },
+                          name: 'Reminders',
                         ),
                         const SizedBox(height: 8),
                         ButtonHome(
