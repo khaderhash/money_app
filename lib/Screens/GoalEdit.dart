@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../compo/AppBarcom.dart';
+
 class EditGoalScreen extends StatefulWidget {
   final int goalIndex;
   static String id = "EditGoalScreen";
@@ -164,10 +166,7 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("${goal!["name"]}"),
-      ),
+      appBar: Appbarofpage(TextPage: "Goal Edit"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

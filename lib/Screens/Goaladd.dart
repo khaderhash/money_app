@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import '../compo/AppBarcom.dart';
+
 class AddGoalScreen extends StatefulWidget {
   final Function onGoalAdded;
   static String id = "AddGoalScreen";
@@ -84,10 +86,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add New Goal"),
-        backgroundColor: const Color(0xFF264653),
-      ),
+      appBar: Appbarofpage(TextPage: "Goal Add"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

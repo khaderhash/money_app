@@ -3,6 +3,7 @@ import 'package:myappmoney2/compo/contentIL.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../compo/AppBarcom.dart';
 import '../services/Shared_preferences_incomes.dart';
 import '../services/shared_preferences_expences.dart';
 
@@ -55,16 +56,7 @@ class _FinancialanalysisState extends State<Financialanalysis> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back)),
-        title: const Text("Financial Analysis Chart"),
-        centerTitle: true,
-        backgroundColor: Colors.teal[700],
-      ),
+      appBar: Appbarofpage(TextPage: "Financial analysis"),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

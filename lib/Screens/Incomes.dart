@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:myappmoney2/compo/contentIL.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:myappmoney2/services/shared_preferences_number.dart';
+import '../compo/AppBarcom.dart';
 import '../services/Shared_preferences_incomes.dart';
 import 'AddIncomes.dart';
 
@@ -58,10 +59,7 @@ class _IncomesState extends State<IncomesScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Incomes Chart"),
-        backgroundColor: const Color(0xFF264653),
-      ),
+      appBar: Appbarofpage(TextPage: "Incomes"),
       body: Column(
         children: [
           // مخطط دائري للمداخل المالية

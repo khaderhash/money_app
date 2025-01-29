@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:myappmoney2/compo/AppBarcom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddReminderScreen extends StatefulWidget {
@@ -84,10 +85,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add New Reminder"),
-        backgroundColor: const Color(0xFF264653),
-      ),
+      appBar: Appbarofpage(TextPage: "Add Reminder"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

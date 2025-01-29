@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
+import '../compo/AppBarcom.dart';
 import 'GoalEdit.dart';
 import 'GoalAdd.dart';
 
@@ -52,15 +53,7 @@ class _GoalsState extends State<Goals> {
     final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
     return Scaffold(
       backgroundColor: const Color(0xFF1C1C1E),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF264653),
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'Goals',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: Appbarofpage(TextPage: "Goals"),
       body: listGoal.isEmpty
           ? const Center(
               child: Text(

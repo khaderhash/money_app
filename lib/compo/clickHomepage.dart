@@ -23,7 +23,7 @@ class ButtonHome extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: const Color(0xFF264653),
+            color: const Color(0xFF482F37),
             width: 2,
           ),
           gradient: const LinearGradient(
@@ -33,8 +33,8 @@ class ButtonHome extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
+              color: const Color(0xFF482F37),
+              blurRadius: 3,
               offset: const Offset(0, 3),
             ),
           ],

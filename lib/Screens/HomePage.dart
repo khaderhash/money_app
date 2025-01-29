@@ -72,7 +72,25 @@ class _HomepageState extends State<Homepage> {
                     child: Container(
                       width: screenWidth,
                       height: screenHeight * 0.44,
-                      color: Color(0xFFffcc00),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFF482F37),
+                          width: 2,
+                        ),
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF482F37),
+                            blurRadius: 3,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

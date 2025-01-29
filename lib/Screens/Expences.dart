@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:myappmoney2/compo/contentIL.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../compo/AppBarcom.dart';
 import '../services/shared_preferences_expences.dart';
 import 'AddExpences.dart';
 
@@ -51,10 +52,7 @@ class _ExpensesState extends State<ExpencesScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Expenses Chart"),
-        backgroundColor: const Color(0xFF264653),
-      ),
+      appBar: Appbarofpage(TextPage: "Expences"),
       body: Column(
         children: [
           Expanded(

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
+import '../compo/AppBarcom.dart';
 import 'AddReminder.dart';
 
 class Reminders extends StatefulWidget {
@@ -46,15 +47,7 @@ class _RemindersState extends State<Reminders> {
     final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
     return Scaffold(
       backgroundColor: const Color(0xFF1C1C1E),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF264653),
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'Reminders',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: Appbarofpage(TextPage: "Reminders"),
       body: listReminders.isEmpty
           ? const Center(
               child: Text(

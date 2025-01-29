@@ -225,7 +225,7 @@ class _registerpageState extends State<registerpage> {
                         errorText: nameError,
                       ),
                       SizedBox(
-                        height: hight(context) * .02,
+                        height: hight(context) * .03,
                       ),
                       conclickclass(
                         ontap: () async {

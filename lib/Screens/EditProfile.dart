@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../compo/AppBarcom.dart';
+
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
   static final id = "Editprofile";
@@ -98,10 +100,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('تعديل الملف الشخصي'),
-        backgroundColor: Color(0xFFffcc00),
-      ),
+      appBar: Appbarofpage(TextPage: "Edit Profile"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

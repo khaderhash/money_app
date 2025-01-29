@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myappmoney2/compo/AppBarcom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/shared_preferences_expences.dart';
 
@@ -26,10 +27,7 @@ class _AddNumberState extends State<AddExpences> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add Expense"),
-        backgroundColor: const Color(0xFF264653),
-      ),
+      appBar: Appbarofpage(TextPage: "AddExpences"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

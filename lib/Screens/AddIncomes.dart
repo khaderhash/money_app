@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../compo/AppBarcom.dart';
 import '../services/Shared_preferences_incomes.dart';
 
 class AddIncomes extends StatefulWidget {
@@ -24,10 +25,7 @@ class _AddIncomesState extends State<AddIncomes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add Income"),
-        backgroundColor: const Color(0xFF264653),
-      ),
+      appBar: Appbarofpage(TextPage: "AddIncomes"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
