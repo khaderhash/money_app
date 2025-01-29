@@ -95,13 +95,13 @@ class _loginpageState extends State<loginpage> {
                   height: hight(context) * .01,
                 ),
                 Container(
-                  margin: EdgeInsets.all(22),
-                  height: hight(context) * .5,
-                  padding: EdgeInsets.all(22),
+                  margin: EdgeInsets.all(width(context) * .05),
+                  height: hight(context) * .47,
+                  padding: EdgeInsets.all(width(context) * .06),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: Color(0xFFff9a00),
-                          width: width(context) * .013),
+                          width: width(context) * .014),
                       borderRadius: BorderRadius.all(Radius.circular(22))),
                   child: ListView(
                     children: [
@@ -109,7 +109,7 @@ class _loginpageState extends State<loginpage> {
                           style: TextStyle(
                               fontFamily: 'RobotoSlab', fontSize: 16)),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .001,
                       ),
                       textformfieldclass(
                         hinttext: 'Enter Gmail',
@@ -122,13 +122,13 @@ class _loginpageState extends State<loginpage> {
                         errorText: emailError,
                       ),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .015,
                       ),
                       Text("Password",
                           style: TextStyle(
                               fontFamily: 'RobotoSlab', fontSize: 16)),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .001,
                       ),
                       textformfieldclass(
                         obscureTe: !_isPasswordVisible,
@@ -155,7 +155,7 @@ class _loginpageState extends State<loginpage> {
                         errorText: passwordError,
                       ),
                       SizedBox(
-                        height: hight(context) * .03,
+                        height: hight(context) * .04,
                       ),
                       conclickclass(
                         ontap: () async {

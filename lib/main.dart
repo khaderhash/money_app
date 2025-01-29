@@ -81,8 +81,9 @@ class MyApp extends StatelessWidget {
         IncomesScreens.id: (context) => IncomesScreens(),
         Reminders.id: (context) => Reminders(),
         EditProfile.id: (context) => EditProfile(),
+        Splashscreen.id: (context) => Splashscreen(),
       },
-      home: Homepage(),
+      home: Splashscreen(),
     );
   }
 }

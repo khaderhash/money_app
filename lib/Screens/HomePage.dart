@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/compo/drawer.dart';
+import 'package:myappmoney2/constants.dart';
 import '../compo/clickHomepage.dart';
 import '../compo/outsidecs.dart';
 import 'package:myappmoney2/Screens/Expences.dart';
@@ -78,15 +79,16 @@ class _HomepageState extends State<Homepage> {
               ),
               // Rotated Logo
               Positioned(
-                top: screenHeight * 0.12,
-                left: screenWidth * 0.25,
+                top: screenHeight * 0.1,
+                left: screenWidth * 0.17,
                 child: Transform.rotate(
                   angle: 0,
-                  child: SizedBox(
-                    width: screenWidth * 0.47,
+                  child: Container(
+                    height: hight(context) * .2,
+                    width: screenWidth * 0.7,
                     child: Image.asset(
-                      'assets/photo/khaderlogo.png',
-                      fit: BoxFit.contain,
+                      'assets/photo/khaderlogo2.png',
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),

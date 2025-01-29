@@ -114,9 +114,9 @@ class _registerpageState extends State<registerpage> {
                   height: hight(context) * .01,
                 ),
                 Container(
-                  margin: EdgeInsets.all(22),
-                  height: hight(context) * .6,
-                  padding: EdgeInsets.all(22),
+                  margin: EdgeInsets.all(width(context) * .05),
+                  height: hight(context) * .65,
+                  padding: EdgeInsets.all(width(context) * .06),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: Color(0xFFff9a00),
@@ -128,7 +128,7 @@ class _registerpageState extends State<registerpage> {
                           style: TextStyle(
                               fontFamily: 'RobotoSlab', fontSize: 16)),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .001,
                       ),
                       textformfieldclass(
                         hinttext: 'Enter Gmail',
@@ -141,7 +141,7 @@ class _registerpageState extends State<registerpage> {
                         errorText: emailError,
                       ),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .015,
                       ),
                       Text("Password",
                           style: TextStyle(
@@ -171,11 +171,14 @@ class _registerpageState extends State<registerpage> {
                         errorText: passwordError,
                       ),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .015,
                       ),
                       Text("Confirm Password",
                           style: TextStyle(
                               fontFamily: 'RobotoSlab', fontSize: 16)),
+                      SizedBox(
+                        height: hight(context) * .001,
+                      ),
                       textformfieldclass(
                         obscureTe: !_isPasswordVisibleConfirm,
                         hinttext: 'Confirm Password',
@@ -203,13 +206,13 @@ class _registerpageState extends State<registerpage> {
                         errorText: confirmPasswordError,
                       ),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .015,
                       ),
                       Text("Enter your name",
                           style: TextStyle(
                               fontFamily: 'RobotoSlab', fontSize: 16)),
                       SizedBox(
-                        height: hight(context) * .01,
+                        height: hight(context) * .001,
                       ),
                       textformfieldclass(
                         hinttext: 'Enter your name',
@@ -222,7 +225,7 @@ class _registerpageState extends State<registerpage> {
                         errorText: nameError,
                       ),
                       SizedBox(
-                        height: hight(context) * .04,
+                        height: hight(context) * .02,
                       ),
                       conclickclass(
                         ontap: () async {

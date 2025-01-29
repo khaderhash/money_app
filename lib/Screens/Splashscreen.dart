@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myappmoney2/Screens/HomePage.dart';
+import 'package:myappmoney2/Screens/login.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -15,18 +16,17 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-        duration: 1000,
+        duration: 4000,
         backgroundColor: Colors.white,
         splash: Column(
           children: [
             Stack(
               children: [
-                Lottie.asset('assets/animation/Animation - 1738153918731.json'),
-                Image.asset('assets/photo/khaderlogo.png', height: 150),
+                Image.asset('assets/photo/khaderlogo.png'),
               ],
             )
           ],
         ),
-        nextScreen: Homepage());
+        nextScreen: loginpage());
   }
 }
