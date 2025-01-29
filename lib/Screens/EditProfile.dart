@@ -52,17 +52,17 @@ class _EditProfileState extends State<EditProfile> {
         isLoading = true;
       });
 
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // تحديث الاسم إذا كان مُدخلًا
       if (newName != null && newName!.isNotEmpty) {
-        User? user = FirebaseAuth.instance.currentUser;
         await user!.updateDisplayName(newName);
       }
 
+      // تحديث كلمة المرور إذا كانت مُدخلة
       if (newPassword != null && newPassword!.isNotEmpty) {
-        User? user = FirebaseAuth.instance.currentUser;
         await user!.updatePassword(newPassword!);
       }
-
-      // قم بإضافة منطق آخر إذا كان هناك معلومات إضافية تحتاج إلى التحديث.
 
       setState(() {
         isLoading = false;
@@ -72,7 +72,6 @@ class _EditProfileState extends State<EditProfile> {
         SnackBar(content: Text('تم تحديث البيانات بنجاح')),
       );
 
-      // العودة للصفحة السابقة أو تنفيذ أي شيء آخر
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -193,20 +192,24 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(height: 30),
 
               // زر التحديث
-              ElevatedButton(
-                onPressed: () {
-                  validateInputs();
-                  if (_formKey.currentState!.validate()) {
-                    updateProfile();
-                  }
-                },
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
                 child: isLoading
-                    ? CircularProgressIndicator()
-                    : Text('تحديث البيانات'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  textStyle: TextStyle(fontSize: 18),
-                ),
+                    ? CircularProgressIndicator(key: ValueKey("loading"))
+                    : ElevatedButton(
+                        key: ValueKey("button"),
+                        onPressed: () {
+                          validateInputs();
+                          if (_formKey.currentState!.validate()) {
+                            updateProfile();
+                          }
+                        },
+                        child: Text('تحديث البيانات'),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
               ),
             ],
           ),

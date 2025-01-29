@@ -28,6 +28,11 @@ class _GoalsState extends State<Goals> {
     loadGoals();
   }
 
+  void saveGoals() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("reminders", json.encode(listGoal));
+  }
+
   Future<void> loadGoals() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? data = prefs.getString("goals");
@@ -63,7 +68,16 @@ class _GoalsState extends State<Goals> {
                 style: TextStyle(color: Colors.grey, fontSize: 18),
               ),
             )
-          : ListView.builder(
+          : ReorderableListView.builder(
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex)
+                    newIndex--; // تعديل الفهرس عند التحريك للأسفل
+                  final item = listGoal.removeAt(oldIndex);
+                  listGoal.insert(newIndex, item);
+                });
+                saveGoals(); // تحديث SharedPreferences بعد إعادة الترتيب
+              },
               itemCount: listGoal.length,
               itemBuilder: (context, index) {
                 final goal = listGoal[index];
@@ -79,6 +93,8 @@ class _GoalsState extends State<Goals> {
                     (totalAmount > 0) ? (savedAmount / totalAmount) : 0.0;
 
                 return Card(
+                  key: ValueKey(goal), // مفتاح لتعريف العنصر في القائمة
+
                   elevation: 5,
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),

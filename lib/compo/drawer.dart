@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/Screens/Goaladd.dart';
+import 'package:myappmoney2/Screens/Reminders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Screens/EditProfile.dart';
+import '../Screens/FinancialAnalysis.dart';
 import '../Screens/GoalEdit.dart';
 import '../Screens/login.dart';
 
@@ -87,19 +89,25 @@ class DrawerClass extends StatelessWidget {
                   },
                 ),
                 buildListItem(
-                  icon: Icons.book,
-                  title: 'My Courses',
-                  onTap: () => Navigator.pop(context),
+                  icon: Icons.golf_course_sharp,
+                  title: 'Goals',
+                  onTap: () {
+                    Navigator.pushNamed(context, Goals.id);
+                  },
                 ),
                 buildListItem(
-                  icon: Icons.workspace_premium,
-                  title: 'Go Premium',
-                  onTap: () => Navigator.pop(context),
+                  icon: Icons.punch_clock_sharp,
+                  title: 'Reminders',
+                  onTap: () {
+                    Navigator.pushNamed(context, Reminders.id);
+                  },
                 ),
                 buildListItem(
-                  icon: Icons.video_label,
-                  title: 'Saved Videos',
-                  onTap: () => Navigator.pop(context),
+                  icon: Icons.analytics_outlined,
+                  title: 'Financial analysis',
+                  onTap: () {
+                    Navigator.pushNamed(context, Financialanalysis.id);
+                  },
                 ),
                 const Divider(),
                 buildListItem(
