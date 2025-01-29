@@ -15,7 +15,7 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-        duration: 100000000000,
+        duration: 1000,
         backgroundColor: Colors.white,
         splash: Column(
           children: [

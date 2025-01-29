@@ -4,6 +4,7 @@ import 'package:myappmoney2/Screens/Goals.dart';
 import 'package:myappmoney2/Screens/Goaladd.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Screens/EditProfile.dart';
 import '../Screens/GoalEdit.dart';
 import '../Screens/login.dart';
 
@@ -81,7 +82,9 @@ class DrawerClass extends StatelessWidget {
                 buildListItem(
                   icon: Icons.person,
                   title: 'My Profile',
-                  onTap: () => Navigator.pushNamed(context, EditGoalScreen.id),
+                  onTap: () {
+                    Navigator.pushNamed(context, EditProfile.id);
+                  },
                 ),
                 buildListItem(
                   icon: Icons.book,

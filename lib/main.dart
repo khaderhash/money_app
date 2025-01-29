@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'Screens/AddExpences.dart';
+import 'Screens/EditProfile.dart';
 import 'Screens/Expences.dart';
 import 'Screens/FinancialAnalysis.dart';
 import 'Screens/Goals.dart';
@@ -58,7 +59,7 @@ void main() async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Notifications App',
+      title: 'My App',
       routes: {
         loginpage.id: (context) => loginpage(),
         registerpage.id: (context) => registerpage(),
@@ -79,8 +80,9 @@ class MyApp extends StatelessWidget {
         Financialanalysis.id: (context) => Financialanalysis(),
         IncomesScreens.id: (context) => IncomesScreens(),
         Reminders.id: (context) => Reminders(),
+        EditProfile.id: (context) => EditProfile(),
       },
-      home: Splashscreen(),
+      home: Homepage(),
     );
   }
 }
