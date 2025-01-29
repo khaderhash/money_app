@@ -1,6 +1,8 @@
+import 'package:arabic_font/arabic_font.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:myappmoney2/Screens/login.dart';
 
 import '../compo/TextFF.dart';
 import '../compo/containerclick.dart';
@@ -16,23 +18,68 @@ class registerpage extends StatefulWidget {
 }
 
 class _registerpageState extends State<registerpage> {
+  bool _isPasswordVisible = false;
+  bool _isPasswordVisibleConfirm = false; // للـ Confirm Password
+  String? name;
+  String? nameError; // لخطأ الاسم
+
   String? email;
-  String? password;
+  String? emailError,
+      passwordError,
+      confirmPasswordError; // إضافة خطأ للـ Confirm Password
+  String? password, confirmPassword;
   bool isloading = false;
   GlobalKey<FormState> formkey = GlobalKey();
+
+  // التحقق من كلمة المرور
+  bool isValidPassword(String password) {
+    final regex =
+        RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$');
+    return regex.hasMatch(password);
+  }
+
+  // التحقق من البريد الإلكتروني
+  bool isValidEmail(String email) {
+    final RegExp emailRegex = RegExp(
+      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+    );
+    return emailRegex.hasMatch(email);
+  }
+
+  void validateInputs() {
+    setState(() {
+      nameError =
+          (name == null || name!.isEmpty) ? "يجب إدخال اسم المستخدم" : null;
+
+      emailError = (email == null || email!.isEmpty)
+          ? "يجب إدخال البريد الإلكتروني"
+          : (!isValidEmail(email!))
+              ? "صيغة البريد الإلكتروني غير صحيحة"
+              : null;
+
+      passwordError = (password == null || password!.isEmpty)
+          ? "يجب إدخال كلمة المرور"
+          : (!isValidPassword(password!))
+              ? "كلمة المرور يجب أن تحتوي على 7 أحرف على الأقل مع رقم ورمز خاص"
+              : null;
+
+      confirmPasswordError =
+          (confirmPassword == null || confirmPassword!.isEmpty)
+              ? "يجب إدخال تأكيد كلمة المرور"
+              : (confirmPassword != password)
+                  ? "كلمات المرور غير متطابقة"
+                  : null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: isloading,
       child: Scaffold(
         body: Container(
-          // height: double.infinity,
           width: double.infinity,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color(0xff28293F),
-            Color(0xff313853),
-          ])),
+          color: Color(0xFFffcc00),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
@@ -41,84 +88,253 @@ class _registerpageState extends State<registerpage> {
                 SizedBox(
                   height: 75,
                 ),
-                Image.asset('assets/photo/khaderlogo.png', height: 150),
-                const Text(
-                  textAlign: TextAlign.center,
-                  "chat app",
-                  style: TextStyle(
-                      fontFamily: 'RobotoSlab',
-                      fontSize: 32,
-                      color: kPrimarycolor),
-                ),
-                SizedBox(
-                  height: 75,
-                ),
-                const Text("Register page",
-                    style: TextStyle(color: kPrimarycolor, fontSize: 26)),
-                const SizedBox(
-                  height: 10,
-                ),
-                textformfieldclass(
-                  onchange: (p0) {
-                    email = p0;
-                  },
-                  hinttext: 'user name',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                textformfieldclass(
-                  obscureTe: true,
-                  onchange: (p0) {
-                    password = p0;
-                  },
-                  hinttext: 'password',
-                ),
-                const SizedBox(
-                  height: 23,
-                ),
-                conclickclass(
-                  ontap: () async {
-                    if (formkey.currentState!.validate()) {
-                      isloading = true;
-                      setState(() {});
-                      try {
-                        await RUser();
-                        SnakBM(context, message: 'succsess');
-                        Navigator.pop(context);
-                      } on FirebaseAuthException catch (ex) {
-                        if (ex.code == 'user-not-found') {
-                          SnakBM(context, message: 'user not found');
-                        } else if (ex.code == 'worng-password') {
-                          SnakBM(context, message: 'There was an error.');
-                        }
-                      } catch (e) {
-                        SnakBM(context, message: 'error');
-                      }
-                      isloading = false;
-                      setState(() {});
-                    }
-                  },
-                  Texts: 'Register',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("have an account? ",
-                        style: TextStyle(color: kPrimarycolor)),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Login",
-                        style: TextStyle(color: kPrimarycolor),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Column(
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
+                        "أبو نجيب",
+                        style: ArabicTextStyle(
+                            arabicFont: ArabicFont.dinNextLTArabic,
+                            fontSize: width(context) * .09),
                       ),
-                    )
-                  ],
+                      Text(
+                        textAlign: TextAlign.center,
+                        "ABO NAJIB",
+                        style: TextStyle(
+                            fontFamily: 'RobotoSlab',
+                            fontSize: width(context) * .07,
+                            color: kPrimarycolor),
+                      ),
+                    ],
+                  ),
+                  Image.asset('assets/photo/khaderlogo.png', height: 150),
+                ]),
+                SizedBox(
+                  height: hight(context) * .01,
+                ),
+                Container(
+                  margin: EdgeInsets.all(22),
+                  height: hight(context) * .6,
+                  padding: EdgeInsets.all(22),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Color(0xFFff9a00),
+                          width: width(context) * .015),
+                      borderRadius: BorderRadius.all(Radius.circular(22))),
+                  child: ListView(
+                    children: [
+                      Text("Gmail",
+                          style: TextStyle(
+                              fontFamily: 'RobotoSlab', fontSize: 16)),
+                      SizedBox(
+                        height: hight(context) * .01,
+                      ),
+                      textformfieldclass(
+                        hinttext: 'Enter Gmail',
+                        onchange: (p0) {
+                          setState(() {
+                            email = p0;
+                            emailError = null; // إزالة الخطأ عند التغيير
+                          });
+                        },
+                        errorText: emailError,
+                      ),
+                      SizedBox(
+                        height: hight(context) * .01,
+                      ),
+                      Text("Password",
+                          style: TextStyle(
+                              fontFamily: 'RobotoSlab', fontSize: 16)),
+                      textformfieldclass(
+                        obscureTe: !_isPasswordVisible,
+                        hinttext: 'Enter Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: kPrimarycolor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
+                        onchange: (p0) {
+                          setState(() {
+                            password = p0;
+                            passwordError = null; // إزالة الخطأ عند التغيير
+                          });
+                        },
+                        errorText: passwordError,
+                      ),
+                      SizedBox(
+                        height: hight(context) * .01,
+                      ),
+                      Text("Confirm Password",
+                          style: TextStyle(
+                              fontFamily: 'RobotoSlab', fontSize: 16)),
+                      textformfieldclass(
+                        obscureTe: !_isPasswordVisibleConfirm,
+                        hinttext: 'Confirm Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisibleConfirm
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: kPrimarycolor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisibleConfirm =
+                                  !_isPasswordVisibleConfirm;
+                            });
+                          },
+                        ),
+                        onchange: (p0) {
+                          setState(() {
+                            confirmPassword = p0;
+                            confirmPasswordError =
+                                null; // إزالة الخطأ عند التغيير
+                          });
+                        },
+                        errorText: confirmPasswordError,
+                      ),
+                      SizedBox(
+                        height: hight(context) * .01,
+                      ),
+                      Text("Enter your name",
+                          style: TextStyle(
+                              fontFamily: 'RobotoSlab', fontSize: 16)),
+                      SizedBox(
+                        height: hight(context) * .01,
+                      ),
+                      textformfieldclass(
+                        hinttext: 'Enter your name',
+                        onchange: (p0) {
+                          setState(() {
+                            name = p0;
+                            nameError = null; // إزالة الخطأ عند التغيير
+                          });
+                        },
+                        errorText: nameError,
+                      ),
+                      SizedBox(
+                        height: hight(context) * .04,
+                      ),
+                      conclickclass(
+                        ontap: () async {
+                          if (formkey.currentState!.validate()) {
+                            validateInputs(); // التحقق من المدخلات
+
+                            if (email == null || email!.isEmpty) {
+                              setState(() {
+                                emailError = "البريد الإلكتروني مطلوب!";
+                              });
+                              return;
+                            }
+
+                            if (password == null || password!.isEmpty) {
+                              setState(() {
+                                passwordError = "كلمة المرور مطلوبة!";
+                              });
+                              return;
+                            }
+                            if (name == null || name!.isEmpty) {
+                              setState(() {
+                                nameError = "اسم المستخدم مطلوب!";
+                              });
+                              return;
+                            }
+                            if (confirmPassword == null ||
+                                confirmPassword!.isEmpty) {
+                              setState(() {
+                                confirmPasswordError =
+                                    "تأكيد كلمة المرور مطلوب!";
+                              });
+                              return;
+                            }
+
+                            if (password != confirmPassword) {
+                              setState(() {
+                                confirmPasswordError =
+                                    "كلمات المرور غير متطابقة!";
+                              });
+                              return;
+                            }
+
+                            isloading = true;
+                            setState(() {});
+
+                            try {
+                              await RUser();
+                              Navigator.pushNamed(context, loginpage.id,
+                                  arguments: email);
+                            } on FirebaseAuthException catch (ex) {
+                              if (ex.code == 'email-already-in-use') {
+                                _showErrorDialogregister(context,
+                                    "البريد الإلكتروني مستخدم بالفعل. جرب بريدًا آخر.");
+                              } else if (ex.code == 'invalid-email' ||
+                                  ex.code == 'ERROR_INVALID_EMAIL') {
+                                _showErrorDialogregister(context,
+                                    "صيغة البريد الإلكتروني غير صحيحة.");
+                              } else if (ex.code == 'weak-password') {
+                                _showErrorDialogregister(context,
+                                    "كلمة المرور ضعيفة. يجب أن تحتوي على 6 أحرف على الأقل.");
+                              } else if (ex.code == 'operation-not-allowed') {
+                                _showErrorDialogregister(context,
+                                    "تم تعطيل التسجيل بهذا الأسلوب. يرجى التواصل مع الدعم.");
+                              } else if (ex.code == 'requires-recent-login') {
+                                _showErrorDialogregister(context,
+                                    "يجب إعادة تسجيل الدخول لتنفيذ هذا الإجراء.");
+                              } else if (ex.code == 'too-many-requests') {
+                                _showErrorDialogregister(context,
+                                    "تم حظر محاولات التسجيل مؤقتًا بسبب محاولات فاشلة متكررة.");
+                              } else if (ex.code == 'network-request-failed') {
+                                _showErrorDialogregister(context,
+                                    "فشل الاتصال بالشبكة. تحقق من اتصالك بالإنترنت.");
+                              } else {
+                                _showErrorDialogregister(context,
+                                    "حدث خطأ أثناء التسجيل. الرجاء المحاولة لاحقًا.");
+                              }
+                            } catch (e) {
+                              _showErrorDialogregister(
+                                  context, "حدث خطأ أثناء الاتصال بالخادم.");
+                            }
+
+                            isloading = false;
+                            setState(() {});
+                          }
+                        },
+                        Texts: 'Register',
+                      ),
+                      SizedBox(
+                        height: hight(context) * .012,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("you have account? ",
+                              style: TextStyle(
+                                  fontFamily: kPrimaryFontText,
+                                  color: kPrimarycolor)),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, loginpage.id);
+                            },
+                            child: Text(
+                              "LOGIN",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: kPrimaryFontText),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ]),
             ),
@@ -131,6 +347,35 @@ class _registerpageState extends State<registerpage> {
   Future<void> RUser() async {
     var auth = FirebaseAuth.instance;
     UserCredential user = await auth.createUserWithEmailAndPassword(
-        email: email!, password: password!);
+      email: email!,
+      password: password!,
+    );
+
+    // تخزين الاسم في Firebase
+    await user.user!.updateDisplayName(name); // تخزين الاسم
+  }
+
+  void _showErrorDialogregister(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('خطأ'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text('موافق'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
+//Future<void> updateName(String newName) async {
+//   var user = FirebaseAuth.instance.currentUser;
+//   await user!.updateDisplayName(newName);
+// }

@@ -58,7 +58,7 @@ class DrawerClass extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -66,7 +66,7 @@ class DrawerClass extends StatelessWidget {
                     accountEmail,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.white70,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -96,11 +96,6 @@ class DrawerClass extends StatelessWidget {
                 buildListItem(
                   icon: Icons.video_label,
                   title: 'Saved Videos',
-                  onTap: () => Navigator.pop(context),
-                ),
-                buildListItem(
-                  icon: Icons.edit,
-                  title: 'Edit Profile',
                   onTap: () => Navigator.pop(context),
                 ),
                 const Divider(),

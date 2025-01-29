@@ -12,13 +12,14 @@ class conclickclass extends StatelessWidget {
       onTap: ontap,
       child: Container(
         decoration: BoxDecoration(
-            color: kPrimarycolor, borderRadius: BorderRadius.circular(22)),
+            color: kPrimarycolor, borderRadius: BorderRadius.circular(8)),
         width: double.infinity,
-        height: 60,
+        height: hight(context) * .055,
         child: Center(
             child: Text(
           Texts,
-          style: TextStyle(fontSize: 22),
+          style: TextStyle(
+              fontSize: 22, color: Colors.white, fontFamily: kPrimaryFontText),
         )),
       ),
     );

@@ -27,7 +27,7 @@ class ButtonHome extends StatelessWidget {
             width: 2,
           ),
           gradient: const LinearGradient(
-            colors: [Color(0xFF264653), Color(0xFF2A9D8F)],
+            colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

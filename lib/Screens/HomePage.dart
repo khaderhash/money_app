@@ -46,6 +46,7 @@ class _HomepageState extends State<Homepage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenHeight = constraints.maxHeight;
+
           final screenWidth = constraints.maxWidth;
 
           return Stack(
@@ -70,7 +71,7 @@ class _HomepageState extends State<Homepage> {
                     child: Container(
                       width: screenWidth,
                       height: screenHeight * 0.44,
-                      color: Color(0xFF264653),
+                      color: Color(0xFFffcc00),
                     ),
                   ),
                 ),

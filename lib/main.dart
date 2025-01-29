@@ -8,6 +8,7 @@ import 'Screens/FinancialAnalysis.dart';
 import 'Screens/Goals.dart';
 import 'Screens/Incomes.dart';
 import 'Screens/Reminders.dart';
+import 'Screens/Splashscreen.dart';
 import 'Screens/login.dart';
 import 'Screens/register.dart';
 import 'services/firebase_notifications.dart';
@@ -77,9 +78,9 @@ class MyApp extends StatelessWidget {
         AddExpences.id: (context) => AddExpences(),
         Financialanalysis.id: (context) => Financialanalysis(),
         IncomesScreens.id: (context) => IncomesScreens(),
-        Reminders.id:(context)=>Reminders(),
+        Reminders.id: (context) => Reminders(),
       },
-      home: Homepage(),
+      home: Splashscreen(),
     );
   }
 }
