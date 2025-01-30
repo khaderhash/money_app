@@ -79,7 +79,7 @@ class _HomepageState extends State<Homepage> {
                           width: 2,
                         ),
                         gradient: const LinearGradient(
-                          colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                          colors: [Color(0xFF2e495e), Color(0xFF507da0)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),

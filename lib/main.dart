@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
         EditProfile.id: (context) => EditProfile(),
         Splashscreen.id: (context) => Splashscreen(),
       },
-      home: Homepage(),
+      home: loginpage(),
     );
   }
 }

@@ -15,11 +15,12 @@ class Financialanalysis extends StatefulWidget {
 }
 
 class _FinancialanalysisState extends State<Financialanalysis> {
-  List<Map<String, dynamic>> expenses = [];
-  List<Map<String, dynamic>> incomes = [];
+  List<SalesData> expenses = []; // تغيير نوع المتغير إلى SalesData
+  List<SalesData> incomes = []; //
   double totalExpenses = 0;
   double totalIncome = 0;
   bool isLoading = true;
+  String selectedTimePeriod = 'Last Month'; // الفترة الافتراضية
 
   @override
   void initState() {
@@ -30,23 +31,24 @@ class _FinancialanalysisState extends State<Financialanalysis> {
   loadData() async {
     final sharedPreferences = await SharedPreferences.getInstance();
 
-    // جلب بيانات المصاريف باستخدام getExpenses
+    // جلب بيانات المصاريف باستخدام getExpensesForTimePeriod
     SharedPreferencesServiceexpenses(sharedPreferences)
-        .getExpenses()
+        .getExpensesForTimePeriod(selectedTimePeriod)
         .then((expenseData) {
       setState(() {
         expenses = expenseData;
-        totalExpenses = expenses.fold(0, (sum, item) => sum + item['value']);
+        totalExpenses = expenses.fold(0, (sum, item) => sum + item.sales);
       });
     });
 
     // جلب بيانات المداخيل باستخدام getIncomes
+    // جلب بيانات المداخيل باستخدام getIncomesForTimePeriod
     SharedPreferencesServiceIncomes(sharedPreferences)
-        .getIncomes()
+        .getIncomesForTimePeriod(selectedTimePeriod)
         .then((incomeData) {
       setState(() {
         incomes = incomeData;
-        totalIncome = incomes.fold(0, (sum, item) => sum + item['value']);
+        totalIncome = incomes.fold(0, (sum, item) => sum + item.sales);
         isLoading = false; // البيانات جاهزة الآن
       });
     });
@@ -61,6 +63,31 @@ class _FinancialanalysisState extends State<Financialanalysis> {
           : SingleChildScrollView(
               child: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: DropdownButton<String>(
+                      value: selectedTimePeriod,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedTimePeriod = newValue!;
+                          isLoading =
+                              true; // إعادة تحميل البيانات عند تغيير الفترة الزمنية
+                        });
+                        loadData(); // إعادة تحميل البيانات بناءً على الفترة الزمنية المحددة
+                      },
+                      items: <String>[
+                        'Last Week',
+                        'Last Month',
+                        'Last Year',
+                        'Last 30 Days'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
@@ -217,7 +244,8 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${expenses[index]["type"]}',
+                                                expenses[index]
+                                                    .month, // استخدام month بدلاً من ["type"]
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -226,7 +254,8 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                '${expenses[index]["value"]}',
+                                                expenses[index]
+                                                    .month, // استخدام month بدلاً من ["type"]
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500,
@@ -291,7 +320,7 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                '${incomes[index]["type"]}',
+                                                incomes[index].month,
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -300,7 +329,7 @@ class _FinancialanalysisState extends State<Financialanalysis> {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                '${incomes[index]["value"]}',
+                                                incomes[index].month,
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500,

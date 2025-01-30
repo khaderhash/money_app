@@ -21,13 +21,13 @@ class ButtonHome extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: const Color(0xFF482F37),
             width: 2,
           ),
           gradient: const LinearGradient(
-            colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+            colors: [Color(0xFF2e495e), Color(0xFF507da0)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -45,7 +45,7 @@ class ButtonHome extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: const Color(0xFF482F37),
+            color: Colors.white,
           ),
         ),
       ),

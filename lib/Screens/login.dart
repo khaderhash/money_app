@@ -59,15 +59,24 @@ class _loginpageState extends State<loginpage> {
       inAsyncCall: isloading,
       child: Scaffold(
         body: Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF2e495e), Color(0xFF507da0)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
           width: double.infinity,
-          color: Color(0xFFffcc00),
+          // colors: [Color(0xFF2e495e), Color(0xFF507da0)],
+
+          // color: Color(0xFF2e495e),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(hight(context) * .005),
             child: Form(
               key: formkey,
               child: ListView(children: [
                 SizedBox(
-                  height: 75,
+                  height: hight(context) * .12,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Column(
@@ -76,6 +85,7 @@ class _loginpageState extends State<loginpage> {
                         textAlign: TextAlign.center,
                         "أبو نجيب",
                         style: ArabicTextStyle(
+                            color: Colors.white,
                             arabicFont: ArabicFont.dinNextLTArabic,
                             fontSize: width(context) * .09),
                       ),
@@ -85,7 +95,7 @@ class _loginpageState extends State<loginpage> {
                         style: TextStyle(
                             fontFamily: 'RobotoSlab',
                             fontSize: width(context) * .07,
-                            color: kPrimarycolor),
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -100,7 +110,7 @@ class _loginpageState extends State<loginpage> {
                   padding: EdgeInsets.all(width(context) * .06),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color(0xFFff9a00),
+                          color: Color(0xFF2e495e),
                           width: width(context) * .014),
                       borderRadius: BorderRadius.all(Radius.circular(22))),
                   child: ListView(
@@ -112,7 +122,7 @@ class _loginpageState extends State<loginpage> {
                         height: hight(context) * .001,
                       ),
                       textformfieldclass(
-                        hinttext: 'Enter Gmail',
+                        hinttext: '',
                         onchange: (p0) {
                           setState(() {
                             email = p0;
@@ -132,7 +142,7 @@ class _loginpageState extends State<loginpage> {
                       ),
                       textformfieldclass(
                         obscureTe: !_isPasswordVisible,
-                        hinttext: 'Enter Password',
+                        hinttext: '',
                         suffixIcon: IconButton(
                           icon: Icon(
                             _isPasswordVisible

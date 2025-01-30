@@ -65,6 +65,10 @@ class SharedPreferencesServiceexpenses {
           isValid = now.difference(date).inDays <= 7;
         } else if (timePeriod == 'Last Month') {
           isValid = now.month == date.month && now.year == date.year;
+        } else if (timePeriod == 'Last Year') {
+          isValid = now.year == date.year;
+        } else if (timePeriod == 'Last 30 Days') {
+          isValid = now.difference(date).inDays <= 30;
         }
 
         if (isValid) {

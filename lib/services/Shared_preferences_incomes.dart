@@ -76,7 +76,7 @@ class SharedPreferencesServiceIncomes {
   Future<List<Map<String, dynamic>>> getIncomes() async {
     try {
       final data = sharedPreferences.getString('incomes');
-      if (data == null) return [];
+      if (data == null || data.isEmpty) return [];
       return List<Map<String, dynamic>>.from(jsonDecode(data));
     } catch (e) {
       print("Error retrieving incomes: $e");
@@ -95,8 +95,8 @@ class SharedPreferencesServiceIncomes {
 
   Future<void> addIncome(Map<String, dynamic> income) async {
     final incomes = await getIncomes();
-    income['date'] = DateTime.now().toIso8601String();
-    incomes.insert(0, income);
+    income['date'] = DateTime.now().toIso8601String(); // إضافة التاريخ
+    incomes.insert(0, income); // إضافة الدخل في بداية القائمة
     await saveIncomes(incomes);
   }
 

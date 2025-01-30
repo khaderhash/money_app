@@ -81,12 +81,12 @@ class _registerpageState extends State<registerpage> {
           width: double.infinity,
           color: Color(0xFFffcc00),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(hight(context) * .005),
             child: Form(
               key: formkey,
               child: ListView(children: [
                 SizedBox(
-                  height: 75,
+                  height: hight(context) * .025,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Column(
@@ -115,7 +115,7 @@ class _registerpageState extends State<registerpage> {
                 ),
                 Container(
                   margin: EdgeInsets.all(width(context) * .05),
-                  height: hight(context) * .65,
+                  height: hight(context) * .7,
                   padding: EdgeInsets.all(width(context) * .06),
                   decoration: BoxDecoration(
                       border: Border.all(

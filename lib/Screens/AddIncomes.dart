@@ -92,8 +92,11 @@ class _AddIncomesState extends State<AddIncomes> {
                       final value =
                           double.tryParse(valueController.text) ?? 0.0;
                       final income = {"value": value, "type": selectedType};
+
+                      // استخدام الخدمة لإضافة الدخل
                       SharedPreferencesServiceIncomes(sharedPreferences)
                           .addIncome(income);
+
                       Navigator.pop(context);
                     }
                   },

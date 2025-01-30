@@ -91,7 +91,12 @@ class _AddNumberState extends State<AddExpences> {
                           await SharedPreferences.getInstance();
                       final value =
                           double.tryParse(valueController.text) ?? 0.0;
-                      final expense = {"value": value, "type": selectedType};
+                      final expense = {
+                        "value": value,
+                        "type": selectedType,
+                        "date":
+                            DateTime.now().toString(), // إضافة التاريخ الحالي
+                      };
                       final service =
                           SharedPreferencesServiceexpenses(sharedPreferences);
 
