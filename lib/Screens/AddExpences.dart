@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/compo/AppBarcom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../constants.dart';
 import '../services/shared_preferences_expences.dart';
 
 class AddExpences extends StatefulWidget {
@@ -27,69 +28,99 @@ class _AddNumberState extends State<AddExpences> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Appbarofpage(TextPage: "AddExpences"),
+      appBar: Appbarofpage(TextPage: "Add Expences"),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: hight(context) * .028),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: valueController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: "Enter Expense Value",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+            SizedBox(height: hight(context) * .02),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: hight(context) * .007),
+              child: TextField(
+                controller: valueController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Enter Expense Value",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: selectedType,
-              items: expenseTypes
-                  .map((type) => DropdownMenuItem(
-                        value: type,
-                        child: Text(type),
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedType = value!;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: "Select Expense Type",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (valueController.text.isNotEmpty) {
-                    final sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    final value = double.tryParse(valueController.text) ?? 0.0;
-                    final expense = {"value": value, "type": selectedType};
-                    final service =
-                        SharedPreferencesServiceexpenses(sharedPreferences);
-
-                    // تحديث القائمة بحيث يضاف المصروف في البداية
-                    List<Map<String, dynamic>> currentExpenses =
-                        await service.getExpenses() ?? [];
-                    currentExpenses.insert(
-                        0, expense); // الإدراج في بداية القائمة
-
-                    await service
-                        .saveExpenses(currentExpenses); // حفظ القائمة الجديدة
-                    Navigator.pop(context);
-                  }
+            SizedBox(height: hight(context) * .03),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: hight(context) * .007),
+              child: DropdownButtonFormField<String>(
+                value: selectedType,
+                items: expenseTypes
+                    .map((type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(type),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedType = value!;
+                  });
                 },
-                child: const Text("Save"),
+                decoration: InputDecoration(
+                  labelText: "Select Expense Type",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: hight(context) * .03),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: hight(context) * .1),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(8), // تعديل شكل الزر
+                ),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (valueController.text.isNotEmpty) {
+                      final sharedPreferences =
+                          await SharedPreferences.getInstance();
+                      final value =
+                          double.tryParse(valueController.text) ?? 0.0;
+                      final expense = {"value": value, "type": selectedType};
+                      final service =
+                          SharedPreferencesServiceexpenses(sharedPreferences);
+
+                      // تحديث القائمة بحيث يضاف المصروف في البداية
+                      List<Map<String, dynamic>> currentExpenses =
+                          await service.getExpenses() ?? [];
+                      currentExpenses.insert(
+                          0, expense); // الإدراج في بداية القائمة
+
+                      await service
+                          .saveExpenses(currentExpenses); // حفظ القائمة الجديدة
+                      Navigator.pop(context);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size.fromHeight(50),
+                    backgroundColor:
+                        Colors.transparent, // اجعل الخلفية شفافة لتظهر التدرجات
+                    shadowColor: Colors.transparent, // إزالة الظل الافتراضي
+                  ),
+                  child: const Text(
+                    "Add",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: const Color(0xFF482F37),
+                      // اجعل النص أبيض ليظهر بوضوح على التدرج
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myappmoney2/compo/AppBarcom.dart';
+import 'package:myappmoney2/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddReminderScreen extends StatefulWidget {
@@ -19,6 +21,20 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
   final TextEditingController amountController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  String getDisplayText() {
+    if (selectedDate != null && selectedTime != null) {
+      return "Time:  ${DateFormat('d/M/yyyy HH:mm').format(
+        DateTime(
+          selectedDate!.year,
+          selectedDate!.month,
+          selectedDate!.day,
+          selectedTime!.hour,
+          selectedTime!.minute,
+        ),
+      )}";
+    }
+    return "Select Due Date and Time:";
+  }
 
   Future<void> saveReminder() async {
     if (nameController.text.isEmpty ||
@@ -88,50 +104,106 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
       appBar: Appbarofpage(TextPage: "Add Reminder"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: hight(context) * .028),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: "Reminder Name",
-                  border: OutlineInputBorder(),
+              SizedBox(height: hight(context) * .02),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: "Reminder Name",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: amountController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: "Amount",
-                  border: OutlineInputBorder(),
+              SizedBox(height: hight(context) * .03),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: TextField(
+                  controller: amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: "Amount",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  const Text("Select Due Date and Time:"),
-                  TextButton(
-                    onPressed: pickDateTime,
-                    child: Text(
-                      selectedDate == null
-                          ? "Choose Date and Time"
-                          : "${selectedDate!.toLocal()} ${selectedTime?.format(context) ?? ''}",
+              SizedBox(height: hight(context) * .006),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: Row(
+                  children: [
+                    // const Text("Select Due Date and Time:"),
+                    TextButton(
+                      onPressed: pickDateTime,
+                      child: Row(
+                        children: [
+                          Text(
+                            selectedDate == null || selectedTime == null
+                                ? "Choose Date and Time"
+                                : "Time : ",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: const Color(0xFF482F37),
+                            ),
+                          ),
+                          Text(
+                            selectedDate == null || selectedTime == null
+                                ? ""
+                                : "${DateFormat('d/M/yyyy HH:mm').format(
+                                    DateTime(
+                                      selectedDate!.year,
+                                      selectedDate!.month,
+                                      selectedDate!.day,
+                                      selectedTime!.hour,
+                                      selectedTime!.minute,
+                                    ),
+                                  )}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: const Color(0xFF482F37),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: hight(context) * .006),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: hight(context) * .1),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(8), // تعديل شكل الزر
+                  ),
+                  child: ElevatedButton(
+                    onPressed: saveReminder,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.fromHeight(50),
+                      backgroundColor: Colors
+                          .transparent, // اجعل الخلفية شفافة لتظهر التدرجات
+                      shadowColor: Colors.transparent, // إزالة الظل الافتراضي
+                    ),
+                    child: const Text(
+                      "Save Reminder",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: const Color(0xFF482F37),
+                      ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: saveReminder,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0A84FF),
-                  minimumSize: const Size.fromHeight(50),
-                ),
-                child: const Text(
-                  "Save Reminder",
-                  style: TextStyle(fontSize: 18),
                 ),
               ),
             ],

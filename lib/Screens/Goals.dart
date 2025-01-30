@@ -52,7 +52,7 @@ class _GoalsState extends State<Goals> {
   Widget build(BuildContext context) {
     final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
     return Scaffold(
-      backgroundColor: const Color(0xFF1C1C1E),
+      backgroundColor: Colors.white,
       appBar: Appbarofpage(TextPage: "Goals"),
       body: listGoal.isEmpty
           ? const Center(
@@ -87,6 +87,7 @@ class _GoalsState extends State<Goals> {
 
                 return Card(
                   key: ValueKey(goal), // مفتاح لتعريف العنصر في القائمة
+                  color: Colors.grey[200],
 
                   elevation: 5,
                   margin:
@@ -159,7 +160,7 @@ class _GoalsState extends State<Goals> {
               .then((_) => updateGoalsList());
         },
         tooltip: 'Add Goal',
-        backgroundColor: const Color(0xFF0A84FF),
+        backgroundColor: const Color(0xFFFF9A00),
         child: const Icon(Icons.add),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
+import 'dart:async'; // استيراد Timer
 
 import '../compo/AppBarcom.dart';
 import 'AddReminder.dart';
@@ -15,11 +16,25 @@ class Reminders extends StatefulWidget {
 
 class _RemindersState extends State<Reminders> {
   List<Map<String, dynamic>> listReminders = [];
+  Timer? _timer; // مؤقت لتحديث الواجهة تلقائيًا
 
   @override
   void initState() {
     super.initState();
     loadReminders();
+    startAutoUpdate(); // تشغيل تحديث الواجهة تلقائيًا
+  }
+
+  void startAutoUpdate() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {}); // تحديث الواجهة كل ثانية لعرض الوقت المتبقي
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // إيقاف المؤقت عند مغادرة الصفحة لتوفير الموارد
+    super.dispose();
   }
 
   void saveReminders() async {
@@ -31,7 +46,6 @@ class _RemindersState extends State<Reminders> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? data = prefs.getString("reminders");
     setState(() {
-      // ضمان أن البيانات ليست null وتعيين قائمة فارغة إذا كانت null
       listReminders = data != null
           ? List<Map<String, dynamic>>.from(json.decode(data))
           : [];
@@ -46,7 +60,7 @@ class _RemindersState extends State<Reminders> {
   Widget build(BuildContext context) {
     final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
     return Scaffold(
-      backgroundColor: const Color(0xFF1C1C1E),
+      backgroundColor: Colors.white,
       appBar: Appbarofpage(TextPage: "Reminders"),
       body: listReminders.isEmpty
           ? const Center(
@@ -59,22 +73,19 @@ class _RemindersState extends State<Reminders> {
               itemCount: listReminders.length,
               onReorder: (oldIndex, newIndex) {
                 setState(() {
-                  if (newIndex > oldIndex)
-                    newIndex--; // تعديل الفهرس عند التحريك للأسفل
+                  if (newIndex > oldIndex) newIndex--;
                   final item = listReminders.removeAt(oldIndex);
                   listReminders.insert(newIndex, item);
                 });
-                saveReminders(); // تحديث SharedPreferences بعد إعادة الترتيب
+                saveReminders();
               },
               itemBuilder: (context, index) {
                 final reminder = listReminders[index];
-                final name = reminder['name'] ??
-                    'Unnamed Reminder'; // إرجاع قيمة افتراضية إذا كانت null
-                final amount = reminder['amount'] ??
-                    0.0; // إرجاع قيمة افتراضية إذا كانت null
+                final name = reminder['name'] ?? 'Unnamed Reminder';
+                final amount = reminder['amount'] ?? 0.0;
                 final reminderDate =
                     DateTime.tryParse(reminder['reminderDate'] ?? '') ??
-                        DateTime.now(); // إرجاع قيمة افتراضية إذا كانت null
+                        DateTime.now();
 
                 final Duration remainingDuration =
                     reminderDate.difference(DateTime.now());
@@ -82,8 +93,9 @@ class _RemindersState extends State<Reminders> {
                 final int remainingSeconds = remainingDuration.inSeconds % 60;
 
                 return Card(
-                  key: ValueKey(reminder), // مفتاح لتعريف العنصر في القائمة
+                  key: ValueKey(reminder),
                   elevation: 5,
+                  color: Colors.grey[200],
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   shape: RoundedRectangleBorder(
@@ -121,7 +133,7 @@ class _RemindersState extends State<Reminders> {
               .then((_) => updateRemindersList());
         },
         tooltip: 'Add Reminder',
-        backgroundColor: const Color(0xFF0A84FF),
+        backgroundColor: const Color(0xFFFF9A00),
         child: const Icon(Icons.add),
       ),
     );

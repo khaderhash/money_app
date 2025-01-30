@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import '../compo/AppBarcom.dart';
+import '../constants.dart';
 
 class AddGoalScreen extends StatefulWidget {
   final Function onGoalAdded;
@@ -89,80 +90,123 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
       appBar: Appbarofpage(TextPage: "Goal Add"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: hight(context) * .028),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: "Goal Name",
-                  border: OutlineInputBorder(),
+              SizedBox(height: hight(context) * .02),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: "Goal Name",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: totalAmountController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: "Total Amount",
-                  border: OutlineInputBorder(),
+              SizedBox(height: hight(context) * .02),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: TextField(
+                  controller: totalAmountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: "Total Amount",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: savedAmountController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: "Saved Amount",
-                  border: OutlineInputBorder(),
+              SizedBox(height: hight(context) * .02),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: TextField(
+                  controller: savedAmountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: "Saved Amount",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: selectedType,
-                items: goalTypes.map((type) {
-                  return DropdownMenuItem(
-                    value: type,
-                    child: Text(type),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedType = value ?? "Default Type";
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: "Goal Type",
-                  border: OutlineInputBorder(),
+              SizedBox(height: hight(context) * .02),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: DropdownButtonFormField<String>(
+                  value: selectedType,
+                  items: goalTypes.map((type) {
+                    return DropdownMenuItem(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedType = value ?? "Default Type";
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    labelText: "Goal Type",
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  const Text("Select Target Date and Time:"),
-                  TextButton(
-                    onPressed: pickDateTime,
-                    child: Text(
-                      selectedDate == null
-                          ? "Choose Date & Time"
-                          : "${selectedDate!.toLocal()}".split('.')[0],
+              SizedBox(height: hight(context) * .006),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: hight(context) * .007),
+                child: Row(
+                  children: [
+                    const Text("Select Target Date and Time:"),
+                    TextButton(
+                      onPressed: pickDateTime,
+                      child: Text(
+                        selectedDate == null
+                            ? "Choose Date & Time"
+                            : "${selectedDate!.toLocal()}".split('.')[0],
+                        style: TextStyle(
+                          color: const Color(0xFF482F37),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: hight(context) * .012),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: hight(context) * .1),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(8), // تعديل شكل الزر
+                  ),
+                  child: ElevatedButton(
+                    onPressed: saveGoal,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.fromHeight(50),
+                      backgroundColor: Colors
+                          .transparent, // اجعل الخلفية شفافة لتظهر التدرجات
+                      shadowColor: Colors.transparent, // إزالة الظل الافتراضي
+                    ),
+                    child: const Text(
+                      "Save Goal",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors
+                            .white, // اجعل النص أبيض ليظهر بوضوح على التدرج
+                      ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: saveGoal,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0A84FF),
-                  minimumSize: const Size.fromHeight(50),
                 ),
-                child: const Text(
-                  "Save Goal",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+              )
             ],
           ),
         ),

@@ -45,7 +45,7 @@ class DrawerClass extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: CircleAvatar(
                       radius: 36,
-                      backgroundColor: Colors.black,
+                      backgroundColor: Color(0xFF482F37),
                       child: Text(
                         accountInitial,
                         style: const TextStyle(
@@ -170,7 +170,7 @@ class DrawerClass extends StatelessWidget {
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: color ?? Colors.black,
+          color: color ?? Color(0xFF482F37),
         ),
       ),
       onTap: onTap,

@@ -174,7 +174,11 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
           children: [
             Text(
               "Goal: ${goal!["name"]}",
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF482F37),
+              ),
             ),
             const SizedBox(height: 64),
             Center(
@@ -244,7 +248,12 @@ class _EditGoalScreenState extends State<EditGoalScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
-                child: const Text("Update Goal"),
+                child: const Text(
+                  "Update Goal",
+                  style: TextStyle(
+                    color: const Color(0xFF482F37),
+                  ),
+                ),
               ),
             ),
           ],
