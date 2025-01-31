@@ -182,7 +182,7 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                      colors: [Color(0xFF507da0), Color(0xFF507da0)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -192,16 +192,14 @@ class _AddReminderScreenState extends State<AddReminderScreen> {
                     onPressed: saveReminder,
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size.fromHeight(50),
-                      backgroundColor: Colors
-                          .transparent, // اجعل الخلفية شفافة لتظهر التدرجات
+                      backgroundColor: Color(
+                          0xFF507da0), // اجعل الخلفية شفافة لتظهر التدرجات
+                      // اجعل الخلفية شفافة لتظهر التدرجات
                       shadowColor: Colors.transparent, // إزالة الظل الافتراضي
                     ),
                     child: const Text(
                       "Save Reminder",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: const Color(0xFF482F37),
-                      ),
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),

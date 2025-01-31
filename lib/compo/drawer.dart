@@ -6,8 +6,10 @@ import 'package:myappmoney2/Screens/Reminders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Screens/EditProfile.dart';
+import '../Screens/Expences.dart';
 import '../Screens/FinancialAnalysis.dart';
 import '../Screens/GoalEdit.dart';
+import '../Screens/Incomes.dart';
 import '../Screens/login.dart';
 
 class DrawerClass extends StatelessWidget {
@@ -45,13 +47,13 @@ class DrawerClass extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: CircleAvatar(
                       radius: 36,
-                      backgroundColor: Color(0xFF482F37),
+                      backgroundColor: Color(0xFF2e495e),
                       child: Text(
                         accountInitial,
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: Colors.orange,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -109,6 +111,20 @@ class DrawerClass extends StatelessWidget {
                     Navigator.pushNamed(context, Financialanalysis.id);
                   },
                 ),
+                buildListItem(
+                  icon: Icons.person,
+                  title: 'Incomes',
+                  onTap: () {
+                    Navigator.pushNamed(context, IncomesScreens.id);
+                  },
+                ),
+                buildListItem(
+                  icon: Icons.person,
+                  title: 'Expences',
+                  onTap: () {
+                    Navigator.pushNamed(context, ExpencesScreens.id);
+                  },
+                ),
                 const Divider(),
                 buildListItem(
                   icon: Icons.logout,
@@ -164,7 +180,7 @@ class DrawerClass extends StatelessWidget {
     Color? color,
   }) {
     return ListTile(
-      leading: Icon(icon, color: color ?? Colors.orange),
+      leading: Icon(icon, color: color ?? Color(0xFF2e495e)),
       title: Text(
         title,
         style: TextStyle(

@@ -133,8 +133,8 @@ class _RemindersState extends State<Reminders> {
               .then((_) => updateRemindersList());
         },
         tooltip: 'Add Reminder',
-        backgroundColor: const Color(0xFFFF9A00),
-        child: const Icon(Icons.add),
+        backgroundColor: const Color(0xFF507da0),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

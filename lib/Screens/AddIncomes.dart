@@ -78,7 +78,7 @@ class _AddIncomesState extends State<AddIncomes> {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFFffcc00), Color(0xFFff9a00)],
+                    colors: [Color(0xFF507da0), Color(0xFF507da0)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -103,16 +103,16 @@ class _AddIncomesState extends State<AddIncomes> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(50),
                     backgroundColor:
-                        Colors.transparent, // اجعل الخلفية شفافة لتظهر التدرجات
+                        Color(0xFF507da0), // اجعل الخلفية شفافة لتظهر التدرجات
                     shadowColor: Colors.transparent, // إزالة الظل الافتراضي
                   ),
                   child: const Text(
                     "Add",
                     style: TextStyle(
-                      fontSize: 18,
-                      color: const Color(0xFF482F37),
-                      // اجعل النص أبيض ليظهر بوضوح على التدرج
-                    ),
+                        fontSize: 18,
+                        color: Colors
+                            .white // اجعل النص أبيض ليظهر بوضوح على التدرج
+                        ),
                   ),
                 ),
               ),

@@ -25,15 +25,15 @@ class _IncomesState extends State<IncomesScreens> {
       icon: Icon(Icons.monetization_on_outlined),
     ),
     "Business": incomeData(
-      color: Colors.yellowAccent,
+      color: Colors.green,
       icon: Icon(Icons.monetization_on_outlined),
     ),
     "Gifts and Bonuses": incomeData(
-      color: Colors.greenAccent,
+      color: Color(0XFF4DC341),
       icon: Icon(Icons.monetization_on_outlined),
     ),
     "Other": incomeData(
-      color: Colors.yellow,
+      color: Colors.lightGreen,
       icon: Icon(Icons.monetization_on_outlined),
     ),
   };
@@ -137,14 +137,14 @@ class _IncomesState extends State<IncomesScreens> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFE78B00),
+        backgroundColor: const Color(0xFF507da0),
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AddIncomes(),
           ));
           updateList();
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

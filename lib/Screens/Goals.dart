@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myappmoney2/compo/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -52,6 +53,10 @@ class _GoalsState extends State<Goals> {
   Widget build(BuildContext context) {
     final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
     return Scaffold(
+      drawer: DrawerClass(
+          accountName: "khader",
+          accountEmail: "khader",
+          accountInitial: "ksfh"),
       backgroundColor: Colors.white,
       appBar: Appbarofpage(TextPage: "Goals"),
       body: listGoal.isEmpty
@@ -160,8 +165,8 @@ class _GoalsState extends State<Goals> {
               .then((_) => updateGoalsList());
         },
         tooltip: 'Add Goal',
-        backgroundColor: const Color(0xFFFF9A00),
-        child: const Icon(Icons.add),
+        backgroundColor: const Color(0xFF507da0),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

@@ -78,8 +78,14 @@ class _registerpageState extends State<registerpage> {
       inAsyncCall: isloading,
       child: Scaffold(
         body: Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF2e495e), Color(0xFF507da0)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
           width: double.infinity,
-          color: Color(0xFFffcc00),
           child: Padding(
             padding: EdgeInsets.all(hight(context) * .005),
             child: Form(
@@ -95,6 +101,7 @@ class _registerpageState extends State<registerpage> {
                         textAlign: TextAlign.center,
                         "أبو نجيب",
                         style: ArabicTextStyle(
+                            color: Colors.white,
                             arabicFont: ArabicFont.dinNextLTArabic,
                             fontSize: width(context) * .09),
                       ),
@@ -104,7 +111,7 @@ class _registerpageState extends State<registerpage> {
                         style: TextStyle(
                             fontFamily: 'RobotoSlab',
                             fontSize: width(context) * .07,
-                            color: kPrimarycolor),
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -119,7 +126,7 @@ class _registerpageState extends State<registerpage> {
                   padding: EdgeInsets.all(width(context) * .06),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color(0xFFff9a00),
+                          color: Color(0xFF2e495e),
                           width: width(context) * .015),
                       borderRadius: BorderRadius.all(Radius.circular(22))),
                   child: ListView(

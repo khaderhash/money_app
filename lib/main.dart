@@ -12,8 +12,6 @@ import 'Screens/Reminders.dart';
 import 'Screens/Splashscreen.dart';
 import 'Screens/login.dart';
 import 'Screens/register.dart';
-import 'services/firebase_notifications.dart';
-
 import 'Screens/HomePage.dart';
 import 'firebase_options.dart';
 

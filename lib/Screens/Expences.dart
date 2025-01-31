@@ -126,14 +126,14 @@ class _ExpensesState extends State<ExpencesScreens> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFE78B00),
+        backgroundColor: const Color(0xFF507da0),
         onPressed: () async {
           await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AddExpences(),
           ));
           updateList();
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
