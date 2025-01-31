@@ -67,44 +67,50 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Screens/FinancialAnalysis.dart';
+import '../Screens/HomePage.dart';
+
+// shared_preferences_incomes.dart
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Screens/FinancialAnalysis.dart';
+import '../Screens/HomePage.dart';
 
 class SharedPreferencesServiceIncomes {
   final SharedPreferences sharedPreferences;
+  static const String _key = 'incomes';
 
   SharedPreferencesServiceIncomes(this.sharedPreferences);
 
   Future<List<Map<String, dynamic>>> getIncomes() async {
     try {
-      final data = sharedPreferences.getString('incomes');
-      if (data == null || data.isEmpty) return [];
-      return List<Map<String, dynamic>>.from(jsonDecode(data));
+      final data = sharedPreferences.getString(_key);
+      return data != null
+          ? List<Map<String, dynamic>>.from(jsonDecode(data))
+          : [];
     } catch (e) {
       print("Error retrieving incomes: $e");
       return [];
     }
   }
 
-  Future<void> saveIncomes(List<Map<String, dynamic>> incomes) async {
-    try {
-      final data = jsonEncode(incomes);
-      await sharedPreferences.setString('incomes', data);
-    } catch (e) {
-      print("Error saving incomes: $e");
-    }
+  Future<void> _save(List<Map<String, dynamic>> data) async {
+    await sharedPreferences.setString(_key, jsonEncode(data));
   }
 
   Future<void> addIncome(Map<String, dynamic> income) async {
     final incomes = await getIncomes();
-    income['date'] = DateTime.now().toIso8601String(); // إضافة التاريخ
-    incomes.insert(0, income); // إضافة الدخل في بداية القائمة
-    await saveIncomes(incomes);
+    income['date'] = DateTime.now().toIso8601String();
+    income['value'] = (income['value'] as num?)?.toDouble() ?? 0.0;
+    income['source'] = income['source'] ?? 'Other';
+    incomes.insert(0, income);
+    await _save(incomes);
   }
 
   Future<void> removeIncome(int index) async {
     final incomes = await getIncomes();
     if (index >= 0 && index < incomes.length) {
       incomes.removeAt(index);
-      await saveIncomes(incomes);
+      await _save(incomes);
     }
   }
 
@@ -113,44 +119,40 @@ class SharedPreferencesServiceIncomes {
     final incomes = await getIncomes();
     if (index >= 0 && index < incomes.length) {
       incomes[index] = updatedIncome;
-      await saveIncomes(incomes);
+      await _save(incomes);
     }
   }
 
   Future<List<SalesData>> getIncomesForTimePeriod(String timePeriod) async {
-    List<SalesData> incomes = [];
-    final currentIncomes = await getIncomes();
     final now = DateTime.now();
+    final incomes = await getIncomes();
+    final filtered = <SalesData>[];
 
-    for (var income in currentIncomes) {
+    for (var income in incomes) {
       try {
         final date = DateTime.parse(income['date']);
-        bool isValid = false;
-
-        if (timePeriod == 'Last Week') {
-          isValid = now.difference(date).inDays <= 7;
-        } else if (timePeriod == 'Last Month') {
-          isValid = now.month == date.month && now.year == date.year;
-        }
-
-        if (isValid) {
-          incomes.add(SalesData(income['date'], income['value']));
+        if (_isInPeriod(date, now, timePeriod)) {
+          filtered.add(SalesData(income['source'] ?? 'Other',
+              (income['value'] as num).toDouble()));
         }
       } catch (e) {
         print("Error processing income: $e");
       }
     }
-
-    return incomes;
+    return filtered;
   }
 
-  Future<void> cleanOldIncomes(Duration duration) async {
-    final incomes = await getIncomes();
-    final now = DateTime.now();
-    incomes.removeWhere((income) {
-      final date = DateTime.parse(income['date']);
-      return now.difference(date) > duration;
-    });
-    await saveIncomes(incomes);
+  bool _isInPeriod(DateTime date, DateTime now, String period) {
+    switch (period) {
+      case 'Last Week':
+        return now.difference(date).inDays <= 7;
+      case 'Last Month':
+        return now.month == date.month && now.year == date.year;
+      case 'Last 2 Months':
+        final cutoff = DateTime(now.year, now.month - 2, now.day);
+        return date.isAfter(cutoff);
+      default:
+        return false;
+    }
   }
 }

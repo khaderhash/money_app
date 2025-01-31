@@ -104,13 +104,13 @@ class DrawerClass extends StatelessWidget {
                     Navigator.pushNamed(context, Reminders.id);
                   },
                 ),
-                buildListItem(
-                  icon: Icons.analytics_outlined,
-                  title: 'Financial analysis',
-                  onTap: () {
-                    Navigator.pushNamed(context, Financialanalysis.id);
-                  },
-                ),
+                // buildListItem(
+                //   icon: Icons.analytics_outlined,
+                //   title: 'Financial analysis',
+                //   onTap: () {
+                //     Navigator.pushNamed(context, Financialanalysis.id);
+                //   },
+                // ),
                 buildListItem(
                   icon: Icons.person,
                   title: 'Incomes',

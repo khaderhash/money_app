@@ -1,36 +1,35 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Screens/FinancialAnalysis.dart';
+import '../Screens/HomePage.dart';
 
 class SharedPreferencesServiceexpenses {
   final SharedPreferences sharedPreferences;
+  static const String _key = 'expenses';
 
   SharedPreferencesServiceexpenses(this.sharedPreferences);
 
   Future<List<Map<String, dynamic>>> getExpenses() async {
     try {
-      final data = sharedPreferences.getString('expenses');
-      if (data == null) return [];
-      return List<Map<String, dynamic>>.from(jsonDecode(data));
+      final data = sharedPreferences.getString(_key);
+      return data != null
+          ? List<Map<String, dynamic>>.from(jsonDecode(data))
+          : [];
     } catch (e) {
       print("Error retrieving expenses: $e");
       return [];
     }
   }
 
-  Future<void> saveExpenses(List<Map<String, dynamic>> expenses) async {
-    try {
-      final data = jsonEncode(expenses);
-      await sharedPreferences.setString('expenses', data);
-    } catch (e) {
-      print("Error saving expenses: $e");
-    }
+  Future<void> saveExpenses(List<Map<String, dynamic>> data) async {
+    await sharedPreferences.setString(_key, jsonEncode(data));
   }
 
   Future<void> addExpense(Map<String, dynamic> expense) async {
     final expenses = await getExpenses();
-    expense['date'] = DateTime.now().toIso8601String(); // إضافة التاريخ
-    expenses.insert(0, expense); // أضف المصروف في البداية
+    expense['date'] = DateTime.now().toIso8601String();
+    expense['type'] = 'Expense'; // إضافة حقل النوع
+    expenses.insert(0, expense);
     await saveExpenses(expenses);
   }
 
@@ -52,43 +51,37 @@ class SharedPreferencesServiceexpenses {
   }
 
   Future<List<SalesData>> getExpensesForTimePeriod(String timePeriod) async {
-    List<SalesData> expenses = [];
-    final currentExpenses = await getExpenses();
     final now = DateTime.now();
+    final expenses = await getExpenses();
+    final filtered = <SalesData>[];
 
-    for (var expense in currentExpenses) {
+    for (var expense in expenses) {
       try {
         final date = DateTime.parse(expense['date']);
-        bool isValid = false;
-
-        if (timePeriod == 'Last Week') {
-          isValid = now.difference(date).inDays <= 7;
-        } else if (timePeriod == 'Last Month') {
-          isValid = now.month == date.month && now.year == date.year;
-        } else if (timePeriod == 'Last Year') {
-          isValid = now.year == date.year;
-        } else if (timePeriod == 'Last 30 Days') {
-          isValid = now.difference(date).inDays <= 30;
-        }
-
-        if (isValid) {
-          expenses.add(SalesData(expense['date'], expense['value']));
+        if (_isInPeriod(date, now, timePeriod)) {
+          filtered.add(SalesData(expense['category'] ?? 'Uncategorized',
+              (expense['value'] as num).toDouble()));
         }
       } catch (e) {
         print("Error processing expense: $e");
       }
     }
 
-    return expenses;
+    print("Filtered Expenses: ${filtered.length}"); // Debugging
+    return filtered;
   }
 
-  Future<void> cleanOldExpenses(Duration duration) async {
-    final expenses = await getExpenses();
-    final now = DateTime.now();
-    expenses.removeWhere((expense) {
-      final date = DateTime.parse(expense['date']);
-      return now.difference(date) > duration;
-    });
-    await saveExpenses(expenses);
+  bool _isInPeriod(DateTime date, DateTime now, String period) {
+    switch (period) {
+      case 'Last Week':
+        return now.difference(date).inDays <= 7;
+      case 'Last Month':
+        return date.year == now.year && date.month == now.month;
+      case 'Last 2 Months':
+        final cutoff = DateTime(now.year, now.month - 1, 1);
+        return date.isAfter(cutoff);
+      default:
+        return false;
+    }
   }
 }

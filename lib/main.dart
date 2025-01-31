@@ -75,13 +75,13 @@ class MyApp extends StatelessWidget {
         Goals.id: (context) => Goals(),
         ExpencesScreens.id: (context) => ExpencesScreens(),
         AddExpences.id: (context) => AddExpences(),
-        Financialanalysis.id: (context) => Financialanalysis(),
+        // Financialanalysis.id: (context) => Financialanalysis(),
         IncomesScreens.id: (context) => IncomesScreens(),
         Reminders.id: (context) => Reminders(),
         EditProfile.id: (context) => EditProfile(),
         Splashscreen.id: (context) => Splashscreen(),
       },
-      home: loginpage(),
+      home: Homepage(),
     );
   }
 }
