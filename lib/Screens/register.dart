@@ -131,13 +131,10 @@ class _registerpageState extends State<registerpage> {
                       borderRadius: BorderRadius.all(Radius.circular(22))),
                   child: ListView(
                     children: [
-                      Text("Gmail",
-                          style: TextStyle(
-                              fontFamily: 'RobotoSlab', fontSize: 16)),
                       SizedBox(
-                        height: hight(context) * .001,
+                        height: hight(context) * .024,
                       ),
-                      textformfieldclass(
+                      TextFormFieldClass(
                         hinttext: 'Enter Gmail',
                         onchange: (p0) {
                           setState(() {
@@ -148,12 +145,9 @@ class _registerpageState extends State<registerpage> {
                         errorText: emailError,
                       ),
                       SizedBox(
-                        height: hight(context) * .015,
+                        height: hight(context) * .024,
                       ),
-                      Text("Password",
-                          style: TextStyle(
-                              fontFamily: 'RobotoSlab', fontSize: 16)),
-                      textformfieldclass(
+                      TextFormFieldClass(
                         obscureTe: !_isPasswordVisible,
                         hinttext: 'Enter Password',
                         suffixIcon: IconButton(
@@ -178,15 +172,9 @@ class _registerpageState extends State<registerpage> {
                         errorText: passwordError,
                       ),
                       SizedBox(
-                        height: hight(context) * .015,
+                        height: hight(context) * .024,
                       ),
-                      Text("Confirm Password",
-                          style: TextStyle(
-                              fontFamily: 'RobotoSlab', fontSize: 16)),
-                      SizedBox(
-                        height: hight(context) * .001,
-                      ),
-                      textformfieldclass(
+                      TextFormFieldClass(
                         obscureTe: !_isPasswordVisibleConfirm,
                         hinttext: 'Confirm Password',
                         suffixIcon: IconButton(
@@ -213,15 +201,9 @@ class _registerpageState extends State<registerpage> {
                         errorText: confirmPasswordError,
                       ),
                       SizedBox(
-                        height: hight(context) * .015,
+                        height: hight(context) * .024,
                       ),
-                      Text("Enter your name",
-                          style: TextStyle(
-                              fontFamily: 'RobotoSlab', fontSize: 16)),
-                      SizedBox(
-                        height: hight(context) * .001,
-                      ),
-                      textformfieldclass(
+                      TextFormFieldClass(
                         hinttext: 'Enter your name',
                         onchange: (p0) {
                           setState(() {
@@ -328,8 +310,7 @@ class _registerpageState extends State<registerpage> {
                         children: [
                           Text("you have account? ",
                               style: TextStyle(
-                                  fontFamily: kPrimaryFontText,
-                                  color: kPrimarycolor)),
+                                  fontFamily: kPTajawal, color: kPrimarycolor)),
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, loginpage.id);
@@ -337,8 +318,7 @@ class _registerpageState extends State<registerpage> {
                             child: Text(
                               "LOGIN",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: kPrimaryFontText),
+                                  color: Colors.white, fontFamily: kboldTajwal),
                             ),
                           )
                         ],

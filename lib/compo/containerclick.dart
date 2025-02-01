@@ -19,7 +19,7 @@ class conclickclass extends StatelessWidget {
             child: Text(
           Texts,
           style: TextStyle(
-              fontSize: 22, color: Colors.white, fontFamily: kPrimaryFontText),
+              fontSize: 22, color: Color(0xFF507da0), fontFamily: kboldTajwal),
         )),
       ),
     );

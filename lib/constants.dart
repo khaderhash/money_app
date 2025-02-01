@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 const kPrimaryth = Color(0xff28293F);
-const kPrimarycolor = Color(0xFF482F37);
+const kPrimarycolor = Color(0xFFF2F0EF);
 const kPrimaryFontText = 'RobotoSlab';
+const kPTajawal = 'Tajawal-Regular';
+const kboldTajwal = 'Tajawal-Bold';
 
 const messagecolletion = 'message';
 const KPphoto = 'assets/photo/chat_app_logo.png';

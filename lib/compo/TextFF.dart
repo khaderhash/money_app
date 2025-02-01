@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-class textformfieldclass extends StatelessWidget {
-  textformfieldclass(
+class TextFormFieldClass extends StatelessWidget {
+  TextFormFieldClass(
       {super.key,
       this.obscureTe = false,
       required this.hinttext,
       this.onchange,
       this.suffixIcon,
       this.errorText});
+
   String hinttext;
   bool? obscureTe;
   Function(String)? onchange;
-  final Widget? suffixIcon; // إضافة خاصية suffixIcon
-  final String? errorText; // إضافة خاصية errorText لعرض رسالة الخطأ
+  final Widget? suffixIcon;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +29,21 @@ class textformfieldclass extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        hintText: hinttext,
-        hintStyle: TextStyle(color: kPrimarycolor, fontSize: 16),
-        enabledBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: kPrimarycolor)),
-        border:
-            OutlineInputBorder(borderSide: BorderSide(color: kPrimarycolor)),
+        // hintText: hinttext,
+        // hintStyle: TextStyle(color: Colors.blue.shade900, fontSize: 16,fontFamily:'RobotoSlab'),
+        labelText: hinttext,
+        labelStyle: TextStyle(
+          fontFamily: 'Tajawal-Regular',
+          color: Colors.black54, // اللون عند التواجد في الأسفل
+          fontSize: 16,
+        ),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue.shade900)),
+        border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue.shade900)),
         suffixIcon: suffixIcon,
-        errorText: errorText, // عرض رسالة الخطأ هنا
+        errorText: errorText,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
       ),
     );
   }

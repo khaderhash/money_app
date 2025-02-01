@@ -99,7 +99,7 @@ class _loginpageState extends State<loginpage> {
                       ),
                     ],
                   ),
-                  Image.asset('assets/photo/khaderlogo.png', height: 150),
+                  Image.asset('assets/photo/khader (1).png', height: 160),
                 ]),
                 SizedBox(
                   height: hight(context) * .01,
@@ -123,7 +123,7 @@ class _loginpageState extends State<loginpage> {
                       SizedBox(
                         height: hight(context) * .001,
                       ),
-                      textformfieldclass(
+                      TextFormFieldClass(
                         hinttext: '',
                         onchange: (p0) {
                           setState(() {
@@ -144,7 +144,7 @@ class _loginpageState extends State<loginpage> {
                       SizedBox(
                         height: hight(context) * .001,
                       ),
-                      textformfieldclass(
+                      TextFormFieldClass(
                         obscureTe: !_isPasswordVisible,
                         hinttext: '',
                         suffixIcon: IconButton(
