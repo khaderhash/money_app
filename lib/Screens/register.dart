@@ -115,7 +115,7 @@ class _registerpageState extends State<registerpage> {
                       ),
                     ],
                   ),
-                  Image.asset('assets/photo/khaderlogo.png', height: 150),
+                  Image.asset('assets/photo/khader (1).png', height: 150),
                 ]),
                 SizedBox(
                   height: hight(context) * .01,
