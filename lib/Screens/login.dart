@@ -117,7 +117,9 @@ class _loginpageState extends State<loginpage> {
                     children: [
                       Text("Gmail",
                           style: TextStyle(
-                              fontFamily: 'RobotoSlab', fontSize: 16)),
+                              color: Colors.white,
+                              fontFamily: 'RobotoSlab',
+                              fontSize: 16)),
                       SizedBox(
                         height: hight(context) * .001,
                       ),
@@ -136,7 +138,9 @@ class _loginpageState extends State<loginpage> {
                       ),
                       Text("Password",
                           style: TextStyle(
-                              fontFamily: 'RobotoSlab', fontSize: 16)),
+                              color: Colors.white,
+                              fontFamily: 'RobotoSlab',
+                              fontSize: 16)),
                       SizedBox(
                         height: hight(context) * .001,
                       ),

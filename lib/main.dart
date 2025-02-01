@@ -5,7 +5,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'Screens/AddExpences.dart';
 import 'Screens/EditProfile.dart';
 import 'Screens/Expences.dart';
-import 'Screens/FinancialAnalysis.dart';
 import 'Screens/Goals.dart';
 import 'Screens/Incomes.dart';
 import 'Screens/Reminders.dart';

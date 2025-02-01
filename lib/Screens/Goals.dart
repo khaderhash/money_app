@@ -92,7 +92,7 @@ class _GoalsState extends State<Goals> {
 
                 return Card(
                   key: ValueKey(goal), // مفتاح لتعريف العنصر في القائمة
-                  color: Colors.grey[200],
+                  color: Color(0xffF2F0EF),
 
                   elevation: 5,
                   margin:
