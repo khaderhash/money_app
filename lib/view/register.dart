@@ -1,13 +1,15 @@
 import 'package:arabic_font/arabic_font.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:myappmoney2/Screens/login.dart';
 
 import '../compo/TextFF.dart';
 import '../compo/containerclick.dart';
 import '../compo/snakhelper.dart';
 import '../constants.dart';
+import 'login.dart';
 
 class registerpage extends StatefulWidget {
   registerpage({super.key});
@@ -313,7 +315,7 @@ class _registerpageState extends State<registerpage> {
                                   fontFamily: kPTajawal, color: kPrimarycolor)),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, loginpage.id);
+                              Get.to(loginpage());
                             },
                             child: Text(
                               "LOGIN",

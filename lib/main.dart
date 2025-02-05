@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'Screens/AddExpences.dart';
-import 'Screens/EditProfile.dart';
-import 'Screens/Expences.dart';
-import 'Screens/Goals.dart';
-import 'Screens/Incomes.dart';
-import 'Screens/Reminders.dart';
-import 'Screens/Splashscreen.dart';
-import 'Screens/login.dart';
-import 'Screens/register.dart';
-import 'Screens/HomePage.dart';
+import 'package:get/get.dart';
+import 'package:myappmoney2/view/AddExpences.dart';
+import 'package:myappmoney2/view/AddIncomes.dart';
+import 'package:myappmoney2/view/Expences.dart';
+import 'package:myappmoney2/view/GoalEdit.dart';
+import 'package:myappmoney2/view/Goals.dart';
+import 'package:myappmoney2/view/HomePage.dart';
+import 'package:myappmoney2/view/Incomes.dart';
+import 'package:myappmoney2/view/Reminders.dart';
+import 'package:myappmoney2/view/login.dart';
+import 'package:myappmoney2/view/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-
+SharedPreferences? shared;
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // يجب تسجيل هذا الـ handler في main.dart
   await Firebase.initializeApp(); // تأكد من تهيئة Firebase
@@ -64,23 +66,60 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'My App',
-      routes: {
-        loginpage.id: (context) => loginpage(),
-        registerpage.id: (context) => registerpage(),
-        Homepage.id: (context) => Homepage(),
-        Goals.id: (context) => Goals(),
-        ExpencesScreens.id: (context) => ExpencesScreens(),
-        AddExpences.id: (context) => AddExpences(),
-        // Financialanalysis.id: (context) => Financialanalysis(),
-        IncomesScreens.id: (context) => IncomesScreens(),
-        Reminders.id: (context) => Reminders(),
-        EditProfile.id: (context) => EditProfile(),
-        Splashscreen.id: (context) => Splashscreen(),
-      },
-      home: loginpage(),
+      getPages: [
+        GetPage(
+          name: ("/"),
+          page: () => loginpage(),
+        ),
+        GetPage(
+          name: ("/RegisterPage"),
+          page: () => registerpage(),
+        ),
+        GetPage(
+          name: ("/HomePage"),
+          page: () => Homepage(),
+        ),
+        GetPage(
+          name: ("/ExpencesPage"),
+          page: () => ExpencesScreens(),
+        ),
+        GetPage(
+          name: ("/IncomesPage"),
+          page: () => IncomesScreens(),
+        ),
+        GetPage(
+          name: ("/ReminderPage"),
+          page: () => Reminders(),
+        ),
+        GetPage(
+          name: ("/GoalPage"),
+          page: () => Goals(),
+        ),
+        GetPage(
+          name: ("/GoalEditPage"),
+          page: () => EditGoalScreen(
+            goalIndex: 1,
+          ),
+        ),
+        // GetPage(
+        //   name: ("/GoalAddPage"),
+        //   page: () => AddGoalScreen(
+        //     onGoalAdded: () {},
+        //   ),
+        // ),
+        GetPage(
+          name: ("/ExpencesEditPage"),
+          page: () => AddExpences(),
+        ),
+        GetPage(
+          name: ("/IncomesPage"),
+          page: () => AddIncomes(),
+        ),
+      ],
+      initialRoute: "/HomePage",
     );
   }
 }

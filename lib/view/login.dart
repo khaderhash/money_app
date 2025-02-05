@@ -1,13 +1,13 @@
 import 'package:arabic_font/arabic_font.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'HomePage.dart';
 import 'register.dart';
 import '../compo/TextFF.dart';
 import '../compo/containerclick.dart';
-import '../compo/snakhelper.dart';
 import '../constants.dart';
 
 class loginpage extends StatefulWidget {
@@ -205,8 +205,7 @@ class _loginpageState extends State<loginpage> {
 
                             try {
                               await loginuser();
-                              Navigator.pushNamed(context, Homepage.id,
-                                  arguments: email);
+                              Get.offAll("/HomePage", arguments: email);
                             } on FirebaseAuthException catch (ex) {
                               if (ex.code == 'wrong-password' ||
                                   ex.code == 'ERROR_WRONG_PASSWORD') {
@@ -280,7 +279,7 @@ class _loginpageState extends State<loginpage> {
                                   color: kPrimarycolor)),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, registerpage.id);
+                              Get.to(registerpage());
                             },
                             child: Text(
                               "Register",

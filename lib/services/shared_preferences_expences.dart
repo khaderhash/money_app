@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Screens/FinancialAnalysis.dart';
-import '../Screens/HomePage.dart';
+import '../view/FinancialAnalysis.dart';
+import '../view/HomePage.dart';
 
 class SharedPreferencesServiceexpenses {
   final SharedPreferences sharedPreferences;

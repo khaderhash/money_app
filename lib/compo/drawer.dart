@@ -1,16 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:myappmoney2/Screens/Goals.dart';
-import 'package:myappmoney2/Screens/Goaladd.dart';
-import 'package:myappmoney2/Screens/Reminders.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:myappmoney2/view/Expences.dart';
+import 'package:myappmoney2/view/Goals.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Screens/EditProfile.dart';
-import '../Screens/Expences.dart';
-import '../Screens/FinancialAnalysis.dart';
-import '../Screens/GoalEdit.dart';
-import '../Screens/Incomes.dart';
-import '../Screens/login.dart';
+import '../view/EditProfile.dart';
+import '../view/Incomes.dart';
+import '../view/login.dart';
 
 class DrawerClass extends StatelessWidget {
   final String accountName;
@@ -94,14 +93,14 @@ class DrawerClass extends StatelessWidget {
                   icon: Icons.golf_course_sharp,
                   title: 'Goals',
                   onTap: () {
-                    Navigator.pushNamed(context, Goals.id);
+                    Get.to(Goals());
                   },
                 ),
                 buildListItem(
                   icon: Icons.punch_clock_sharp,
                   title: 'Reminders',
                   onTap: () {
-                    Navigator.pushNamed(context, Reminders.id);
+                    Get.toNamed("/ReminderPage");
                   },
                 ),
                 // buildListItem(
@@ -115,14 +114,14 @@ class DrawerClass extends StatelessWidget {
                   icon: Icons.person,
                   title: 'Incomes',
                   onTap: () {
-                    Navigator.pushNamed(context, IncomesScreens.id);
+                    Get.to(IncomesScreens());
                   },
                 ),
                 buildListItem(
                   icon: Icons.person,
                   title: 'Expences',
                   onTap: () {
-                    Navigator.pushNamed(context, ExpencesScreens.id);
+                    Get.to(ExpencesScreens());
                   },
                 ),
                 const Divider(),
@@ -146,8 +145,9 @@ class DrawerClass extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () async {
-                              Navigator.of(context)
-                                  .pop(true); // نعم، سجل الخروج
+                              Get.back();
+                              // Navigator.of(context)
+                              //     .pop(true); // نعم، سجل الخروج
                               // تنفيذ عملية تسجيل الخروج هنا
                               await logoutUser();
                             },

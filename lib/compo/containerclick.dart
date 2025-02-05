@@ -14,7 +14,7 @@ class conclickclass extends StatelessWidget {
         decoration: BoxDecoration(
             color: kPrimarycolor, borderRadius: BorderRadius.circular(8)),
         width: double.infinity,
-        height: hight(context) * .055,
+        height: hight(context) * .06,
         child: Center(
             child: Text(
           Texts,
