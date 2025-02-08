@@ -57,7 +57,6 @@ class _GoalsState extends State<Goals> {
           accountName: "khader",
           accountEmail: "khader",
           accountInitial: "ksfh"),
-      backgroundColor: Colors.white,
       appBar: Appbarofpage(TextPage: "Goals"),
       body: listGoal.isEmpty
           ? const Center(

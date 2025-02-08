@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../compo/AppBarcom.dart';
 
 class EditProfile extends StatefulWidget {
@@ -53,27 +52,21 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         isLoading = true;
       });
-
       User? user = FirebaseAuth.instance.currentUser;
-
       // تحديث الاسم إذا كان مُدخلًا
       if (newName != null && newName!.isNotEmpty) {
         await user!.updateDisplayName(newName);
       }
-
       // تحديث كلمة المرور إذا كانت مُدخلة
       if (newPassword != null && newPassword!.isNotEmpty) {
         await user!.updatePassword(newPassword!);
       }
-
       setState(() {
         isLoading = false;
       });
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('تم تحديث البيانات بنجاح')),
       );
-
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -101,92 +94,103 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Appbarofpage(TextPage: "Edit Profile"),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * .05),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: MediaQuery.of(context).size.height * .02),
+
               // تعديل الاسم
-              Text(
-                'تعديل الاسم',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+              Text('تعديل الاسم',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
-              TextFormField(
-                initialValue:
-                    FirebaseAuth.instance.currentUser?.displayName ?? '',
-                decoration: InputDecoration(
-                  labelText: 'الاسم الجديد',
-                  errorText: newNameError,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .05),
+                child: TextFormField(
+                  initialValue:
+                      FirebaseAuth.instance.currentUser?.displayName ?? '',
+                  decoration: InputDecoration(
+                    labelText: 'الاسم الجديد',
+                    border: OutlineInputBorder(),
+                    errorText: newNameError,
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      newName = value;
+                      newNameError = null;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    newName = value;
-                    newNameError = null;
-                  });
-                },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: MediaQuery.of(context).size.height * .02),
 
               // تعديل كلمة المرور
-              Text(
-                'تعديل كلمة المرور',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+              Text('تعديل كلمة المرور',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
-              TextFormField(
-                obscureText: !_isPasswordVisible,
-                decoration: InputDecoration(
-                  labelText: 'كلمة المرور الجديدة',
-                  errorText: newPasswordError,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isPasswordVisible
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .05),
+                child: TextFormField(
+                  obscureText: !_isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'كلمة المرور الجديدة',
+                    border: OutlineInputBorder(),
+                    errorText: newPasswordError,
+                    suffixIcon: IconButton(
+                      icon: Icon(_isPasswordVisible
                           ? Icons.visibility
-                          : Icons.visibility_off,
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      newPassword = value;
+                      newPasswordError = null;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    newPassword = value;
-                    newPasswordError = null;
-                  });
-                },
               ),
               SizedBox(height: 10),
 
               // تأكيد كلمة المرور
-              TextFormField(
-                obscureText: !_isPasswordVisibleConfirm,
-                decoration: InputDecoration(
-                  labelText: 'تأكيد كلمة المرور',
-                  errorText: confirmPasswordError,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isPasswordVisibleConfirm
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .05),
+                child: TextFormField(
+                  obscureText: !_isPasswordVisibleConfirm,
+                  decoration: InputDecoration(
+                    labelText: 'تأكيد كلمة المرور',
+                    border: OutlineInputBorder(),
+                    errorText: confirmPasswordError,
+                    suffixIcon: IconButton(
+                      icon: Icon(_isPasswordVisibleConfirm
                           ? Icons.visibility
-                          : Icons.visibility_off,
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisibleConfirm =
+                              !_isPasswordVisibleConfirm;
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisibleConfirm = !_isPasswordVisibleConfirm;
-                      });
-                    },
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      confirmPassword = value;
+                      confirmPasswordError = null;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    confirmPassword = value;
-                    confirmPasswordError = null;
-                  });
-                },
               ),
               SizedBox(height: 30),
 
@@ -195,18 +199,23 @@ class _EditProfileState extends State<EditProfile> {
                 duration: Duration(milliseconds: 300),
                 child: isLoading
                     ? CircularProgressIndicator(key: ValueKey("loading"))
-                    : ElevatedButton(
-                        key: ValueKey("button"),
-                        onPressed: () {
-                          validateInputs();
-                          if (_formKey.currentState!.validate()) {
-                            updateProfile();
-                          }
-                        },
-                        child: Text('تحديث البيانات'),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          textStyle: TextStyle(fontSize: 18),
+                    : Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width * .1),
+                        child: ElevatedButton(
+                          key: ValueKey("button"),
+                          onPressed: () {
+                            validateInputs();
+                            if (_formKey.currentState!.validate()) {
+                              updateProfile();
+                            }
+                          },
+                          child: Text('تحديث البيانات'),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size.fromHeight(50),
+                            backgroundColor: Color(0xFF507da0),
+                            textStyle: TextStyle(fontSize: 18),
+                          ),
                         ),
                       ),
               ),

@@ -128,7 +128,7 @@ class _registerpageState extends State<registerpage> {
                   padding: EdgeInsets.all(width(context) * .06),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color(0xFF2e495e),
+                          color: Color(0xFF1e3a4b),
                           width: width(context) * .015),
                       borderRadius: BorderRadius.all(Radius.circular(22))),
                   child: ListView(

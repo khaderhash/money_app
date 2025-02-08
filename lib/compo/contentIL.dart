@@ -29,7 +29,7 @@ class ContentLE extends StatelessWidget {
         height: 100,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xffF2F0EF),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(

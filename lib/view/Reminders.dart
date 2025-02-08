@@ -60,7 +60,6 @@ class _RemindersState extends State<Reminders> {
   Widget build(BuildContext context) {
     final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: Appbarofpage(TextPage: "Reminders"),
       body: listReminders.isEmpty
           ? const Center(
