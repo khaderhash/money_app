@@ -160,7 +160,7 @@ class DrawerClass extends StatelessWidget {
                     // إذا تم التأكيد على تسجيل الخروج، يتم تنفيذ العملية
                     if (confirmLogout == true) {
                       // بعد تسجيل الخروج، قم بالانتقال إلى صفحة تسجيل الدخول
-                      Navigator.pushReplacementNamed(context, loginpage.id);
+                      Get.toNamed(loginpage.id);
                     }
                   },
                   color: Colors.red,

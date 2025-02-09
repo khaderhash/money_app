@@ -11,6 +11,7 @@ import 'package:myappmoney2/view/Goals.dart';
 import 'package:myappmoney2/view/HomePage.dart';
 import 'package:myappmoney2/view/Incomes.dart';
 import 'package:myappmoney2/view/Reminders.dart';
+import 'package:myappmoney2/view/Splashscreen.dart';
 import 'package:myappmoney2/view/login.dart';
 import 'package:myappmoney2/view/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,8 +74,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My App',
       getPages: [
+        GetPage(name: ("/"), page: () => SplashScreen()),
         GetPage(
-          name: ("/"),
+          name: ("/Login"),
           page: () => loginpage(),
         ),
         GetPage(
