@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../view/FinancialAnalysis.dart';
-import '../view/HomePage.dart';
+import 'package:googleapis/drive/v3.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
+import 'dart:io';
 
-// shared_preferences_incomes.dart
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../view/FinancialAnalysis.dart';
+
 import '../view/HomePage.dart';
 
 class SharedPreferencesServiceIncomes {
@@ -87,6 +86,29 @@ class SharedPreferencesServiceIncomes {
         return date.isAfter(cutoff);
       default:
         return false;
+    }
+  }
+
+  Future<void> uploadIncomesToDrive(DriveApi driveApi) async {
+    final incomes = await getIncomes();
+    final incomesJson = jsonEncode(incomes);
+
+    // إنشاء Media من بيانات المداخيل
+    final media =
+        Media(Stream.fromIterable([incomesJson.codeUnits]), incomesJson.length);
+
+    // إنشاء كائن File لرفع الملف
+    final driveFile = drive.File()
+      ..name = 'incomes.json'
+      ..mimeType = 'application/json'; // تحديد نوع الميديا
+
+    try {
+      // رفع الملف إلى Google Drive
+      final uploadedFile =
+          await driveApi.files.create(driveFile, uploadMedia: media);
+      print('File uploaded: ${uploadedFile.id}');
+    } catch (e) {
+      print('Error uploading file: $e');
     }
   }
 }

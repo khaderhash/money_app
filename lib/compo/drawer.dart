@@ -7,6 +7,7 @@ import 'package:myappmoney2/view/Goals.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../view/Download.dart';
 import '../view/EditProfile.dart';
 import '../view/Incomes.dart';
 import '../view/login.dart';
@@ -124,6 +125,14 @@ class DrawerClass extends StatelessWidget {
                     Get.to(ExpencesScreens());
                   },
                 ),
+                buildListItem(
+                  icon: Icons.person,
+                  title: 'download',
+                  onTap: () {
+                    Get.to(UploadDataPage());
+                  },
+                ),
+
                 const Divider(),
                 buildListItem(
                   icon: Icons.logout,

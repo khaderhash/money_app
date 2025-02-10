@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:myappmoney2/view/AddExpences.dart';
 import 'package:myappmoney2/view/AddIncomes.dart';
+import 'package:myappmoney2/view/Download.dart';
 import 'package:myappmoney2/view/Expences.dart';
 import 'package:myappmoney2/view/GoalEdit.dart';
 import 'package:myappmoney2/view/Goals.dart';
@@ -123,6 +124,7 @@ class MyApp extends StatelessWidget {
           name: ("/IncomesPage"),
           page: () => AddIncomes(),
         ),
+        GetPage(name: ("/downloadpage"), page: () => UploadDataPage())
       ],
       initialRoute: "/HomePage",
     );

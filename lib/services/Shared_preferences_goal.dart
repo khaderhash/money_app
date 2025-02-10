@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:googleapis/drive/v3.dart';
 
 class SharedPreferencesServicegoals {
   final SharedPreferences sharedPreferences;
@@ -53,5 +54,38 @@ class SharedPreferencesServicegoals {
   // Clear all goals
   Future<void> clearAll() async {
     await sharedPreferences.remove(key);
+  }
+
+  Future<void> uploadGoalsToDrive(
+      DriveApi driveApi, List<Map<String, dynamic>> goals) async {
+    final goalsJson = jsonEncode(goals);
+    final media =
+        Media(Stream.fromIterable([goalsJson.codeUnits]), goalsJson.length);
+    final driveFile = File()..name = 'goals.json';
+
+    try {
+      final uploadedFile =
+          await driveApi.files.create(driveFile, uploadMedia: media);
+      print('File uploaded: ${uploadedFile.id}');
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+// خدمة رفع التذكيرات إلى Google Drive
+  Future<void> uploadRemindersToDrive(
+      DriveApi driveApi, List<Map<String, dynamic>> reminders) async {
+    final remindersJson = jsonEncode(reminders);
+    final media = Media(
+        Stream.fromIterable([remindersJson.codeUnits]), remindersJson.length);
+    final driveFile = File()..name = 'reminders.json';
+
+    try {
+      final uploadedFile =
+          await driveApi.files.create(driveFile, uploadMedia: media);
+      print('File uploaded: ${uploadedFile.id}');
+    } catch (e) {
+      print('Error uploading reminders: $e');
+    }
   }
 }

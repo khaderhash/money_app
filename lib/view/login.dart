@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:myappmoney2/view/HomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'HomePage.dart';
 import 'register.dart';
 import '../compo/TextFF.dart';
 import '../compo/containerclick.dart';
@@ -205,7 +205,7 @@ class _loginpageState extends State<loginpage> {
 
                             try {
                               await loginuser();
-                              Get.offAll("/HomePage", arguments: email);
+                              Get.offAll(Homepage(), arguments: email);
                             } on FirebaseAuthException catch (ex) {
                               if (ex.code == 'wrong-password' ||
                                   ex.code == 'ERROR_WRONG_PASSWORD') {

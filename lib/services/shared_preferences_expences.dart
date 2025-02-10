@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:googleapis/drive/v3.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../view/FinancialAnalysis.dart';
+
 import '../view/HomePage.dart';
 
 class SharedPreferencesServiceexpenses {
@@ -82,6 +84,22 @@ class SharedPreferencesServiceexpenses {
         return date.isAfter(cutoff);
       default:
         return false;
+    }
+  }
+
+  Future<void> uploadExpensesToDrive(DriveApi driveApi) async {
+    final expenses = await getExpenses();
+    final expensesJson = jsonEncode(expenses);
+    final media = Media(
+        Stream.fromIterable([expensesJson.codeUnits]), expensesJson.length);
+    final driveFile = File()..name = 'expenses.json';
+
+    try {
+      final uploadedFile =
+          await driveApi.files.create(driveFile, uploadMedia: media);
+      print('File uploaded: ${uploadedFile.id}');
+    } catch (e) {
+      print('Error uploading file: $e');
     }
   }
 }
