@@ -305,8 +305,10 @@ class _loginpageState extends State<loginpage> {
     var auth = FirebaseAuth.instance;
     UserCredential user = await auth.signInWithEmailAndPassword(
         email: email!, password: password!);
+
+    // حفظ حالة تسجيل الدخول
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', true); // حفظ حالة تسجيل الدخول
+    prefs.setBool('isLoggedIn', true);
   }
 
   void _showErrorDialog(BuildContext context, String message) {

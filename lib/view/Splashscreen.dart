@@ -1,6 +1,7 @@
 import 'package:arabic_font/arabic_font.dart';
 import 'package:flutter/material.dart';
 import 'package:myappmoney2/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,8 +39,17 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    _controller.forward().then((_) {
-      Navigator.of(context).pushReplacementNamed('/Login');
+    _controller.forward().then((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+      if (isLoggedIn) {
+        Navigator.of(context)
+            .pushReplacementNamed('/Homepage'); // الانتقال إلى الصفحة الرئيسية
+      } else {
+        Navigator.of(context)
+            .pushReplacementNamed('/Login'); // الانتقال إلى صفحة تسجيل الدخول
+      }
     });
   }
 

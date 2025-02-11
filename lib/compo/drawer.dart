@@ -87,7 +87,7 @@ class DrawerClass extends StatelessWidget {
                   icon: Icons.person,
                   title: 'My Profile',
                   onTap: () {
-                    Navigator.pushNamed(context, EditProfile.id);
+                    Get.to(EditProfile());
                   },
                 ),
                 buildListItem(
